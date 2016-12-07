@@ -1,7 +1,17 @@
+<!-- <ion-nav-bar class="bar-stable">
+  <ion-nav-back-button>
+  </ion-nav-back-button>
+</ion-nav-bar>
+ -->
+ <style>
+ ion-tabs.tabs-color-active-positive .tab-item.tab-item-active, ion-tabs.tabs-color-active-positive .tab-item.active, ion-tabs.tabs-color-active-positive .tab-item.activated {
+     color: red;
+ }
+ </style>
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
   <!-- Dashboard Tab -->
-  <ion-tab title="Status" icon-off="ion-ios-paper-outline" icon-on="ion-ios-paper" href="#/tab/dash">
+  <ion-tab title="新闻" icon-off="ion-ios-paper-outline" icon-on="ion-ios-paper" href="#/tab/dash">
     <ion-nav-view name="tab-dash"></ion-nav-view>
   </ion-tab>
 
@@ -11,9 +21,7 @@
   </ion-tab>
 
   <!-- Account Tab -->
-  <ion-tab title="Account" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/account">
+  <ion-tab title="账户" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/account">
     <ion-nav-view name="tab-account"></ion-nav-view>
   </ion-tab>
-
-
 </ion-tabs>

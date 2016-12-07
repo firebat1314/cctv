@@ -39,8 +39,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $stateProvider
 
   .state('start-page', {
-    url: '/start-page',
-    templateUrl: 'templates/start-page.html'
+      url: '/start-page',
+      templateUrl: 'templates/start-page.html',
+      controller: 'StartCtrl'
+  })
+
+  .state('login',{
+    url:'/login',
+    templateUrl:'templates/login.html',
+    controller:'LoginCtrl'
   })
 
   .state('tab', {
