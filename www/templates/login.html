@@ -7,8 +7,8 @@
 		#landinghead h2{
 			text-align: center;
 			font-size: 25px;
-			font-weight: 500;
-			font-family: '微软雅黑';
+			font-weight: 700;
+			font-family: '宋体';
 		}
 		#landinghead p{
 			font-size: 15px;
@@ -25,39 +25,75 @@
 			box-sizing: border-box;
 			font-size: 14px;
 			width: 80%;
-			font-family: '微软雅黑';
 			border-bottom: 1px solid red;
 			display: inline-block;
 			vertical-align: middle;
 			float: right;
+			font-family: 'microsoft yahei'
 			
 		}
-		
+		.triangle{
+			position: absolute;
+			right: 0;
+			bottom: -10px;
+			border: 5px solid red;
+			border-top-color: transparent;
+			border-left-color: transparent;
+		}
 		.user-img,.word-img{
 			display: inline-block;
 			vertical-align: middle;
 			margin-top: 7px;
 		}
-		#Contents{
-			right: 0;
+		#Contents,#Passwords{
+			color: #b6b6b6;
 			position: absolute;
+			right: 10px;
+			top: 10px;
+		}
+		#login-enter{
+			margin-top: 20%;
+			font-family: 'microsoft yahei'
+		}
+		.forget-password{
+			text-align: center;
+			color:#333;
+			font-family: 'microsoft yahei'
+		}
+		.btn-register-box{
+			text-align: center;
+			margin-top: 30%;
+		}
+		.btn-register{
+			font-family: 'microsoft yahei';
 		}
 	</style>
     <ion-content overflow-scroll="false" has-bouncing="true" >
 		<div id="landinghead">
-			<h2>中 国 电 视 协 作 网<p>National News Network</p></h2>
+			<h2>中国电视协作网<p>National News Network</p></h2>
 		</div>
 		<form id="myform">
-			<div class="" style="overflow: hidden;margin-bottom: 20px;position: relative;">
+			<div class="" style="margin-bottom: 20px;overflow: hidden;position: relative;">
 				<img class="user-img" src="../img/images/login_03.png" width="25" height="25" alt="">
-				<input type="text" ng-model="user.key" id="login-username" placeholder="用户名">
-				<i ng-if="user.key.length>0" id="Contents" class="ion ion-close-circled Octopus" ng-click="deletesContents()"></i>
+				<input type="text" ng-model="user.username" id="login-username" placeholder="用户名">
+				<i ng-if="user.username.length>0" id="Contents" class="ion ion-close-circled Octopus" ng-click="deletesContents()"></i>
+				<p class="triangle"></p>
 			</div>
-			<div class="" style="overflow: hidden;">
+			<div class="" style="overflow: hidden;position: relative;">
 				<img class="word-img" src="../img/images/login_10.png" width="25" height="25" alt="">
-				<input type="password" id="login-password" placeholder="密　码">
+				<input type="password" ng-model="user.password" id="login-password" placeholder="密　码">
+				<i ng-if="user.password.length>0" id="Passwords" class="ion ion-close-circled Octopus" ng-click="deletePasswords()"></i>
+				<p class="triangle"></p>
 			</div>
-			
+			<button class="button button-block button-assertive" id="login-enter" ng-click="verification()">登　录</button>
+			<p class="forget-password">
+				忘记密码 <i class="ion-ios-help-outline" data-pack="ios" data-tags="question, information, ?"></i>
+			</p>
+			<p class="btn-register-box">
+				<button class="button button-clear button-assertive btn-register" ng-click="goRegister()">注册
+					<i class="ion-ios-arrow-right" data-pack="ios" data-tags="chevron"></i>
+				</button>
+			</p>
 		</form>
 	</ion-content>
 </ion-view>

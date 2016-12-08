@@ -1,12 +1,35 @@
-<ion-view ng-click="goLogin()">
 <style>
-	
+	.btn-rl{
+		position: absolute;
+		bottom: 40px;
+		width: 100%;		
+		text-align: center;
+	}
+	.btn-rl .button{
+		background: none;
+		border: 1px solid #b6b6b6;
+		height: 40px;
+		width: 120px;
+		color: #999999;
+		display: inline-block;
+		font-weight: 500;
+	}
+	.btn-rl .button:first-child{
+		margin-right: 20px;
+	}
+	.button.button-stable:hover {
+	    color: #696969;
+	}
 </style>
+
+<ion-view>
     <img class="imgs" src="./img/guide.png" width="100%" heihgt="100%" />
-   	<!-- <button class="button button-stable">
-   		登录
-   	</button>
-   	<button class="button button-stable">
-  		注册
-	</button> -->
+    <div class="btn-rl">
+    	<button class="button button-stable" ng-click="goLogin()">
+	   		登录
+	   	</button>
+	   	<button class="button button-stable" ng-click="goRegister()">
+	  		注册
+		</button>
+    </div>
 </ion-view>

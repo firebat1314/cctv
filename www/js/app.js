@@ -9,7 +9,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
@@ -18,7 +17,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
+.config(function($httpProvider,$stateProvider, $urlRouterProvider,$ionicConfigProvider) {
+  $httpProvider.defaults.transformRequest = function(obj){  
+  var str = [];  
+  for(var p in obj){  
+   str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));  
+  }  
+  return str.join("&");  
+  }  
+
+  $httpProvider.defaults.headers.post = {  
+    'Content-Type': 'application/x-www-form-urlencoded'  
+  }  
   $ionicConfigProvider.platform.ios.tabs.style('standard'); 
   $ionicConfigProvider.platform.ios.tabs.position('bottom');
   $ionicConfigProvider.platform.android.tabs.style('standard');
@@ -35,7 +45,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   //https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/start-page');
   $stateProvider
 
   .state('start-page', {
@@ -48,6 +58,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     url:'/login',
     templateUrl:'templates/login.html',
     controller:'LoginCtrl'
+  })
+
+  .state('register',{
+    url:'/register',
+    templateUrl:'templates/register.html',
+    controller:'RegisterCtrl'
   })
 
   .state('tab', {
