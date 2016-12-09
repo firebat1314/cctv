@@ -24,11 +24,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));  
   }  
   return str.join("&");  
-  }  
-
+  }
   $httpProvider.defaults.headers.post = {  
     'Content-Type': 'application/x-www-form-urlencoded'  
-  }  
+  }
   $ionicConfigProvider.platform.ios.tabs.style('standard'); 
   $ionicConfigProvider.platform.ios.tabs.position('bottom');
   $ionicConfigProvider.platform.android.tabs.style('standard');

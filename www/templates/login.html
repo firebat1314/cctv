@@ -68,20 +68,19 @@
 			font-family: 'microsoft yahei';
 		}
 	</style>
-    <ion-content overflow-scroll="false" has-bouncing="true" >
 		<div id="landinghead">
 			<h2>中国电视协作网<p>National News Network</p></h2>
 		</div>
 		<form id="myform">
 			<div class="" style="margin-bottom: 20px;overflow: hidden;position: relative;">
-				<img class="user-img" src="../img/images/login_03.png" width="25" height="25" alt="">
-				<input type="text" ng-model="user.username" id="login-username" placeholder="用户名">
+				<img class="user-img" src="../img/images/icon_03.png" width="25" height="25" alt="">
+				<input type="text" autofocus ng-model="user.username" ng-blur="LoseFocus()" ng-focus="ObtainFocus()" id="login-username" placeholder="用户名">
 				<i ng-if="user.username.length>0" id="Contents" class="ion ion-close-circled Octopus" ng-click="deletesContents()"></i>
 				<p class="triangle"></p>
 			</div>
 			<div class="" style="overflow: hidden;position: relative;">
-				<img class="word-img" src="../img/images/login_10.png" width="25" height="25" alt="">
-				<input type="password" ng-model="user.password" id="login-password" placeholder="密　码">
+				<img class="word-img" src="../img/images/icon_02.png" width="25" height="25" alt="">
+				<input type="password" ng-model="user.password" ng-blur="PasswordLoseFocus()" ng-focus="PasswordFocus()" id="login-password" placeholder="密　码">
 				<i ng-if="user.password.length>0" id="Passwords" class="ion ion-close-circled Octopus" ng-click="deletePasswords()"></i>
 				<p class="triangle"></p>
 			</div>
@@ -95,5 +94,4 @@
 				</button>
 			</p>
 		</form>
-	</ion-content>
 </ion-view>

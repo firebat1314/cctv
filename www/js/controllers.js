@@ -1,5 +1,12 @@
 angular.module('starter.controllers', [])
-.controller('StartCtrl',function($scope,$rootScope,$timeout,$state){
+.controller('StartCtrl',function($scope,$data,$rootScope,$timeout,$state){
+  $scope.init = function(){
+    if($data.storeData('isLogin') == 'yes'){
+      console.log(1);
+      return;
+    }
+  };
+  $scope.init();
   $scope.goLogin = function(){
     $state.go('login')
   };
@@ -8,6 +15,21 @@ angular.module('starter.controllers', [])
   }
 })
 .controller('LoginCtrl',function($scope,$rootScope,$state,$data, $ionicLoading, $timeout){
+    $scope.init = function(){
+      $scope.LoseFocus = function () {
+          $("#Contents").hide();
+      };
+      $scope.PasswordLoseFocus = function () {
+          $("#Passwords").hide();
+      };
+      $scope.ObtainFocus = function () {
+          $("#Contents").show();
+      };
+      $scope.PasswordFocus = function () {
+          $("#Passwords").show();
+      };   
+    };
+    $scope.init();
     $scope.user = {
       username:'',
       password:''
@@ -36,16 +58,33 @@ angular.module('starter.controllers', [])
       }
       console.log($scope.user);
       $data.login($scope.user).success(function(data,status,headers,config){
-          console.log(data)
+          console.log(data);
+          if(data.status == 1){
+            $scope.loadingShow("成功登录");
+            $data.storeData('userInfo',data);
+            $data.storeData('isLogin','yes');
+            $data.storeData('username',$scope.user.username);
+            $state.go('tab.dash');
+          }else if(data.status == 0){
+            $scope.loadingShow("用户名或密码错误");
+          }else {
+            $scope.loadingShow("登录失败，请重试");
+          }
       }).error(function(data){
-          console.log(1);
+          $scope.loadingShow("网络连接错误");
       })
     }
 })
 
-.controller('RegisterCtrl',function($scope, $rootScope, $state, $ionicLoading,$timeout){
-    $scope.goBack = function(){
-           
+.controller('RegisterCtrl',function($scope,$data, $rootScope, $state, $ionicLoading,$timeout){
+    $scope.verification = function(){
+      $data.registerFirst({
+        username:$scope.username,
+        password:$scope.password,
+        cpassword:$scope.repassword
+      }).success(function(data,status,headers,config){
+          console.log(data);
+      })     
     }
 })
 
@@ -54,23 +93,14 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+.controller('ChatsCtrl', function($scope) {
+  //  当页面活动执行事件
+  //  $scope.$on('$ionicView.enter', function(e) {});
 
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
+
 })
 
 .controller('AccountCtrl', function($scope) {

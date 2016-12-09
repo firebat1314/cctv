@@ -7,6 +7,9 @@
  ion-tabs.tabs-color-active-positive .tab-item.tab-item-active, ion-tabs.tabs-color-active-positive .tab-item.active, ion-tabs.tabs-color-active-positive .tab-item.activated {
      color: red;
  }
+ .tab-item{
+  max-width: 200px;
+ }
  </style>
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
@@ -15,13 +18,9 @@
     <ion-nav-view name="tab-dash"></ion-nav-view>
   </ion-tab>
 
-  <!-- Chats Tab -->
-  <ion-tab title="Chats" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" href="#/tab/chats">
-    <ion-nav-view name="tab-chats"></ion-nav-view>
-  </ion-tab>
-
   <!-- Account Tab -->
   <ion-tab title="账户" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/account">
     <ion-nav-view name="tab-account"></ion-nav-view>
   </ion-tab>
+
 </ion-tabs>
