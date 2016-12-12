@@ -1,0 +1,132 @@
+<ion-view view-title="注册">
+<style>
+	.bar.bar-stable .title {
+	    color: #fff;
+	}
+	.bar.bar-stable{
+		background: #fe4342;
+	}
+	.bar-stable .button.button-clear {
+	    color: #fff;
+	    font-size: 19px;
+	}
+	.input-label{
+		max-width: 50px;
+		width: 20%;
+	}
+	.item-input:first-child{
+		margin-top: 5%;
+	}
+	.item-input {
+		margin:0 0 5%;
+		border-left: 0;
+		border-right: 0;
+	}
+	.example-info{
+		box-sizing: border-box;
+		padding: 0 8%;
+		font-size: 12px;
+		text-indent: -16px;
+		margin-bottom: 2%;
+		margin-top: -2%;
+	}
+	.item-icon-right .icon{
+		color: #aaa;
+		font-size: 25px;
+	}
+	.reminder{
+		box-sizing: border-box;
+		padding: 0 4%;
+		font-size: 14px;
+		color: #5f5f5f;
+		margin-top: -2%;
+		margin-bottom: 2%;
+	}
+	.item-note{
+		float: none;
+		margin-left: 5%;
+		font-size: 16px;
+	}
+	.item-note .radio{
+		font-size: 16px;
+		position: relative;
+	}
+
+</style>
+	<ion-nav-bar class="bar-stable">
+	  	<ion-nav-back-button>
+	  	</ion-nav-back-button>
+	</ion-nav-bar>
+	<ion-content overflow-scroll="false" has-bouncing="true" style="background: #fafafa;">
+		<div class="list">
+			<label class="item item-input" style="height: 50px">
+				<span class="input-label"><img class="word-img" src="./img/images/icon_02.png" width="25" height="25" alt=""></span>
+			  	<input type="text" placeholder="姓名" ng-model="name" id="username">
+			</label>
+			<div class="reminder">
+				<i class="ion-information-circled" data-pack="default" data-tags="help, more, tooltip" style="color: #fe4342;"></i>&nbsp;请填写真实姓名
+			</div>
+			<label class="item item-input" style="height: 50px">
+			  	<span class="input-label"><img class="word-img" src="./img/images/icon_02.png" width="25" height="25" alt=""></span>
+			  	<input type="text" placeholder="手机号" ng-required="true" ng-pattern="/^0?1[3|4|5|8][0-9]\d{8}$/" id="phonenumber">
+			</label>
+			<p class="item">
+			  	性　　别
+			  	<span class="item-note">
+  				  	<label class="radio">
+  		  	            <input type="radio" name="sex" value="男" >
+  		  	            <i></i>男
+  				  	</label>
+  				  	<label class="radio">
+  		  	            <input type="radio" name="sex" value="女" >
+  		  	            <i></i>女
+  				  	</label>
+			  	</span>
+			</p>
+			<a class="item item-icon-right" href="">
+			  	所属地区
+			  	<span class="item-note">
+			    	请选择省/城市
+			  	</span>
+			  	<i class="icon ion-ios-arrow-forward" style="color: #fe4342"></i>
+			</a>
+			
+			<p class="item">
+			  	单位性质
+			  	<span class="item-note">
+  				  	<label class="radio">
+  		  	            <input type="radio" name="nature" value="电视台" >
+  		  	            <i></i>电视台
+  				  	</label>
+  				  	<label class="radio">
+  		  	            <input type="radio" name="nature" value="非电视台" >
+  		  	            <i></i>非电视台
+  				  	</label>
+  				  	<label class="radio">
+  		  	            <input type="radio" name="nature" value="中央台驻地方台记者站" >
+  		  	            <i></i>中央台驻地方台记者站
+  				  	</label>
+			  	</span>
+			</p>
+			<label class="item item-input item-stacked-label" style="background: #fff;">
+			    <span class="input-label">电视台（单位）名称（省份+台简称）</span>
+			    <input type="text" placeholder="请填写电视台（单位）名称">
+			</label>
+			<div class="example-info"><span style="color: #fe4342;">＊</span>  此处请填写 <span style="color: #fe4342;">省份 + 台简称</span><br/>规则：地市台 请填写 XXX台；县级台 请填写 XXX广电。<br/>请根据地区填写，不要出现 电视台 和 广播电视台 等全称<br/>例如：山东省淄博市电视台 应填写 <span style="color: #fe4342;">山东淄博台</span>；<br/>　　　山西省乡宁县广播电视台 应填写 <span style="color: #fe4342;">山西乡宁广电</span>；</div>
+			<label class="item item-input">
+			    <span class="input-label">部门</span>
+			    <input type="text" placeholder="请填写所属部门">
+			</label>
+			<label class="item item-input">
+			    <span class="input-label">职务</span>
+			    <input type="text" placeholder="请填写您的职务">
+			</label>
+			<div class="reminder">
+				<i class="ion-information-circled" data-pack="default" data-tags="help, more, tooltip" style="color: #fe4342;"></i>&nbsp;以上信息请如实填写
+			</div>
+		</div>
+		<div class="padding">
+			<button class="button button-block button-positive" ng-click="verification()"  style="background: #fe4342;">注册</button>
+		</div>
+	</ion-content>
+</ion-view>

@@ -1,49 +1,48 @@
 
 <ion-view view-title="注册">
-<style>
-	.bar.bar-stable .title {
-	    color: #fff;
-	}
-	.bar.bar-stable{
-		background: #fe4342;
-	}
-	.bar-stable .button.button-clear {
-	    color: #fff;
-	    font-size: 19px;
-	}
-	.input-label{
-		max-width: 50px;
-		width: 20%;
-
-	}
-	.item-input {
-		margin-bottom: 5%;
-	}
-</style>
+	<style>
+		.bar.bar-stable .title {
+		    color: #fff;
+		}
+		.bar.bar-stable{
+			background: #fe4342;
+		}
+		.bar-stable .button.button-clear {
+		    color: #fff;
+		    font-size: 19px;
+		}
+		.input-label{
+			max-width: 50px;
+			width: 20%;
+		}
+		.item-input {
+			margin: 5% 0;
+			border-left: none;
+			border-right: none;
+		}
+		
+	</style>
 	<ion-nav-bar class="bar-stable">
 	  <ion-nav-back-button>
-
 	  </ion-nav-back-button>
 	</ion-nav-bar>
     <ion-content overflow-scroll="false" has-bouncing="true" style="background: #fafafa;">
-		<div class="content has-header">
-			<div class="list">
-				<label class="item item-input">
-					<span class="input-label"><img class="word-img" src="../img/images/icon_03.png" width="25" height="25" alt=""></span>
-					<input type="text" placeholder="用户名" ng-model="username" >
-				</label>
-				<label class="item item-input">
-					<span class="input-label"><img class="word-img" src="../img/images/icon_02.png" width="25" height="25" alt=""></span>
-				  	<input type="password" placeholder="密码" ng-model="password" >
-				</label>
-				<label class="item item-input">
-				  	<span class="input-label"><img class="word-img" src="../img/images/icon_02.png" width="25" height="25" alt=""></span>
-				  	<input type="password" placeholder="确认密码" ng-model="repassword" >
-				</label>
-				</div>
-				<div class="padding">
-					<button class="button button-block button-positive" ng-click="verification()"  style="background: #fe4342;">下一步</button>
-				</div>
-			</div>
+		<div class="list">
+			<label class="item item-input">
+				<span class="input-label"><img class="word-img" src="./img/images/icon_03.png" width="25" height="25" alt=""></span>
+				<input type="text" placeholder="用户名" ng-model="username" id="first-username" >
+			</label>
+			<label class="item item-input">
+				<span class="input-label"><img class="word-img" src="./img/images/icon_02.png" width="25" height="25" alt=""></span>
+			  	<input type="password" placeholder="密码" ng-model="password" id="first-password" >
+			</label>
+			<label class="item item-input">
+			  	<span class="input-label"><img class="word-img" src="./img/images/icon_02.png" width="25" height="25" alt=""></span>
+			  	<input type="password" placeholder="确认密码" ng-model="cpassword" id="first-cpassword" >
+			</label>
+		</div>
+		<div class="padding">
+			<button class="button button-block button-positive" ng-click="verification()"  style="background: #fe4342;">下一步</button>
+		</div>
 	</ion-content>
 </ion-view>

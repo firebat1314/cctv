@@ -65,6 +65,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     controller:'RegisterCtrl'
   })
 
+  .state('register-second',{
+    url:'/register-second',
+    templateUrl:'templates/register-second.html',
+    controller:'registerSecondCtrl'
+  })
+
   .state('tab', {
     url: '/tab',
     abstract: true,

@@ -73,13 +73,13 @@
 		</div>
 		<form id="myform">
 			<div class="" style="margin-bottom: 20px;overflow: hidden;position: relative;">
-				<img class="user-img" src="../img/images/icon_03.png" width="25" height="25" alt="">
+				<img class="user-img" src="./img/images/icon_03.png" width="25" height="25" alt="">
 				<input type="text" autofocus ng-model="user.username" ng-blur="LoseFocus()" ng-focus="ObtainFocus()" id="login-username" placeholder="用户名">
 				<i ng-if="user.username.length>0" id="Contents" class="ion ion-close-circled Octopus" ng-click="deletesContents()"></i>
 				<p class="triangle"></p>
 			</div>
 			<div class="" style="overflow: hidden;position: relative;">
-				<img class="word-img" src="../img/images/icon_02.png" width="25" height="25" alt="">
+				<img class="word-img" src="./img/images/icon_02.png" width="25" height="25" alt="">
 				<input type="password" ng-model="user.password" ng-blur="PasswordLoseFocus()" ng-focus="PasswordFocus()" id="login-password" placeholder="密　码">
 				<i ng-if="user.password.length>0" id="Passwords" class="ion ion-close-circled Octopus" ng-click="deletePasswords()"></i>
 				<p class="triangle"></p>
@@ -95,3 +95,4 @@
 			</p>
 		</form>
 </ion-view>
+

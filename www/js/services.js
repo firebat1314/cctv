@@ -1,5 +1,5 @@
 angular.module('starter.services', [])
-.service('$data',function($rootScope,$http,$window){
+.service('$data',function($rootScope,$http,$window,$ionicLoading,$timeout){
     $rootScope.ip = 'http://cctvnnn.ivtime.net/';
     return {
       //登录请求
@@ -41,7 +41,15 @@ angular.module('starter.services', [])
         })
       },
 
-
+      loadingShow:function (str) {
+        $ionicLoading.show({
+            template: str,
+            showBackdrop: false
+        });
+        $timeout(function () {
+            $ionicLoading.hide();
+        }, 1500);
+      },
       //数据存储与获取
       storeData: function(key,data){
         if(data){
