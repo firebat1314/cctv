@@ -17,29 +17,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 })
 
-.config(function($httpProvider,$stateProvider, $urlRouterProvider,$ionicConfigProvider) {
-  $httpProvider.defaults.transformRequest = function(obj){  
-  var str = [];  
-  for(var p in obj){  
-   str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));  
-  }  
-  return str.join("&");  
-  }
-  $httpProvider.defaults.headers.post = {  
-    'Content-Type': 'application/x-www-form-urlencoded'  
-  }
-  $ionicConfigProvider.platform.ios.tabs.style('standard'); 
+.config(function($httpProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+
+  $ionicConfigProvider.platform.ios.tabs.style('standard');
   $ionicConfigProvider.platform.ios.tabs.position('bottom');
   $ionicConfigProvider.platform.android.tabs.style('standard');
   $ionicConfigProvider.platform.android.tabs.position('bottom');
 
-  $ionicConfigProvider.platform.ios.navBar.alignTitle('center'); 
+  $ionicConfigProvider.platform.ios.navBar.alignTitle('center');
   $ionicConfigProvider.platform.android.navBar.alignTitle('center');
 
   $ionicConfigProvider.platform.ios.backButton.previousTitleText('').icon('ion-ios-arrow-thin-left');
-  $ionicConfigProvider.platform.android.backButton.previousTitleText('').icon('ion-android-arrow-back');        
+  $ionicConfigProvider.platform.android.backButton.previousTitleText('').icon('ion-android-arrow-back');
 
-  $ionicConfigProvider.platform.ios.views.transition('ios'); 
+  $ionicConfigProvider.platform.ios.views.transition('ios');
   $ionicConfigProvider.platform.android.views.transition('android');
   //https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
@@ -47,28 +38,28 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $urlRouterProvider.otherwise('/start-page');
   $stateProvider
 
-  .state('start-page', {
-      url: '/start-page',
-      templateUrl: 'templates/start-page.html',
-      controller: 'StartCtrl'
+    .state('start-page', {
+    url: '/start-page',
+    templateUrl: 'templates/start-page.html',
+    controller: 'StartCtrl'
   })
 
-  .state('login',{
-    url:'/login',
-    templateUrl:'templates/login.html',
-    controller:'LoginCtrl'
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'LoginCtrl'
   })
 
-  .state('register',{
-    url:'/register',
-    templateUrl:'templates/register.html',
-    controller:'RegisterCtrl'
+  .state('register', {
+    url: '/register',
+    templateUrl: 'templates/register.html',
+    controller: 'RegisterCtrl',
   })
 
-  .state('register-second',{
-    url:'/register-second',
-    templateUrl:'templates/register-second.html',
-    controller:'registerSecondCtrl'
+  .state('register-second', {
+    url: '/register-second',
+    templateUrl: 'templates/register-second.html',
+    controller: 'registerSecondCtrl'
   })
 
   .state('tab', {
@@ -88,23 +79,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
 
   .state('tab.chats', {
-    url: '/chats',
-    views: {
-      'tab-chats': {
-        templateUrl: 'templates/tab-chats.html',
-        controller: 'ChatsCtrl'
+      url: '/chats',
+      views: {
+        'tab-chats': {
+          templateUrl: 'templates/tab-chats.html',
+          controller: 'ChatsCtrl'
+        }
       }
-    }
-  })
-  .state('tab.chat-detail', {
-    url: '/chats/:chatId',
-    views: {
-      'tab-chats': {
-        templateUrl: 'templates/chat-detail.html',
-        controller: 'ChatDetailCtrl'
+    })
+    .state('tab.chat-detail', {
+      url: '/chats/:chatId',
+      views: {
+        'tab-chats': {
+          templateUrl: 'templates/chat-detail.html',
+          controller: 'ChatDetailCtrl'
+        }
       }
-    }
-  })
+    })
 
   .state('tab.account', {
     url: '/account',
