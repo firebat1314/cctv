@@ -3,9 +3,7 @@
 	.bar.bar-stable .title {
 	    color: #fff;
 	}
-	.bar.bar-stable{
-		background: #fe4342;
-	}
+
 	.bar-stable .button.button-clear {
 	    color: #fff;
 	    font-size: 19px;
@@ -51,6 +49,12 @@
 		font-size: 16px;
 		position: relative;
 	}
+	.ion-ios-circle-filled{
+		color: #fe4342;
+	}
+	.ion-ios-circle-outline{
+		color: #fe4342;
+	}
 
 </style>
 	<ion-nav-bar class="bar-stable">
@@ -59,11 +63,23 @@
 	</ion-nav-bar>
 	<ion-content overflow-scroll="false" has-bouncing="true" style="background: #fafafa;">
 		<div class="list">
-			<label class="item item-input" style="height: 50px">
+			<!-- <label class="item item-input" style="height: 45px">
+				<span class="input-label"><img class="word-img" src="./img/images/icon_03.png" width="25" height="25" alt=""></span>
+				<input type="text" placeholder="用户名" ng-model="username" id="first-username" >
+			</label>
+			<label class="item item-input" style="height: 45px">
+				<span class="input-label"><img class="word-img" src="./img/images/icon_02.png" width="25" height="25" alt=""></span>
+			  	<input type="password" placeholder="密码" ng-model="password" id="first-password" >
+			</label>
+			<label class="item item-input" style="height: 45px">
+			  	<span class="input-label"><img class="word-img" src="./img/images/icon_02.png" width="25" height="25" alt=""></span>
+			  	<input type="password" placeholder="确认密码" ng-model="cpassword" id="first-cpassword" >
+			</label> -->
+			<label class="item item-input" style="height: 45px">
 				<span class="input-label"><img class="word-img" src="./img/images/icon_02.png" width="25" height="25" alt=""></span>
 			  	<input type="text" placeholder="姓名" ng-model="name" id="username">
 			</label>
-			<div class="reminder">
+			<div class="reminder" >
 				<i class="ion-information-circled" data-pack="default" data-tags="help, more, tooltip" style="color: #fe4342;"></i>&nbsp;请填写真实姓名
 			</div>
 			<label class="item item-input" style="height: 50px">
@@ -74,16 +90,16 @@
 			  	性　　别
 			  	<span class="item-note">
   				  	<label class="radio">
-  		  	            <input type="radio" name="sex" value="男" >
-  		  	            <i></i>男
+  				  		<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[sex==0]" ></i>
+  		  	            <input type="radio" name="sex" value="0" ng-model="sex" ng-init="sex=0" style="display: none">男
   				  	</label>
   				  	<label class="radio">
-  		  	            <input type="radio" name="sex" value="女" >
-  		  	            <i></i>女
+  				  		<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[sex==1]"  ></i>
+  		  	            <input type="radio" name="sex" value="1" ng-model="sex" ng-init="sex=0"  style="display: none">女
   				  	</label>
 			  	</span>
 			</p>
-			<a class="item item-icon-right" href="">
+			<a class="item item-icon-right" href="javascript:;" ng-click="showAddress()">
 			  	所属地区
 			  	<span class="item-note">
 			    	请选择省/城市
@@ -95,15 +111,18 @@
 			  	单位性质
 			  	<span class="item-note">
   				  	<label class="radio">
-  		  	            <input type="radio" name="nature" value="电视台" >
+  				  		<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[nature==0]" ></i>
+  		  	            <input type="radio" name="nature" value="0"  ng-model="nature" ng-init="nature=0" style="display: none" >
   		  	            <i></i>电视台
   				  	</label>
   				  	<label class="radio">
-  		  	            <input type="radio" name="nature" value="非电视台" >
+  				  		<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[nature==1]" ></i>
+  		  	            <input type="radio" name="nature" value="1"  ng-model="nature" ng-init="nature=0" style="display: none" >
   		  	            <i></i>非电视台
   				  	</label>
   				  	<label class="radio">
-  		  	            <input type="radio" name="nature" value="中央台驻地方台记者站" >
+  				  		<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[nature==2]" ></i>
+  		  	            <input type="radio" name="nature" value="2"  ng-model="nature" ng-init="nature=0" style="display: none" >
   		  	            <i></i>中央台驻地方台记者站
   				  	</label>
 			  	</span>
@@ -128,5 +147,6 @@
 		<div class="padding">
 			<button class="button button-block button-positive" ng-click="verification()"  style="background: #fe4342;">注册</button>
 		</div>
+
 	</ion-content>
 </ion-view>

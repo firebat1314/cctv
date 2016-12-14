@@ -1,12 +1,12 @@
 angular.module('starter.services', [])
-  .service('$data', function($rootScope, $http, $window, $ionicLoading, $timeout) {
-    var ip = 'http://cctvnnn.ivtime.net/';
+  .service('$data', function($rootScope, $http, $window, $ionicLoading, $timeout,$ionicPopup) {
+    var ip = 'http://cctvnnn.ivtime.net';
     return {
       //登录请求
       login: function(data) {
         return $http({
           method: "POST",
-          url: "/Login/index",
+          url: ip + "/Login/index",
           data: data
         });
       },
@@ -14,7 +14,7 @@ angular.module('starter.services', [])
       registerSecond: function(data) {
         return $http({
           method: 'POST',
-          url: "/Login/registerInfo",
+          url: ip + "/Login/registerInfo",
           data: data
         })
       },
@@ -22,7 +22,7 @@ angular.module('starter.services', [])
       getCityList: function(data) {
         return $http({
           method: 'get',
-          url: ip + 'Public/public_getRegion',
+          url: ip + '、Public/public_getRegion',
           data: data
         })
       },
@@ -30,14 +30,16 @@ angular.module('starter.services', [])
       findPassword: function(data) {
         return $http({
           method: 'GET',
-          url: "/Login/findPwd"
+          url: ip + "/Login/findPwd",
+          data: data
         })
       },
       //个人资料
       selfInfo: function(data) {
         return $http({
           method: 'GET',
-          url: "/User/info"
+          url: ip + "/User/info",
+          data: data
         })
       },
       //提示框

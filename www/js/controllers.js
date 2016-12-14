@@ -69,19 +69,16 @@ angular.module('starter.controllers', [])
 
 .controller('RegisterCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout) {
   $scope.verification = function() {
-    $state.go('register-second', {
-      username: $('#first-username').val(),
-      password: $('#first-password').val(),
-      cpassword: $('#first-cpassword').val()
-    });
+    $state.go('register-second');
     $rootScope.username = $('#first-username').val();
     $rootScope.password = $('#first-password').val();
     $rootScope.cpassword = $('#first-cpassword').val();
   }
 })
 
-.controller('registerSecondCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams) {
+.controller('registerSecondCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover) {
   $scope.verification = function() {
+
     $scope.data = {};
     $scope.data.username = $rootScope.username;
     $scope.data.password = $rootScope.password;
@@ -98,33 +95,51 @@ angular.module('starter.controllers', [])
     $scope.data.position = '职位';
     $data.registerSecond($scope.data).success(function(data) {
       console.log(data);
-      $state.go('tab.dash');
+      $scope.showCacheDialog();
     })
-  }
-  $data.getCityList({
-    parent: 3
-  }).success(function(data) {
-    console.log(data);
-  })
+  };
+  //弹出确认框
+  $scope.showCacheDialog = function() {
+    $ionicPopup.confirm({
+      title: '是否确认提交',
+      buttons: [{
+        text: '<b>正确</b>',
+        type: 'button-positive',
+        onTap: function(event) {
+          $state.go('tab.dash');
+        }
+      }, {
+        text: '取消'
+      }]
+    })
+  };
+
 })
 
-.controller('DashCtrl', function($scope) {
-
-
+.controller('DashCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover) {
+    $scope.mySwiper = new Swiper ('.swiper-container',{
+      autoplay: 2000,
+      loop : true,
+    })
+    $scope.addClass = function(e){
+      console.log(e);
+      
+    }
 })
 
-.controller('ChatsCtrl', function($scope) {
+.controller('ChatsCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover) {
   //  当页面活动执行事件
   //  $scope.$on('$ionicView.enter', function(e) {});
 
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-
+.controller('ChatDetailCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover,$stateParams) {
+   
 })
 
-.controller('AccountCtrl', function($scope) {
+.controller('AccountCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover,$stateParams) {
   $scope.settings = {
     enableFriends: true
   };
+
 });
