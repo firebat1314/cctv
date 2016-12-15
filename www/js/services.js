@@ -1,6 +1,13 @@
 angular.module('starter.services', [])
   .service('$data', function($rootScope, $http, $window, $ionicLoading, $timeout,$ionicPopup) {
     var ip = 'http://cctvnnn.ivtime.net';
+    function storeData(key, data) {
+      if (data) {
+        return $window.localStorage[key] = angular.toJson(data);
+      } else {
+        return (key && angular.fromJson($window.localStorage[key])) || {};
+      }
+    }
     return {
       //登录请求
       login: function(data) {
@@ -22,9 +29,19 @@ angular.module('starter.services', [])
       getCityList: function(data) {
         return $http({
           method: 'get',
-          url: ip + '、Public/public_getRegion',
-          data: data
+          url: ip + '/Public/public_getRegion',
+          data: data,
+
         })
+      },
+      getHomeData: function(data){
+        return $http({
+          method:  'GET',
+          url: ip+'/Index/lists',
+          headers: {
+              'token': storeData('userInfo').data.token
+          },
+        })     
       },
       //找回密码
       findPassword: function(data) {

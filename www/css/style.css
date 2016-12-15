@@ -1,9 +1,14 @@
 /* Empty. Add your own CSS if you like */
 .bar.bar-header{
 	background: url(../img/header_03.jpg) left top no-repeat;
-	background-size:100% 100%; 
 }
+.bar.bar-header .title{
+	color: #fff;
 
+}
+.bar.bar-header .button i{
+	color: #fff;
+}
 .popup-container .popup{
 	border-radius: 5px;
 }

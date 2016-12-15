@@ -113,18 +113,45 @@ angular.module('starter.controllers', [])
       }]
     })
   };
-
+  $data.getCityList().success(function(data){
+    console.log(data);     
+  })
 })
 
-.controller('DashCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover) {
-    $scope.mySwiper = new Swiper ('.swiper-container',{
-      autoplay: 2000,
-      loop : true,
-    })
-    $scope.addClass = function(e){
-      console.log(e);
-      
-    }
+.controller('ScrollToTop',function($ionicScrollDelegate,$timeout,$scope){
+  $scope.addClass = function(e,name) {
+    $(e.target).addClass('selected').siblings().removeClass('selected');
+    $timeout(function(){
+      console.log(name);
+      $ionicScrollDelegate.$getByHandle(name).scrollTop();     
+    },1000)
+  };     
+})
+
+.controller('DashCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover,$window,$ionicScrollDelegate) {
+  $scope.mySwiper = new Swiper('.swiper-container', {
+    autoplay: 2000,
+    loop: true,
+  });
+  
+ 
+  $data.getHomeData().success(function(data) {
+    console.log(data);
+
+  });
+  $scope.doRefresh = function() {
+    $data.getHomeData()
+      .success(function(newItems) {
+        console.log(newItems);
+      })
+      .error(function() {
+        console.log('网络连接错误');
+      })
+      .finally(function() {
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+  };
+
 })
 
 .controller('ChatsCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover) {
@@ -133,13 +160,11 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ChatDetailCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover,$stateParams) {
-   
+.controller('ChatDetailCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams) {
+
 })
 
-.controller('AccountCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover,$stateParams) {
-  $scope.settings = {
-    enableFriends: true
-  };
+.controller('AccountCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams) {
+  
 
 });
