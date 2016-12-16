@@ -17,7 +17,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 })
 
+.factory('BearerAuthInterceptor', function ($window, $q) {
+    return {
+        request: function(config) {
+            config.headers = config.headers || {};
+            if ($window.localStorage.getItem('token')) {
+              // may also use sessionStorage
+                config.headers.Authorization = 'Bearer ' + $window.localStorage.getItem('token');
+            }
+            return config || $q.when(config);
+        },
+        response: function(response) {
+            if (response.status === 401) {
+                //  Redirect user to login page / signup Page.
+            }
+            return response || $q.when(response);
+        }
+    };
+})
+
 .config(function($httpProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  // $httpProvider.defaults.withCredentials = true;
+  // $httpProvider.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
+  $httpProvider.interceptors.push('BearerAuthInterceptor');
 
   $ionicConfigProvider.platform.ios.tabs.style('standard');
   $ionicConfigProvider.platform.ios.tabs.position('bottom');
@@ -68,12 +90,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     templateUrl: 'templates/tabs.html'
   })
 
-  .state('tab.dash', {
-    url: '/dash',
+  .state('tab.news', {
+    url: '/news',
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
+      'tab-news': {
+        templateUrl: 'templates/tab-news.html',
+        controller: 'NewsCtrl'
       }
     }
   })

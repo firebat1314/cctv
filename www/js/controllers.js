@@ -2,7 +2,8 @@ angular.module('starter.controllers', [])
   .controller('StartCtrl', function($scope, $data, $rootScope, $timeout, $state) {
     $scope.init = function() {
       if ($data.storeData('isLogin') == 'yes') {
-        console.log(1);
+        console.log('初始化...');
+        $state.go('tab.news')
         return;
       }
     };
@@ -55,7 +56,7 @@ angular.module('starter.controllers', [])
           $data.storeData('userInfo', data);
           $data.storeData('isLogin', 'yes');
           $data.storeData('username', $scope.user.username);
-          $state.go('tab.dash');
+          $state.go('tab.news');
         } else if (data.status == 0) {
           $data.loadingShow("用户名或密码错误");
         } else {
@@ -106,7 +107,7 @@ angular.module('starter.controllers', [])
         text: '<b>正确</b>',
         type: 'button-positive',
         onTap: function(event) {
-          $state.go('tab.dash');
+          $state.go('tab.news');
         }
       }, {
         text: '取消'
@@ -118,22 +119,15 @@ angular.module('starter.controllers', [])
   })
 })
 
-.controller('ScrollToTop',function($ionicScrollDelegate,$timeout,$scope){
-  $scope.addClass = function(e,name) {
-    $(e.target).addClass('selected').siblings().removeClass('selected');
-    $timeout(function(){
-      console.log(name);
-      $ionicScrollDelegate.$getByHandle(name).scrollTop();     
-    },1000)
-  };     
-})
-
-.controller('DashCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover,$window,$ionicScrollDelegate) {
+.controller('NewsCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover,$window,$ionicScrollDelegate) {
   $scope.mySwiper = new Swiper('.swiper-container', {
     autoplay: 2000,
     loop: true,
   });
-  
+  $scope.addClass = function(e,name) {
+    $(e.target).addClass('selected').siblings().removeClass('selected');
+    console.log($ionicScrollDelegate.$getByHandle(name).scrollTop());  
+  };   
  
   $data.getHomeData().success(function(data) {
     console.log(data);
@@ -154,10 +148,13 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ChatsCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover) {
+.controller('ChatsCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover,$ionicTabsDelegate) {
   //  当页面活动执行事件
   //  $scope.$on('$ionicView.enter', function(e) {});
-
+  $scope.selectTabWithIndex = function(index) {
+    console.log(1);
+    $ionicTabsDelegate.select(index);
+  }
 })
 
 .controller('ChatDetailCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams) {
