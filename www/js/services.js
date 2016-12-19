@@ -1,7 +1,7 @@
 angular.module('starter.services', [])
   .service('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
     var ip = 'http://cctvnnn.ivtime.net';
-
+    $rootScope.token = btoa(storeData('userInfo').data.token+':');
     function storeData(key, data) {
       if (data) {
         return $window.localStorage[key] = angular.toJson(data);
@@ -9,35 +9,6 @@ angular.module('starter.services', [])
         return (key && angular.fromJson($window.localStorage[key])) || {};
       }
     };
-    function toBase(data) {
-      var toBase64Table = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-      var base64Pad = '=';
-      var result = '';
-      var length = data.length;
-      var i;
-      // Convert every three bytes to 4 ascii characters.                                                 
-      for (i = 0; i < (length - 2); i += 3) {
-        result += toBase64Table[data.charCodeAt(i) >> 2];
-        result += toBase64Table[((data.charCodeAt(i) & 0x03) << 4) + (data.charCodeAt(i + 1) >> 4)];
-        result += toBase64Table[((data.charCodeAt(i + 1) & 0x0f) << 2) + (data.charCodeAt(i + 2) >> 6)];
-        result += toBase64Table[data.charCodeAt(i + 2) & 0x3f];
-      }
-      // Convert the remaining 1 or 2 bytes, pad out to 4 characters.                                     
-      if (length % 3) {
-        i = length - (length % 3);
-        result += toBase64Table[data.charCodeAt(i) >> 2];
-        if ((length % 3) == 2) {
-          result += toBase64Table[((data.charCodeAt(i) & 0x03) << 4) + (data.charCodeAt(i + 1) >> 4)];
-          result += toBase64Table[(data.charCodeAt(i + 1) & 0x0f) << 2];
-          result += base64Pad;
-        } else {
-          result += toBase64Table[(data.charCodeAt(i) & 0x03) << 4];
-          result += base64Pad + base64Pad;
-        }
-      }
-      return result;
-    };
-
     return {
       //登录请求
       login: function(data) {
@@ -58,23 +29,45 @@ angular.module('starter.services', [])
         })
       },
       //地区列表
-      getCityList: function(data) {
+      getCityList: function(parent,type) {
         return $http({
           method: 'get',
-          url: ip + '/Public/public_getRegion',
-          data: data,
+          url: ip + '/Public/public_getRegion?parent='+parent+'&type='+type,
           timeout: 5000
         })
       },
+      //获取资讯
+      getMessage:function(data){
+        return $http({
+          method: 'GET',
+          url: ip+'/Index/lists?catid='+data,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + $rootScope.token
+          }
+        })
+      },
+      //首页数据
       getHomeData: function(data) {
         return $http({
           method: 'GET',
           url: ip,
           headers: {
-            'Content-Type': 'application/json, text/plain, */*',
-            'Authorization': 'Basic ' + storeData('userInfo').data.token
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + $rootScope.token
           }
         })
+      },
+       //新闻详情
+      getNewsDetails:function(data){
+        return $http({
+          method: 'GET',
+          url: ip+'/Index/view?id='+data,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + $rootScope.token
+          }
+        })     
       },
       //找回密码
       findPassword: function(data) {
@@ -93,6 +86,19 @@ angular.module('starter.services', [])
           data: data,
           timeout: 5000
         })
+      },
+      //报题详情
+      getTitleDetails:function(data){
+        return $http({
+          method:'get',
+          url:ip+'/Baoti/view',
+          data:data,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + $rootScope.token
+          },
+          timeout:5000
+        })     
       },
       //提示框
       loadingShow: function(str) {

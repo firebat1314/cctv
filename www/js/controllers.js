@@ -57,7 +57,9 @@ angular.module('starter.controllers', [])
           $data.storeData('isLogin', 'yes');
           $data.storeData('username', $scope.user.username);
           $state.go('tab.news');
-        } else if (data.status == 0) {
+        } else if (data.info == "您的账户未审核") {
+          $data.loadingShow("您的账户未审核");
+        } else if(data.status == 0){
           $data.loadingShow("用户名或密码错误");
         } else {
           $data.loadingShow("登录失败，请重试");
@@ -79,30 +81,37 @@ angular.module('starter.controllers', [])
 
 .controller('registerSecondCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover) {
   $scope.verification = function() {
-
-    $scope.data = {};
-    $scope.data.username = $rootScope.username;
-    $scope.data.password = $rootScope.password;
-    $scope.data.cpassword = $scope.cpassword;
-    $scope.data.name = $('#username').val();
-    $scope.data.phone = $('#phonenumber').val();
-    $scope.data.sex = 1;
-    $scope.data.province = '';
-    $scope.data.city = '';
-    $scope.data.district = '';
-    $scope.data.type = 3;
-    $scope.data.company = '山东淄博台';
-    $scope.data.department = '所属部门';
-    $scope.data.position = '职位';
+    console.log($scope.sex);
+    $scope.data = {
+      username: /*$rootScope.username*/'sunshanshan',
+      password: /*$rootScope.password*/'sss123456',
+      cpassword: /*$scope.cpassword*/'sss123456',
+      name: /*$('#username').val()*/'山',
+      mobile:/* $('#phonenumber').val()*/'13100668641',
+      sex: 1,
+      province: '1',
+      city: '37',
+      district: '568',
+      type: '1',
+      company: '山东淄博台',
+      department: '所属部门',
+      position: '职位'
+    };
+    console.log($scope.data);
     $data.registerSecond($scope.data).success(function(data) {
       console.log(data);
-      $scope.showCacheDialog();
+      if(data.status==1){
+        $scope.showCacheDialog();
+      }else{
+        $data.loadingShow('注册失败')
+      }
+      
     })
   };
   //弹出确认框
   $scope.showCacheDialog = function() {
     $ionicPopup.confirm({
-      title: '是否确认提交',
+      title: '注册成功',
       buttons: [{
         text: '<b>正确</b>',
         type: 'button-positive',
@@ -114,45 +123,71 @@ angular.module('starter.controllers', [])
       }]
     })
   };
-  $data.getCityList().success(function(data){
-    console.log(data);     
+  $data.getCityList(0,1).success(function(data) {
+    console.log(data);
+  })
+   $data.getCityList(1,2).success(function(data) {
+    console.log(data);
+  })
+   $data.getCityList(37,3).success(function(data) {
+    console.log(data);
   })
 })
 
-.controller('NewsCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover,$window,$ionicScrollDelegate) {
+.controller('NewsCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition) {
   $scope.mySwiper = new Swiper('.swiper-container', {
     autoplay: 2000,
     loop: true,
   });
-  $scope.addClass = function(e,name) {
+  $scope.addClass = function(e, name) {
     $(e.target).addClass('selected').siblings().removeClass('selected');
-    console.log($ionicScrollDelegate.$getByHandle(name).scrollTop());  
-  };   
- 
+    $ionicScrollDelegate.scrollTo(0, $ionicPosition.offset($(name)).top - 50, true)
+  };
+  if ($data.storeData('homedata')) {
+    $scope.Items = $data.storeData('homedata');
+  }
   $data.getHomeData().success(function(data) {
-    console.log(data);
-
+    $scope.Items = data;
+    $data.storeData('homedata', data)
   });
+  // $data.getMessage(37).success(function(data){
+  //   console.log(data);     
+  // })
+  $scope.goNewDetailPage = function(catid) {
+    console.log(catid);
+    $state.go('tab.new-detail', {
+      chatId: catid
+    })
+  }
   $scope.doRefresh = function() {
     $data.getHomeData()
       .success(function(newItems) {
-        console.log(newItems);
+        $scope.Items = newItems;
       })
       .error(function() {
-        console.log('网络连接错误');
+        $data.loadingShow('刷新失败');
       })
       .finally(function() {
         $scope.$broadcast('scroll.refreshComplete');
       });
   };
-
 })
 
-.controller('ChatsCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover,$ionicTabsDelegate) {
+.controller('NewDetailCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition, $ionicHistory) {
+  $scope.chatIdName = $stateParams.chatId;
+  $data.getNewsDetails($scope.chatIdName).success(function(res) {
+    console.log(res);
+    $scope.details = res;
+  });
+  $scope.goBack = function() {
+    $ionicHistory.goBack();
+  }
+})
+
+.controller('ChatsCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $ionicTabsDelegate) {
   //  当页面活动执行事件
   //  $scope.$on('$ionicView.enter', function(e) {});
   $scope.selectTabWithIndex = function(index) {
-    console.log(1);
     $ionicTabsDelegate.select(index);
   }
 })
@@ -162,6 +197,6 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams) {
-  
+
 
 });

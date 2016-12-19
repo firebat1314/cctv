@@ -12,6 +12,7 @@
 .popup-container .popup{
 	border-radius: 5px;
 }
+/* 确认框 */
 .popup-buttons{
 	padding: 0;
 	min-height: 35px;
@@ -21,6 +22,7 @@
 }
 .popup-buttons .button{
 	min-height: 40px;
+	border-radius: 0
 }
 .popup-buttons .button-positive{
 	margin: 0;
@@ -36,4 +38,11 @@
 	margin: 0;padding: 0;
 	bottom: 0;left: 0;
 	width: 100%;
+}
+/* 下拉刷新 */
+.spinner svg {
+  width: 28px;
+  height: 28px;
+  stroke: #fff;
+  fill: #fff;
 }

@@ -1,9 +1,11 @@
 <ion-view view-title=" ">
 	<ion-header-bar class="bar-light">
-	  <h1 class="title">北京电视台--1983</h1>
-	    <button class="button button-clear" ><i class="ion-ios-search"></i></button>
+		<button class="button button-clear" ng-click="goBack()"><i class="ion-ios-arrow-back"></i></button>
+	  	<h1 class="title">{{details.data.catname}}</h1>
+	  	<button class="button button-clear"><i class="ion-android-more-vertical"></i></button>
 	</ion-header-bar>
-  	<ion-content class="padding" overflow-scroll="false" has-bouncing="true" >
+	
+  	<ion-content class="padding" overflow-scroll="true" has-bouncing="true" ng-bind-html="details.data.content">
     	
   	</ion-content>
 </ion-view>
