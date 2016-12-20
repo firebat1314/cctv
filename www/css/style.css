@@ -1,6 +1,7 @@
 /* Empty. Add your own CSS if you like */
 .bar.bar-header{
 	background: url(../img/header_03.jpg) left top no-repeat;
+	background-size: 100%;
 }
 .bar.bar-header .title{
 	color: #fff;
@@ -31,7 +32,9 @@
 .button.button-positive.activated{
 	background: red;
 }
-
+.bar-light .button.button-clear{
+	font-size: 30px;
+}
 .popover{
 	opacity: 1;
 	border-radius: 0;

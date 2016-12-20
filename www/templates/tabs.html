@@ -23,16 +23,40 @@
   color: #fafafa;
   font-size: 35px;
  }
+ #tool-menu-wrap{
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  margin-left: -25px;
+  background: #fff;
+ }
+ #tool-menu{
+  border-radius: 50%;
+  background: #ff0000;
+  height: 50px;
+  width: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  color: #fff;
+  
+ }
+ #tool-menu .icon:before{
+  font-size:44px;
+  margin-top: 5px;
+ }
+ #tool-menu.button:after {
+    border-radius: 50%;
+    border: 1px solid #fff;
+    box-shadow: 0 0 3px #ffbb8c inset;
+}
  </style>
 <ion-tabs class="tabs-light tabs-icon-top tabs-color-active-assertive" style="background: #fff;" >
 
   <ion-tab title="新闻" icon-off="ion-ios-paper-outline" icon-on="ion-ios-paper" href="#/tab/news">
     <ion-nav-view name="tab-news"></ion-nav-view>
   </ion-tab> 
-<!-- <button class="button icon ion-gear-a"></button> -->
+  <div id="tool-menu-wrap" ng-controller="GoSubmission"><a id="tool-menu" class="button " ng-click="goSubmission()"><i class=" icon ion-ios-plus-empty"></i></a></div>
   
-  <!-- <div id="aboutmore" ><a class="button button-icon icon">+</a></div> -->
-
   <ion-tab title="个人中心" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/account">
     <ion-nav-view name="tab-account"></ion-nav-view>
   </ion-tab>

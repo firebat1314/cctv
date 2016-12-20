@@ -61,14 +61,17 @@
 			background: url(./img/images/boult-02.png) no-repeat right center;
 			background-size: 10%;
 		}*/
-		
+	    .swiper-wrapper .swiper-slide{
+	   		text-align: center;
+
+	    }
 	</style>
 	<ion-header-bar class="bar-light">
 	  <h1 class="title">北京电视台</h1>
 	    <button class="button button-clear" ><i class="ion-ios-search"></i></button>
 	</ion-header-bar>
 	
- 	<ion-content  class="padding" overflow-scroll="false" has-bouncing="true"  style="background: #fafafa url(./img/bg.png) no-repeat center top;">
+ 	<ion-content  class="padding" overflow-scroll="false" has-bouncing="true"  style="background: #fafafa url(./img/bg.png) no-repeat center top;background-size: 100%;">
  		<ion-refresher
 		    pulling-text="下拉刷新..."
 		    spinner="bubbles"
@@ -88,7 +91,6 @@
  			        <div class="swiper-slide"><img src="./img/banner.jpg" alt="" width="100%" height="100%"></div>
  			    </div>
  			</div>
- 		  	
  		</div>
  		<div class="card" id="importance" >
  			<div class="title-img">
@@ -96,7 +98,7 @@
  			</div>
  		  	<div class="item item-text-wrap">
 	 		  	<div class="list list-inset">
-	 		  	    <a class="item" ng-repeat="item in Items.data.zhongytz" style="{{item.style}}" ng-click="goNewDetailPage({{item.aid}})" >
+	 		  	    <a class="item" ng-repeat="item in Items.data.zhongytz"  ng-click="goNewDetailPage({{item.aid}})" >
 						{{item.title}}
 						<p class="boulticon">
 							<span class="subdued">{{item.postdate}}</span>
@@ -112,7 +114,7 @@
  			</div>
 			<div class="item item-text-wrap">
 				<div class="list list-inset">
-				  	<a class="item" ng-repeat="item in Items.data.cehyg" style="{{item.style}}" ng-click="goNewDetailPage({{item.aid}})" >
+				  	<a class="item" ng-repeat="item in Items.data.cehyg"  ng-click="goNewDetailPage({{item.aid}})" >
 					{{item.title}}
 						<p class="boulticon">
 							<span class="subdued">{{item.postdate}}</span>
@@ -128,7 +130,7 @@
  			</div>
 			<div class="item item-text-wrap">
 				<div class="list list-inset">
-					<a class="item" ng-repeat="item in Items.data.yewjl" style="{{item.style}}" ng-click="goNewDetailPage({{item.aid}})" >
+					<a class="item" ng-repeat="item in Items.data.yewjl"  ng-click="goNewDetailPage({{item.aid}})" >
 					  {{item.title}}
 					  	<p class="boulticon">
 					  		<span class="subdued">{{item.postdate}}</span>

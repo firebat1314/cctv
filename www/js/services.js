@@ -1,7 +1,7 @@
 angular.module('starter.services', [])
   .service('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
     var ip = 'http://cctvnnn.ivtime.net';
-    $rootScope.token = btoa(storeData('userInfo').data.token+':');
+
     function storeData(key, data) {
       if (data) {
         return $window.localStorage[key] = angular.toJson(data);
@@ -29,21 +29,21 @@ angular.module('starter.services', [])
         })
       },
       //地区列表
-      getCityList: function(parent,type) {
+      getCityList: function(parent, type) {
         return $http({
           method: 'get',
-          url: ip + '/Public/public_getRegion?parent='+parent+'&type='+type,
+          url: ip + '/Public/public_getRegion?parent=' + parent + '&type=' + type,
           timeout: 5000
         })
       },
       //获取资讯
-      getMessage:function(data){
+      getMessage: function(data) {
         return $http({
           method: 'GET',
-          url: ip+'/Index/lists?catid='+data,
+          url: ip + '/Index/lists?catid=' + data,
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + $rootScope.token
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
           }
         })
       },
@@ -53,28 +53,26 @@ angular.module('starter.services', [])
           method: 'GET',
           url: ip,
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + $rootScope.token
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
           }
         })
       },
-       //新闻详情
-      getNewsDetails:function(data){
+      //新闻详情
+      getNewsDetails: function(data) {
         return $http({
           method: 'GET',
-          url: ip+'/Index/view?id='+data,
+          url: ip + '/Index/view?id=' + data,
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + $rootScope.token
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
           }
-        })     
+        })
       },
       //找回密码
       findPassword: function(data) {
         return $http({
           method: 'GET',
           url: ip + "/Login/findPwd",
-          data: data,
           timeout: 5000
         })
       },
@@ -83,22 +81,33 @@ angular.module('starter.services', [])
         return $http({
           method: 'GET',
           url: ip + "/User/info",
-          data: data,
           timeout: 5000
         })
       },
       //报题详情
-      getTitleDetails:function(data){
+      getTitleDetails: function(data) {
         return $http({
-          method:'get',
-          url:ip+'/Baoti/view',
+          method: 'get',
+          url: ip + '/Baoti/view',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
+          },
+          timeout: 5000
+        })
+      },
+      //添加新闻
+      addNews:function(data){
+         return $http({
+          method: 'POST',
+          url: ip + '/Baoti/add',
           data:data,
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + $rootScope.token
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
           },
-          timeout:5000
-        })     
+          timeout: 5000
+        })    
       },
       //提示框
       loadingShow: function(str) {
@@ -119,7 +128,7 @@ angular.module('starter.services', [])
         }
       },
 
-        //删除某个
+      //删除某个
       remove: function(key) {
         $window.localStorage.removeItem(key);
       },

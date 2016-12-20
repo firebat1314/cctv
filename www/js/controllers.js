@@ -1,13 +1,13 @@
 angular.module('starter.controllers', [])
   .controller('StartCtrl', function($scope, $data, $rootScope, $timeout, $state) {
-    $scope.init = function() {
+    /*$scope.init = function() {
       if ($data.storeData('isLogin') == 'yes') {
         console.log('初始化...');
         $state.go('tab.news')
         return;
       }
     };
-    $scope.init();
+    $scope.init();*/
     $scope.goLogin = function() {
       $state.go('login')
     };
@@ -150,11 +150,7 @@ angular.module('starter.controllers', [])
     $scope.Items = data;
     $data.storeData('homedata', data)
   });
-  // $data.getMessage(37).success(function(data){
-  //   console.log(data);     
-  // })
   $scope.goNewDetailPage = function(catid) {
-    console.log(catid);
     $state.go('tab.new-detail', {
       chatId: catid
     })
@@ -179,22 +175,29 @@ angular.module('starter.controllers', [])
     console.log(res);
     $scope.details = res;
   });
-  $scope.goBack = function() {
+  $rootScope.goBack = function() {
+    console.log(1);
     $ionicHistory.goBack();
   }
 })
 
-.controller('ChatsCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $ionicTabsDelegate) {
+.controller('GoSubmission',function($scope,$state){
+    $scope.goSubmission = function(){
+      $state.go('submission')     
+    }
+})
+
+.controller('SubmissionCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $ionicTabsDelegate) {
   //  当页面活动执行事件
   //  $scope.$on('$ionicView.enter', function(e) {});
-  $scope.selectTabWithIndex = function(index) {
-    $ionicTabsDelegate.select(index);
-  }
-})
+  $data.addNews({}).success(function(data){
+    console.log(data);
+  })
 
-.controller('ChatDetailCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams) {
 
 })
+
+
 
 .controller('AccountCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams) {
 

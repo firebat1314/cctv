@@ -1,11 +1,29 @@
-<ion-view view-title=" ">
+<ion-view view-title="{{details.data.catname}}">
 	<ion-header-bar class="bar-light">
-		<button class="button button-clear" ng-click="goBack()"><i class="ion-ios-arrow-back"></i></button>
-	  	<h1 class="title">{{details.data.catname}}</h1>
-	  	<button class="button button-clear"><i class="ion-android-more-vertical"></i></button>
+		<button class="button button-clear" ng-click="goBack()" style="padding-left: 8px;"><i class="ion-ios-arrow-back"></i></button>
+		<div class="title">{{details.data.catname}}</div>
+	  	<button class="button button-clear" style="right: 15px;"><i class="ion-android-more-vertical"></i></button>
 	</ion-header-bar>
 	
-  	<ion-content class="padding" overflow-scroll="true" has-bouncing="true" ng-bind-html="details.data.content">
-    	
+  	<ion-content class="padding" overflow-scroll="false" has-bouncing="true" >
+  		<h4 style="font: bold 16px/1 '';">{{details.data.title}}</h4>
+    	<div class="list card">
+			
+    	  <div class="item item-avatar">
+    	    <img ng-src="{{details.data.avatar}}" ng-if="details.data.avatar">
+    	    <h2>{{details.data.psn_name}}</h2>
+    	    <p>{{details.data.posttime}}</p>
+    	  </div>
+
+    	  <div class="item item-body">
+    	    <img class="full-image" ng-src="{{details.data.pic}}" ng-if="details.data.pic">
+    	    <p  ng-bind-html="details.data.content"></p>
+    	    <p>
+    	      <a href="#" class="subdued">0 Like</a>
+    	      <a href="#" class="subdued">0 Comments</a>
+    	    </p>
+    	  </div>
+
+    	</div>
   	</ion-content>
 </ion-view>
