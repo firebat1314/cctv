@@ -2,7 +2,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $ionicPopup,$state,$data) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -15,25 +15,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       StatusBar.styleDefault();
     }
   });
-})
-
-.factory('BearerAuthInterceptor', function($window, $q) {
-  return {
-    request: function(config) {
-      config.headers = config.headers || {};
-      if ($window.localStorage.getItem('token')) {
-        // may also use sessionStorage
-        config.headers.Authorization = 'Bearer ' + $window.localStorage.getItem('token');
-      }
-      return config || $q.when(config);
-    },
-    response: function(response) {
-      if (response.status === 401) {
-        //  Redirect user to login page / signup Page.
-      }
-      return response || $q.when(response);
+  $ionicPlatform.registerBackButtonAction(function(e) {
+    var current_state_name = $state.current.name;
+    if (current_state_name == 'tab.account' || current_state_name == 'start-page' || current_state_name == 'tab.news' || current_state_name == 'tab') {
+      $ionicPopup.confirm({
+        title: '退出应用',
+        template: '您确定要退出吗?',
+        buttons: [{
+          text: '取消'
+        }, {
+          text: '<b>确定</b>',
+          type: 'button-positive',
+          onTap: function(event) {
+            //ionic.Platform.exitApp();
+            navigator.app.exitApp();
+          }
+        }]
+      });
+      e.preventDefault();
+      return false;
+    } else {
+      navigator.app.backHistory();
     }
-  };
+  }, 100);
 })
 
 .config(function($httpProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider) {
@@ -50,9 +54,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   $ionicConfigProvider.platform.ios.views.transition('ios');
   $ionicConfigProvider.platform.android.views.transition('android');
-  //https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
+
   $urlRouterProvider.otherwise('/start-page');
   $stateProvider
 
@@ -117,8 +119,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
-  .state('submission',{
-    url:'/submission',
+  .state('submission', {
+    url: '/submission',
     templateUrl: 'templates/submission-newspage.html',
     controller: 'SubmissionCtrl'
   })

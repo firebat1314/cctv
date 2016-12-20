@@ -1,7 +1,7 @@
 angular.module('starter.services', [])
   .service('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
     var ip = 'http://cctvnnn.ivtime.net';
-
+    //http://cctvnnn.ivtime.net/ManageApp/Login/index
     function storeData(key, data) {
       if (data) {
         return $window.localStorage[key] = angular.toJson(data);

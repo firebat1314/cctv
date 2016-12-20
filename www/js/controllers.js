@@ -1,13 +1,13 @@
 angular.module('starter.controllers', [])
   .controller('StartCtrl', function($scope, $data, $rootScope, $timeout, $state) {
-    /*$scope.init = function() {
+    $scope.init = function() {
       if ($data.storeData('isLogin') == 'yes') {
         console.log('初始化...');
         $state.go('tab.news')
         return;
       }
     };
-    $scope.init();*/
+    $scope.init();
     $scope.goLogin = function() {
       $state.go('login')
     };
@@ -81,7 +81,6 @@ angular.module('starter.controllers', [])
 
 .controller('registerSecondCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover) {
   $scope.verification = function() {
-    console.log($scope.sex);
     $scope.data = {
       username: /*$rootScope.username*/'sunshanshan',
       password: /*$rootScope.password*/'sss123456',
@@ -112,8 +111,9 @@ angular.module('starter.controllers', [])
   $scope.showCacheDialog = function() {
     $ionicPopup.confirm({
       title: '注册成功',
+      template: '是否确认提交?',
       buttons: [{
-        text: '<b>正确</b>',
+        text: '<b>确定</b>',
         type: 'button-positive',
         onTap: function(event) {
           $state.go('tab.news');
@@ -176,15 +176,8 @@ angular.module('starter.controllers', [])
     $scope.details = res;
   });
   $rootScope.goBack = function() {
-    console.log(1);
     $ionicHistory.goBack();
   }
-})
-
-.controller('GoSubmission',function($scope,$state){
-    $scope.goSubmission = function(){
-      $state.go('submission')     
-    }
 })
 
 .controller('SubmissionCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $ionicTabsDelegate) {
