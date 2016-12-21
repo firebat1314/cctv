@@ -1,13 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['user-controllers','news-controllers'])
   .controller('StartCtrl', function($scope, $data, $rootScope, $timeout, $state) {
-    $scope.init = function() {
-      if ($data.storeData('isLogin') == 'yes') {
-        console.log('初始化...');
-        $state.go('tab.news')
-        return;
-      }
-    };
-    $scope.init();
+    
     $scope.goLogin = function() {
       $state.go('login')
     };
@@ -47,10 +40,10 @@ angular.module('starter.controllers', [])
       if ($scope.user.username == null || $scope.user.username.length == 0 || $scope.user.password == null || $scope.user.password.length == 0) {
         $data.loadingShow("手机号用户名或密码不能为空");
         return;
-      }
-      console.log($scope.user);
+      };
+      $data.loadingShow("登录中...");
       $data.login($scope.user).success(function(data, status, headers, config) {
-        console.log(data);
+        console.log(data, status, headers(), config);
         if (data.status == 1) {
           $data.loadingShow("成功登录");
           $data.storeData('userInfo', data);
@@ -63,11 +56,11 @@ angular.module('starter.controllers', [])
           $data.loadingShow("用户名或密码错误");
         } else {
           $data.loadingShow("登录失败，请重试");
-        }
+        };
       }).error(function(data) {
         $data.loadingShow("网络连接错误");
       })
-    }
+    };
   })
 
 .controller('RegisterCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout) {
@@ -134,51 +127,7 @@ angular.module('starter.controllers', [])
   })
 })
 
-.controller('NewsCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition) {
-  $scope.mySwiper = new Swiper('.swiper-container', {
-    autoplay: 2000,
-    loop: true,
-  });
-  $scope.addClass = function(e, name) {
-    $(e.target).addClass('selected').siblings().removeClass('selected');
-    $ionicScrollDelegate.scrollTo(0, $ionicPosition.offset($(name)).top - 50, true)
-  };
-  if ($data.storeData('homedata')) {
-    $scope.Items = $data.storeData('homedata');
-  }
-  $data.getHomeData().success(function(data) {
-    $scope.Items = data;
-    $data.storeData('homedata', data)
-  });
-  $scope.goNewDetailPage = function(catid) {
-    $state.go('tab.new-detail', {
-      chatId: catid
-    })
-  }
-  $scope.doRefresh = function() {
-    $data.getHomeData()
-      .success(function(newItems) {
-        $scope.Items = newItems;
-      })
-      .error(function() {
-        $data.loadingShow('刷新失败');
-      })
-      .finally(function() {
-        $scope.$broadcast('scroll.refreshComplete');
-      });
-  };
-})
 
-.controller('NewDetailCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition, $ionicHistory) {
-  $scope.chatIdName = $stateParams.chatId;
-  $data.getNewsDetails($scope.chatIdName).success(function(res) {
-    console.log(res);
-    $scope.details = res;
-  });
-  $rootScope.goBack = function() {
-    $ionicHistory.goBack();
-  }
-})
 
 .controller('SubmissionCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $ionicTabsDelegate) {
   //  当页面活动执行事件
@@ -192,7 +141,3 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('AccountCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams) {
-
-
-});

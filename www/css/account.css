@@ -1,0 +1,49 @@
+#account-logo{
+	width: 38px;height: 38px;
+	background: #fff url(../img/bvt.png) center center no-repeat;
+	border-radius: 50%;
+	background-size: 80% 80%;
+}
+
+.account-main-top{
+	border-bottom: #fdd7c9 1px solid;
+	background:  url(../img/myself_01.jpg) 0 0 no-repeat;
+	background-size: 100% 100%;
+}
+.account-title1,.account-title2{
+	text-align: center;
+	color: #fff;
+	font:16px 'microsoft yahei';
+	padding-top: 20px;
+}
+.account-title2{
+	padding: 20px 0;
+
+}
+.account-title2 .account-title-txt{
+	font-size: 50px;
+}
+.account-main-center{
+	background: #fc7f4d;
+}
+.account-main-center {
+	height: 80px
+}
+.account-main-center>div{
+	float: left;
+	color: #fff;
+	width: 50%;
+	font-size: 16px;
+}
+.account-main-bottom{
+	padding-top: 20px;
+}
+.account-main-bottom .button{
+	width: 33%;
+	height: 100px;
+	float: left;
+	color: #3f3f3f;
+	font-size: 16px;
+	font-family: 'microsoft yahei';
+	border-radius: 0;
+}

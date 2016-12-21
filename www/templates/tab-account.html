@@ -1,6 +1,54 @@
-<ion-view view-title="个人账户">
+<ion-view view-title="北京电视台" style="background-color: #fafafa;">
 	
-  	<ion-content>
-    	
-  	</ion-content>
+  	<ion-header-bar align-title="center">
+	  <button class="button" id="account-logo" ng-click="doSomething()"></button>
+  	  <h1 class="title">北京电视台</h1>
+  	  <div class="buttons">
+  	    <button class="button button-clear"  ng-click="jumpTo()"><i class="icon ion-ios-gear-outline"></i></button>
+  	  </div>
+  	</ion-header-bar>
+		<div class="account-main-top padding">
+			<div class="account-title1">我的新闻</div>
+			<div class="account-title2"><span  class="account-title-txt">230</span> 篇</div>
+		</div>
+		<div class="account-main-center padding">
+			<div class="account-main-center-l">
+				<p>约稿信息</p>
+				<p style="font-size: 24px;">2</p>
+			</div>
+			<div class="account-main-center-r">
+				<p>系统信息</p>
+				<p style="font-size: 24px;">23</p>
+			</div>
+		</div>
+		<div  class="account-main-bottom">
+			<button class="button" ng-click="jumpTo()">
+			  <i class="icon ion-settings"></i><br/>用户管理
+			</button>
+			<button class="button">
+			  <i class="icon ion-settings"></i><br/>所有新闻
+			</button>
+			<button class="button">
+			  <i class="icon ion-settings"></i><br/>所有串联单
+			</button>
+			<button class="button">
+			  <i class="icon ion-settings"></i><br/>已报题单
+			</button>
+			<button class="button">
+			  <i class="icon ion-settings"></i><br/>已划题单
+			</button>
+			<button class="button">
+			  <i class="icon ion-settings"></i><br/>已播单
+			</button>
+			<button class="button">
+			  <i class="icon ion-settings"></i><br/>名片盒
+			</button>
+			<button class="button">
+			  <i class="icon ion-settings"></i><br/>个人资料
+			</button>
+			<button class="button">
+			  <i class="icon ion-settings"></i><br/>修改密码
+			</button>
+		</div>
+		
 </ion-view>

@@ -1,6 +1,24 @@
 /* Empty. Add your own CSS if you like */
+ion-view{
+	background-color: #fafafa;
+}
+.bar{
+	background: none;
+	position: static;
+}
+.bar .button-clear i{
+	color: #fff;
+	
+}
+.bar .button .icon:before{
+}
+.bar .title{
+	color: #fff;
+	font-family: 'microsoft yahei'
+}
+
 .bar.bar-header{
-	background: url(../img/header_03.jpg) left top no-repeat;
+	background: url(../img/myself_01.jpg) left top no-repeat;
 	background-size: 100%;
 }
 .bar.bar-header .title{

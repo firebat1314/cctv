@@ -2,7 +2,11 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform, $ionicPopup,$state,$data) {
+.run(function($ionicPlatform, $ionicPopup, $state, $data) {
+  if ($data.storeData('isLogin') == 'yes') {
+    console.log('初始化...');
+    $state.go('tab.news')
+  };
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -125,4 +129,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     controller: 'SubmissionCtrl'
   })
 
+  .state('tab.management', {
+    url: '/account/management',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/management.html',
+        controller: 'ManagementCtrl'
+      }
+    }
+  })
 });
