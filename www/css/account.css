@@ -36,7 +36,17 @@
 	font-size: 16px;
 }
 .account-main-bottom{
-	padding-top: 20px;
+	border-top:1px solid #eaeaea;
+	margin-top: 10px;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap:wrap;
+	    flex-wrap:wrap;
+	-ms-flex-pack:center;
+	    justify-content:center;
+}
+.button{
+	background: #ffffff;
 }
 .account-main-bottom .button{
 	width: 33%;
@@ -46,4 +56,13 @@
 	font-size: 16px;
 	font-family: 'microsoft yahei';
 	border-radius: 0;
+	border-width: 0 1px 1px 0;
+	border-color: #eaeaea;
+	border-style: solid;
+}
+.account-main-bottom .button:nth-child(3n){
+	border-right: none;
+}
+.account-main-bottom .button .icon{
+	color: #fe4f4f;
 }

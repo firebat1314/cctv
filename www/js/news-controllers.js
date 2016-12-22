@@ -1,6 +1,9 @@
 angular.module('news-controllers',[])
 
-.controller('NewsCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition) {
+.controller('NewsCtrl', function($ionicHistory,$scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition) {
+  $scope.goBack = function(){
+         $ionicHistory.goBack();
+  }
   $scope.mySwiper = new Swiper('.swiper-container', {
     autoplay: 2000,
     loop: true,
@@ -41,7 +44,7 @@ angular.module('news-controllers',[])
     console.log(res);
     $scope.details = res;
   });
-  $rootScope.goBack = function() {
+  $scope.goBack = function() {
     $ionicHistory.goBack();
   }
 })

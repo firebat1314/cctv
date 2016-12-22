@@ -14,7 +14,7 @@ angular.module('starter.services', [])
       login: function(data) {
         return $http({
           method: "POST",
-          url: ip + "/Login/index",
+          url: ip + "/ManageApp/Login/index",
           data: data,
           timeout: 5000
         });
@@ -23,7 +23,7 @@ angular.module('starter.services', [])
       registerSecond: function(data) {
         return $http({
           method: 'POST',
-          url: ip + "/Login/registerInfo",
+          url: ip + "/ManageApp/Login/registerInfo",
           data: data,
           timeout: 5000
         })
@@ -32,7 +32,7 @@ angular.module('starter.services', [])
       getCityList: function(parent, type) {
         return $http({
           method: 'get',
-          url: ip + '/Public/public_getRegion?parent=' + parent + '&type=' + type,
+          url: ip + '/ManageApp/Public/public_getRegion?parent=' + parent + '&type=' + type,
           timeout: 5000
         })
       },
@@ -40,7 +40,7 @@ angular.module('starter.services', [])
       getMessage: function(data) {
         return $http({
           method: 'GET',
-          url: ip + '/Index/lists?catid=' + data,
+          url: ip + '/ManageApp/Index/lists?catid=' + data,
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
@@ -61,7 +61,7 @@ angular.module('starter.services', [])
       getNewsDetails: function(data) {
         return $http({
           method: 'GET',
-          url: ip + '/Index/view?id=' + data,
+          url: ip + '/ManageApp/Index/view?id=' + data,
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
@@ -72,15 +72,31 @@ angular.module('starter.services', [])
       findPassword: function(data) {
         return $http({
           method: 'GET',
-          url: ip + "/Login/findPwd",
+          url: ip + "/ManageApp/Login/findPwd",
           timeout: 5000
         })
+      },
+      //会员数据统计
+      vipInfoStatistics:function(){
+        return $http({
+          method:'GET',
+          url:ip+'/ManageApp/User/userCount',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
+          },
+          timeout: 5000
+        })     
       },
       //个人资料
       selfInfo: function(data) {
         return $http({
           method: 'GET',
-          url: ip + "/User/info",
+          url: ip + "/ManageApp/User/info",
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
+          },
           timeout: 5000
         })
       },
@@ -88,7 +104,7 @@ angular.module('starter.services', [])
       getTitleDetails: function(data) {
         return $http({
           method: 'get',
-          url: ip + '/Baoti/view',
+          url: ip + '/ManageApp/Baoti/view',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
@@ -100,7 +116,7 @@ angular.module('starter.services', [])
       addNews:function(data){
          return $http({
           method: 'POST',
-          url: ip + '/Baoti/add',
+          url: ip + '/ManageApp/Baoti/add',
           data:data,
           headers: {
             'Content-Type': 'application/json',

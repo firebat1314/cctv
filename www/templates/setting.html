@@ -1,0 +1,50 @@
+<ion-view>
+	<style>
+		.set-list .item{
+			border:none;
+			background: none;
+		}
+	</style>
+	<ion-header-bar align-title="center">
+  		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+  	  	<h1 class="title">设置</h1>
+  	</ion-header-bar>
+		
+  	<ion-content class="padding" overflow-scroll="false" has-bouncing="false" style="background-color: #fafafa;" >
+  		<p style="color: #9e9e9e;">系统设置</p>
+  		<ul class="list set-list">
+  			<li class="item">
+  				栏目插件设置
+  			</li>
+  			<li class="item item-toggle">
+	  	     	非wifi网络下不下载图片
+	  	     	<label class="toggle toggle-assertive">
+	  	       	<input type="checkbox">
+	  	       	<div class="track">
+	  	         	<div class="handle"></div>
+	  	       	</div>
+	  	     	</label>
+	  	  	</li>
+  			<li class="item" href="#">
+  			    手动清理缓存
+  			    <span class="item-note">
+  			     	30.30M
+  			     	<i class="icon ion-ios-arrow-right"></i>
+  			    </span>
+  			</li>
+	  	  	<li class="item item-toggle">
+	  	     	要闻推送
+	  	     	<label class="toggle toggle-assertive">
+	  	       	<input type="checkbox">
+	  	       	<div class="track">
+	  	         	<div class="handle"></div>
+	  	       	</div>
+	  	     	</label>
+	  	  	</li>
+  		</ul>
+	  			
+  	
+  	  	
+  	</ion-content>
+  	
+</ion-view>
