@@ -4,9 +4,7 @@ angular.module('user-controllers',[])
 	$scope.jumpTo = function(){
 		$state.go('tab.management')
 	};
-	$scope.goBack1 = function() {
-    	$ionicHistory.goBack();
-  	};
+
   	$scope.goSetting = function(){
   		$state.go('setting');	 	
   	};
@@ -17,15 +15,34 @@ angular.module('user-controllers',[])
 })
 
 .controller('ManagementCtrl',function($ionicHistory,$scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams){
-	$scope.goBack1 = function() {
-    	$ionicHistory.goBack();
-  	}
-  	
+
+  	$data.userCtrl().success(function(details){
+  		console.log(details);	 	
+  		$scope.details = details;	
+  	})
+/*  	$scope.loadMore = function() {
+  		$data.userCtrl().success(function(details){
+  			console.log(details);	 	
+  			$scope.details = details;	
+  	    });
+	};*/
   	//$data.loadingShow(navigator.connection.type);
   	//console.log(navigator);
+  	$scope.toPersonalPage = function(uid){
+  		$state.go('tab.personal-page',{
+  			uid:uid
+  		})	 	
+  	}
 })
 
-.controller('SettingCtrl',function($ionicHistory,$scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams){
+.controller('PersonalPageCtrl',function($ionicHistory,$scope, $data, $rootScope, $state){
+  	$scope.uid = $stateParams.uid;
+	$data.personalDetails(uid).success(function(data){
+		console.log(data);	 	
+	})
+})
+
+.controller('SettingCtrl',function($ionicHistory,$scope, $data, $rootScope, $state){
 	$scope.goBack = function() {
     	$ionicHistory.goBack();
   	}

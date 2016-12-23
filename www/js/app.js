@@ -2,12 +2,12 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
 
-.run(function($ionicPlatform, $ionicPopup, $state, $data,$rootScope) {
+.run(function($ionicPlatform, $ionicPopup, $state, $data,$rootScope,$ionicHistory) {
   /*if ($data.storeData('isLogin') == 'yes') {
     console.log('初始化...');
     $state.go('tab.news')
   };*/
-      
+ 
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -21,7 +21,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       StatusBar.styleDefault();
     }
   });
-  
+   $rootScope.goBack = function(){
+         $ionicHistory.goBack();
+  }
   $ionicPlatform.registerBackButtonAction(function(e) {
     var current_state_name = $state.current.name;
     if (current_state_name == 'tab.account' || current_state_name == 'start-page' || current_state_name == 'tab.news' || current_state_name == 'tab') {
@@ -132,6 +134,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     controller: 'SubmissionCtrl'
   })
 
+  .state('setting',{
+    url:'/account/setting',
+    templateUrl:'templates/setting.html',
+    controller:'SettingCtrl'
+  })
+
   .state('tab.management', {
     url: '/account/management',
     views: {
@@ -142,9 +150,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     }
   })
 
-  .state('setting',{
-    url:'/account/setting',
-    templateUrl:'templates/setting.html',
-    controller:'SettingCtrl'
+  .state('tab.personal-page',{
+    url:'/account/management/:uid',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/personal-page.html',
+        controller: 'ManagementCtrl'
+      }
+    }
   })
 });

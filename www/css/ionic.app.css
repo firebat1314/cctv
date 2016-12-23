@@ -6324,7 +6324,8 @@ button.item.item-button-right {
 .item-avatar .item-content{
   padding: 0;
   color:#a6a6a6;
-  font-size: 14px;
+  font-size: 12px;
+  min-height: 0;
 }
 
 .item-avatar-right,
@@ -6595,6 +6596,7 @@ button.item.item-button-right {
   z-index: 1;
   height: 100%; }
   .item-options .button {
+    background-color: none;
     height: 100%;
     border: none;
     border-radius: 0;
@@ -6603,6 +6605,8 @@ button.item.item-button-right {
     display: -moz-inline-flex;
     display: -ms-inline-flexbox;
     display: inline-flex;
+    -ms-flex-direction: column;flex-direction: column;
+    -ms-flex-line-pack:center;align-content:center;
     -webkit-box-align: center;
     -ms-flex-align: center;
     -webkit-align-items: center;

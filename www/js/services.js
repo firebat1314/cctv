@@ -43,7 +43,7 @@ angular.module('starter.services', [])
           url: ip + '/ManageApp/Index/lists?catid=' + data,
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           }
         })
       },
@@ -53,7 +53,7 @@ angular.module('starter.services', [])
           method: 'GET',
           url: ip,
           headers: {
-            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           }
         })
       },
@@ -64,7 +64,7 @@ angular.module('starter.services', [])
           url: ip + '/ManageApp/Index/view?id=' + data,
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           }
         })
       },
@@ -77,25 +77,49 @@ angular.module('starter.services', [])
         })
       },
       //会员数据统计
-      vipInfoStatistics:function(){
+      vipInfoStatistics: function() {
         return $http({
-          method:'GET',
-          url:ip+'/ManageApp/User/userCount',
+          method: 'GET',
+          url: ip + '/ManageApp/User/userCount',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           timeout: 5000
-        })     
+        })
       },
       //个人资料
-      selfInfo: function(data) {
+      userInfo: function(data) {
         return $http({
           method: 'GET',
           url: ip + "/ManageApp/User/info",
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          timeout: 5000
+        })
+      },
+      //用户管理
+      userCtrl: function(data) {
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/User/members',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          timeout: 5000
+        })
+      },
+      //查看会员
+      personalDetails: function(data) {
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/User/viewMember?uid='+data,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           timeout: 5000
         })
@@ -107,23 +131,23 @@ angular.module('starter.services', [])
           url: ip + '/ManageApp/Baoti/view',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           timeout: 5000
         })
       },
       //添加新闻
-      addNews:function(data){
-         return $http({
+      addNews: function(data) {
+        return $http({
           method: 'POST',
           url: ip + '/ManageApp/Baoti/add',
-          data:data,
+          data: data,
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token+':')
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           timeout: 5000
-        })    
+        })
       },
       //提示框
       loadingShow: function(str) {
