@@ -47,11 +47,9 @@
   		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
   	  	<h1 class="title">用户管理</h1>
   	</ion-header-bar>
-  	<ion-content>
-        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
-        </ion-refresher>
+  	<ion-content overflow-scroll="false" has-bouncing="true" >
         <ion-list>
-			<div class=" card" ng-repeat="item in details.data">
+			<div class=" card" ng-repeat="item in items">
 			  <div class="item item-avatar">
 			    <img ng-src="{{item.avatar}}">
 			    <h2><span style="float:left;" ng-bind="item.name"></span><span style="float:right;color: #ed6d00;" ng-bind="item.position">记者</span></h2>
@@ -75,8 +73,6 @@
 			  </div>
 			</div>
         </ion-list>
-			
-		<ion-infinite-scroll on-infinite="loadMore()" distance="1%">
-		</ion-infinite-scroll>
+		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
 	</ion-content>
 </ion-view>

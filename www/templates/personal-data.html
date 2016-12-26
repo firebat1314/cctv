@@ -1,0 +1,125 @@
+<ion-view>
+	<style>
+		.pedata-top{
+			width: 100%;
+			min-height: 30%;
+			background: url(img/bg2.jpg) 0 0 no-repeat;background-size: 100% 100%;
+		}
+		#pedata-portrait{
+			padding: 30px 0;
+		}
+		#pedata-portrait img{
+			width: 100px;height: 100px;
+			border-radius: 50%;
+			margin: 0 auto;
+			display: block;
+		}
+		#pedata-txt{
+			text-align: center;
+		}
+		#pedata-txt button{
+			background: url(img/icon/ico_54.png) left center no-repeat;
+			color: #fff;
+			width: 100px;
+		}
+		#pedata-txt button:last-child{
+			background-image: url(img/icon/ico_55.png);
+		}
+		.card{
+			margin: 20px 0;
+		}
+		.card .item{
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+	</style>
+	<ion-header-bar align-title="center">
+		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+		<h1 class="title">个人中心</h1>
+	</ion-header-bar>
+	<ion-content overflow-scroll="false" has-bouncing="true" class="tabs-item-hide" >
+			<div class="pedata-top padding">
+				<div id="pedata-portrait">
+					<div class="img">
+						<img src="img/myself_02.jpg" width="100%" height="100%" alt="">
+					</div>
+				</div>
+				<div id="pedata-txt">
+					<button class="button icon-left  button-clear button-dark "  ng-click="editImg()">编辑头像</button>
+					<button class="button icon-left button-clear button-dark "  ng-click="">修改密码</button>
+				</div>
+			</div>
+			<div class="pedata-body">
+				<div class="card" >
+					<a href="" class="item">
+						昵称
+						<span class="item-note">
+							北京电视台
+						</span>
+					</a>
+					<a href="" class="item">
+						性别
+						<span class="item-note">
+							男
+						</span>
+					</a>
+					<a href="" class="item">
+						手机号
+						<span class="item-note">
+							13100668641
+						</span>
+					</a>
+					<a href="" class="item">
+						电子邮箱
+						<span class="item-note">
+							1310066864@qq.com
+						</span>
+					</a>
+				</div>
+				<div class="card" >
+					<a href="" class="item">
+						所属地区
+						<span class="item-note">
+							北京
+						</span>
+					</a>
+					<a href="" class="item">
+						单位名称
+						<span class="item-note">
+							电视台
+						</span>
+					</a>
+					<a href="" class="item">
+						手机号
+						<span class="item-note">
+							13100668641
+						</span>
+					</a>
+
+					<a href="" class="item">
+						职务
+						<span class="item-note">
+							1310066864@qq.com
+						</span>
+					</a>
+				  <a href="" class="item">
+						单位地址
+						<span class="item-note">
+							1310066864@qq.com
+						</span>
+					</a>
+				  <a href="" class="item">
+						单位编号
+						<span class="item-note">
+							1310066864@qq.com
+						</span>
+					</a>
+				  <a href="" class="item">
+						身份证号
+						<span class="item-note">
+							1310066864@qq.com
+						</span>
+					</a>
+				</div>
+			</div>
+</ion-view>

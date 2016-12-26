@@ -1,4 +1,34 @@
 angular.module('starter.services', [])
+  .factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
+      return {
+          'request': function (config) {
+              // 成功发出请求时的统一处理:可以修改config
+              //console.debug('成功request', config);
+              $rootScope.$broadcast('loading:show');
+              return config;
+          },
+          'requestError': function (rejection) {
+              // 请求错误时的统一处理
+              if (canRecover(rejection)) {
+                  return responseOrNewPromise
+              }
+              return $q.reject(rejection);
+          },
+          // optional method
+          'response': function (response) {
+              // 响应成功时的统一处理，可以修改response
+              $rootScope.$broadcast('loading:hide');
+              return response;
+          },
+          'responseError': function (response) {
+              $rootScope.$broadcast({
+                  401: AUTH_EVENTS.notAuthenticated,
+                  403: AUTH_EVENTS.notAuthorized
+              }[response.status], response);
+              return $q.reject(response);
+          }
+      };
+  })
   .service('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
     var ip = 'http://cctvnnn.ivtime.net';
     //http://cctvnnn.ivtime.net/ManageApp/Login/index
@@ -101,10 +131,10 @@ angular.module('starter.services', [])
         })
       },
       //用户管理
-      userCtrl: function(data) {
+      userCtrl: function(size,page) {
         return $http({
           method: 'GET',
-          url: ip + '/ManageApp/User/members',
+          url: ip + '/ManageApp/User/members?size='+ size +'&page='+page,
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')

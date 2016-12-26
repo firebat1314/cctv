@@ -155,7 +155,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     views: {
       'tab-account': {
         templateUrl: 'templates/personal-page.html',
-        controller: 'ManagementCtrl'
+        controller: 'PersonalPageCtrl'
+      }
+    }
+  })
+
+  .state('tab.personal-data',{
+    url:'/account/personal-data',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/personal-data.html',
+        controller: 'personalDataCtrl'
       }
     }
   })

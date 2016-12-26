@@ -1,7 +1,4 @@
 /* Empty. Add your own CSS if you like */
-ion-view{
-	background-color: #fafafa;
-}
 .bar{
 	background: none;
 	position: static;
@@ -64,6 +61,7 @@ ion-view{
 .spinner svg {
   width: 28px;
   height: 28px;
-  stroke: #fff;
-  fill: #fff;
+}
+.pane{
+	background-color: #fafafa;
 }
