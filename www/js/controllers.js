@@ -1,12 +1,16 @@
 angular.module('starter.controllers', ['user-controllers','news-controllers'])
   .controller('StartCtrl', function($scope, $data, $rootScope, $timeout, $state) {
-    
-    $scope.goLogin = function() {
-      $state.go('login')
-    };
-    $rootScope.goRegister = function() {
-      $state.go('register')
-    }
+      if ($data.storeData('isLogin') == 'yes') {
+        console.log('初始化...');
+        $state.go('tab.news')
+      };
+      $scope.goLogin = function() {
+        $state.go('login')
+      };
+      $rootScope.goRegister = function() {
+        $state.go('register')
+      }
+   
   })
   .controller('LoginCtrl', function($scope, $rootScope, $state, $data, $ionicLoading, $timeout) {
     $scope.init = function() {

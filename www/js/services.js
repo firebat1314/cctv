@@ -1,33 +1,33 @@
 angular.module('starter.services', [])
-  .factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
-      return {
-          'request': function (config) {
-              // 成功发出请求时的统一处理:可以修改config
-              //console.debug('成功request', config);
-              $rootScope.$broadcast('loading:show');
-              return config;
-          },
-          'requestError': function (rejection) {
-              // 请求错误时的统一处理
-              if (canRecover(rejection)) {
-                  return responseOrNewPromise
-              }
-              return $q.reject(rejection);
-          },
-          // optional method
-          'response': function (response) {
-              // 响应成功时的统一处理，可以修改response
-              $rootScope.$broadcast('loading:hide');
-              return response;
-          },
-          'responseError': function (response) {
-              $rootScope.$broadcast({
-                  401: AUTH_EVENTS.notAuthenticated,
-                  403: AUTH_EVENTS.notAuthorized
-              }[response.status], response);
-              return $q.reject(response);
-          }
-      };
+  .factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
+    return {
+      'request': function(config) {
+        // 成功发出请求时的统一处理:可以修改config
+        //console.debug('成功request', config);
+        $rootScope.$broadcast('loading:show');
+        return config;
+      },
+      'requestError': function(rejection) {
+        // 请求错误时的统一处理
+        if (canRecover(rejection)) {
+          return responseOrNewPromise
+        }
+        return $q.reject(rejection);
+      },
+      // optional method
+      'response': function(response) {
+        // 响应成功时的统一处理，可以修改response
+        $rootScope.$broadcast('loading:hide');
+        return response;
+      },
+      'responseError': function(response) {
+        $rootScope.$broadcast({
+          401: AUTH_EVENTS.notAuthenticated,
+          403: AUTH_EVENTS.notAuthorized
+        }[response.status], response);
+        return $q.reject(response);
+      }
+    };
   })
   .service('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
     var ip = 'http://cctvnnn.ivtime.net';
@@ -87,6 +87,7 @@ angular.module('starter.services', [])
           }
         })
       },
+     
       //新闻详情
       getNewsDetails: function(data) {
         return $http({
@@ -96,6 +97,31 @@ angular.module('starter.services', [])
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           }
+        })
+      },
+      //6.修改密码
+      revisePassword:function(data){
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/User/editPwd',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data:data,
+          timeout: 5000
+        })
+      },
+      //7.编辑头像
+      editPic: function(data) {
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/User/avatar',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data: data
         })
       },
       //找回密码
@@ -131,10 +157,10 @@ angular.module('starter.services', [])
         })
       },
       //用户管理
-      userCtrl: function(size,page) {
+      userCtrl: function(size, page) {
         return $http({
           method: 'GET',
-          url: ip + '/ManageApp/User/members?size='+ size +'&page='+page,
+          url: ip + '/ManageApp/User/members?size=' + size + '&page=' + page,
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
@@ -146,7 +172,7 @@ angular.module('starter.services', [])
       personalDetails: function(data) {
         return $http({
           method: 'GET',
-          url: ip + '/ManageApp/User/viewMember?uid='+data,
+          url: ip + '/ManageApp/User/viewMember?uid=' + data,
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
@@ -198,7 +224,7 @@ angular.module('starter.services', [])
         }
       },
 
-      //删除某个
+      //删除某个储存
       remove: function(key) {
         $window.localStorage.removeItem(key);
       },

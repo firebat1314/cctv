@@ -22,7 +22,7 @@ angular.module('user-controllers',[])
   		console.log(details.data);
   		$scope.items = details.data;
   	})
-  	//$data.loadingShow(navigator.connection.type);
+  	console.log(navigator);
   	//console.log(navigator);
 	$scope.loadMore = function () {
 		$scope.page++;
@@ -36,35 +36,118 @@ angular.module('user-controllers',[])
   	$scope.toPersonalPage = function(uid){
   		$state.go('tab.personal-page',{
   			uid:uid
-  		})	 	
+  		});
   	}
 })
 
-.controller('PersonalPageCtrl',function($ionicHistory,$scope, $data, $rootScope, $state){
+.controller('PersonalPageCtrl',function($ionicHistory,$scope, $data, $rootScope, $state,$stateParams){
   	$scope.uid = $stateParams.uid;
-	$data.personalDetails(uid).success(function(data){
+	$data.personalDetails($scope.uid).success(function(data){
 		console.log(data);	 	
 	});
 })
 
-.controller('personalDataCtrl',function($ionicHistory,$scope, $data, $rootScope, $state,$ionicPopup,$ionicPopover){
-	$scope.popover = $ionicPopover.fromTemplate('<ion-popover-view><ion-header-bar> <h1 class="title">My Popover Title</h1> </ion-header-bar> <ion-content> Hello! </ion-content></ion-popover-view>', {
-	    scope: $scope
-	  });
+.controller('personalDataCtrl',function($ionicHistory,$scope,$cordovaCamera, $cordovaImagePicker,$data,$timeout, $rootScope, $state,$ionicPopup,$ionicPopover){
+	$ionicPopover.fromTemplateUrl('my-popover.html', {
+		scope: $scope
+	}).then(function(popover) {
+		$scope.popover = popover;
+	});
+	$data.userInfo().success(function(data){
+		//console.log(data);
+		$scope.dataInit = data.data;
+	})
+
 	$scope.editImg = function(){
+		$scope.popover.show();
+
 		
-		var template = '<a class="item" href="">Butterfinger</a><a class="item" href="">Butterfinger</a>';
+		/*var template = '<a class="item" href="" ng-click="myPopup.close()">Butterfinger</a><a class="item" href="">Butterfinger</a>';
 		var myPopup = $ionicPopup.show({
-		    template: template,
-		    title: '更改头像',
-		    scope: $scope
-		  });
+						    template: template,
+						    title: '更改头像',
+						    scope: $scope
+						});
+		$timeout(function() {
+			 myPopup.close(); //3秒后关闭弹窗
+		}, 1000);*/
+	};
+
+	$scope.openCamera = function(){
+		document.addEventListener("deviceready", function () {
+			//console.log(Camera);
+		    var options = {
+				quality: 50,
+				destinationType: Camera.DestinationType.DATA_URL,
+				sourceType: Camera.PictureSourceType.CAMERA,
+				allowEdit: true,
+				encodingType: Camera.EncodingType.JPEG,
+				targetWidth: 200,
+				targetHeight: 200,
+				popoverOptions: CameraPopoverOptions,
+				saveToPhotoAlbum: true,
+				correctOrientation:true
+		    };
+
+		    $cordovaCamera.getPicture(options)
+		    .then(function(imageData) {
+		    	var image = document.getElementById('myImage');
+		      	$scope.img = "data:image/jpeg;base64," + imageData;
+		      	image.src = imageData;
+	    		$data.editPic({
+	    			avatar:$scope.img,
+	    			step:'cropper'
+	    		}).success(function(data){
+	    			console.log(data);
+	    			$scope.items = data;
+	    		})
+		    }, function(err) {
+		      	// error
+		      	console.log(1);
+		    });
+	  	}, false);
+
+		$scope.popover.hide();
+	};
+	$scope.openImagePicker = function(){
+		console.log(1);
+		document.addEventListener("deviceready", function () {
+			var options = {
+				maximumImagesCount: 10,
+				width: 800,
+				height: 800,
+				quality: 80
+			};
+
+			$cordovaImagePicker.getPictures(options)
+			  	.then(function (results) {
+		      		$scope.img = results;
+		    		var image = document.getElementById('myImage');
+  			      	image.src = $scope.img;
+			    	$data.loadingShow(results)
+  		    		/*$data.editPic({
+  		    			avatar:$scope.img,
+  		    			step:'cropper'
+  		    		}).success(function(data){
+  		    			console.log(data);
+	    				$scope.items = data;
+  		    		})*/
+			  	}, function(error) {
+			    	// error getting photos
+			    	$data.loadingShow('打开相册失败')
+				});
+	  	}, false);
 	}
+	
+})
+
+.controller('ChangePassword',function(){
+	$data.revisePassword({
+
+	})	 	
 })
 
 .controller('SettingCtrl',function($ionicHistory,$scope, $data, $rootScope, $state){
-	$scope.goBack = function() {
-    	$ionicHistory.goBack();
-  	}
+	
   	
 })

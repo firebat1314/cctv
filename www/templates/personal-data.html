@@ -37,11 +37,11 @@
 		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
 		<h1 class="title">个人中心</h1>
 	</ion-header-bar>
-	<ion-content overflow-scroll="false" has-bouncing="true" class="tabs-item-hide" >
+	<ion-content overflow-scroll="false" has-bouncing="true" >
 			<div class="pedata-top padding">
 				<div id="pedata-portrait">
 					<div class="img">
-						<img src="img/myself_02.jpg" width="100%" height="100%" alt="">
+						<img ng-src="{{dataInit.avatar}}" width="100%" height="100%" alt="" id="myImage">
 					</div>
 				</div>
 				<div id="pedata-txt">
@@ -50,76 +50,72 @@
 				</div>
 			</div>
 			<div class="pedata-body">
+				<div class="card">
+					{{items}}
+				</div>
 				<div class="card" >
 					<a href="" class="item">
 						昵称
-						<span class="item-note">
-							北京电视台
-						</span>
+						<span class="item-note" ng-bind="dataInit.nickname || '点击设置'"></span>
 					</a>
 					<a href="" class="item">
 						性别
-						<span class="item-note">
-							男
-						</span>
+						<span class="item-note" ng-bind="(dataInit.sex?'男':'女') || '点击设置'"></span>
 					</a>
 					<a href="" class="item">
 						手机号
-						<span class="item-note">
-							13100668641
-						</span>
+						<span class="item-note" ng-bind="dataInit.mobile || '点击设置'"></span>
 					</a>
 					<a href="" class="item">
 						电子邮箱
-						<span class="item-note">
-							1310066864@qq.com
-						</span>
+						<span class="item-note" ng-bind="dataInit.email || '点击设置'"></span>
 					</a>
 				</div>
 				<div class="card" >
 					<a href="" class="item">
 						所属地区
-						<span class="item-note">
-							北京
-						</span>
+						<span class="item-note" ng-bind="dataInit.city_cn || '点击设置'"></span>
 					</a>
 					<a href="" class="item">
 						单位名称
-						<span class="item-note">
-							电视台
-						</span>
+						<span class="item-note"  ng-bind="dataInit.company || '点击设置'"></span>
 					</a>
 					<a href="" class="item">
 						手机号
-						<span class="item-note">
-							13100668641
-						</span>
+						<span class="item-note"  ng-bind="dataInit.mobile || '点击设置'"></span>
 					</a>
 
 					<a href="" class="item">
 						职务
-						<span class="item-note">
-							1310066864@qq.com
-						</span>
+						<span class="item-note"  ng-bind="dataInit.position || '点击设置'"></span>
 					</a>
 				  <a href="" class="item">
 						单位地址
-						<span class="item-note">
-							1310066864@qq.com
-						</span>
+						<span class="item-note"  ng-bind="dataInit.department || '点击设置'"></span>
 					</a>
 				  <a href="" class="item">
 						单位编号
-						<span class="item-note">
-							1310066864@qq.com
-						</span>
+						<span class="item-note"  ng-bind="dataInit.credits || '点击设置'"></span>
 					</a>
 				  <a href="" class="item">
 						身份证号
-						<span class="item-note">
-							1310066864@qq.com
-						</span>
+						<span class="item-note"  ng-bind="dataInit.idcard || '点击设置'"></span>
 					</a>
 				</div>
 			</div>
+			<script id="my-popover.html" type="text/ng-template">
+			  	<ion-popover-view>
+			    	<ion-content overflow-scroll="false" has-bouncing="false">
+			      	<p href="" class="item" style="text-align: center;">
+							更改头像
+						</p>
+						<a href="" class="item" ng-click="openCamera();">
+							拍照
+						</a>
+						<a href="" class="item" ng-click="openImagePicker()">
+							从相册中选择
+						</a>
+			    	</ion-content>
+			  	</ion-popover-view>
+			</script>
 </ion-view>

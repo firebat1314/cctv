@@ -3,10 +3,7 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
 
 .run(function($ionicPlatform, $ionicPopup, $state, $data,$rootScope,$ionicHistory) {
-  /*if ($data.storeData('isLogin') == 'yes') {
-    console.log('初始化...');
-    $state.go('tab.news')
-  };*/
+
  
 
   $ionicPlatform.ready(function() {
@@ -67,7 +64,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   $urlRouterProvider.otherwise('/start-page');
   $stateProvider
 
-    .state('start-page', {
+  .state('start-page', {
     url: '/start-page',
     templateUrl: 'templates/start-page.html',
     controller: 'StartCtrl'
