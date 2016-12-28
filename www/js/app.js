@@ -23,7 +23,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }
   $ionicPlatform.registerBackButtonAction(function(e) {
     var current_state_name = $state.current.name;
-    if (current_state_name == 'tab.account' || current_state_name == 'start-page' || current_state_name == 'tab.news' || current_state_name == 'tab') {
+    if (current_state_name == 'tab.account' || current_state_name == 'start-page' || current_state_name == 'tab.news' || current_state_name == 'tab' || current_state_name == 'login') {
       $ionicPopup.confirm({
         title: '退出应用',
         template: '您确定要退出吗?',
@@ -60,6 +60,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
 
   $ionicConfigProvider.platform.ios.views.transition('ios');
   $ionicConfigProvider.platform.android.views.transition('android');
+
+  $httpProvider.interceptors.push();
 
   $urlRouterProvider.otherwise('/start-page');
   $stateProvider
@@ -162,8 +164,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     views: {
       'tab-account': {
         templateUrl: 'templates/personal-data.html',
-        controller: 'personalDataCtrl'
+        controller: 'PersonalDataCtrl'
       }
     }
+  })
+
+  .state('revisepassword',{
+    url:'/account/revisepassword',
+    templateUrl:'templates/revisepassword.html',
+    controller: 'RevisePassword'
   })
 });

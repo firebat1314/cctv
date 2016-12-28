@@ -29,7 +29,7 @@ angular.module('starter.controllers', ['user-controllers','news-controllers'])
     };
     $scope.init();
     $scope.user = {
-      username: '',
+      username: $data.storeData('username')||'',
       password: ''
     };
     $scope.deletesContents = function() {

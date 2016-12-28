@@ -1,33 +1,36 @@
 angular.module('starter.services', [])
-  .factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
-    return {
-      'request': function(config) {
-        // 成功发出请求时的统一处理:可以修改config
-        //console.debug('成功request', config);
-        $rootScope.$broadcast('loading:show');
-        return config;
-      },
-      'requestError': function(rejection) {
-        // 请求错误时的统一处理
-        if (canRecover(rejection)) {
-          return responseOrNewPromise
-        }
-        return $q.reject(rejection);
-      },
-      // optional method
-      'response': function(response) {
-        // 响应成功时的统一处理，可以修改response
-        $rootScope.$broadcast('loading:hide');
-        return response;
-      },
-      'responseError': function(response) {
-        $rootScope.$broadcast({
-          401: AUTH_EVENTS.notAuthenticated,
-          403: AUTH_EVENTS.notAuthorized
-        }[response.status], response);
-        return $q.reject(response);
-      }
-    };
+  .factory('AuthInterceptor', function($rootScope, $q,$state) {
+      return {
+          request: function(config){
+            /*if($localstorage.userInfo.data.token){
+              config.headers['Authorization'] = 'Basic ' + btoa(storeData('userInfo').data.token + ':');
+            }*/
+            return config;
+          },
+          requestError: function(err){
+            console.log(err);
+            return $q.reject(err);
+          },
+          response: function(res){
+            console.log(res);
+              $state.go('/login');
+            return res;
+
+          },
+          responseError: function(err){
+            if(-1 === err.status) {
+              // 远程服务器无响应
+
+            } else if(500 === err.status) {
+              // 处理各类自定义错误
+            } else if(501 === err.status) {
+              // ...
+            } else if (status == 401||status == 403) {
+              $state.go('/login');
+            }
+            return $q.reject(err);
+          }
+        };     
   })
   .service('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
     var ip = 'http://cctvnnn.ivtime.net';
@@ -118,11 +121,21 @@ angular.module('starter.services', [])
           method: 'POST',
           url: ip + '/ManageApp/User/avatar',
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           data: data
         })
+      },
+      //8.资料修改
+      profile:function(data){
+         return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/User/profile',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data: data
+        })    
       },
       //找回密码
       findPassword: function(data) {
@@ -138,7 +151,6 @@ angular.module('starter.services', [])
           method: 'GET',
           url: ip + '/ManageApp/User/userCount',
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           timeout: 5000
@@ -150,7 +162,6 @@ angular.module('starter.services', [])
           method: 'GET',
           url: ip + "/ManageApp/User/info",
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           timeout: 5000
@@ -162,7 +173,6 @@ angular.module('starter.services', [])
           method: 'GET',
           url: ip + '/ManageApp/User/members?size=' + size + '&page=' + page,
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           timeout: 5000
@@ -174,7 +184,6 @@ angular.module('starter.services', [])
           method: 'GET',
           url: ip + '/ManageApp/User/viewMember?uid=' + data,
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           timeout: 5000
@@ -186,7 +195,6 @@ angular.module('starter.services', [])
           method: 'get',
           url: ip + '/ManageApp/Baoti/view',
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           timeout: 5000
@@ -199,7 +207,6 @@ angular.module('starter.services', [])
           url: ip + '/ManageApp/Baoti/add',
           data: data,
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           timeout: 5000
