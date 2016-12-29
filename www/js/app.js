@@ -61,7 +61,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   $ionicConfigProvider.platform.ios.views.transition('ios');
   $ionicConfigProvider.platform.android.views.transition('android');
 
-  $httpProvider.interceptors.push();
+  $httpProvider.interceptors.push('AuthInterceptor');
 
   $urlRouterProvider.otherwise('/start-page');
   $stateProvider

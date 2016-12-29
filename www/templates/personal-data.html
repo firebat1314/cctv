@@ -32,19 +32,49 @@
 			margin-left: 10px;
 			margin-right: 10px;
 		}
-		.popup-body{
-			position: relative;
+		.popup-body .disable-user-behavior .list .item{
+			border:none;
+			border-bottom: 1px solid #ddd;
+			margin: 0;
 		}
-		.popup-body input {
-			background: url(img/input.png) left bottom no-repeat;
-			-webkit-background-size: 100% auto;
-			background-size: 100% auto;
+		.popup-body .disable-user-behavior .list label:last-child{
+			border:none;
 		}
-		.popup-body .ion{
-			color: #b6b6b6;
-			position: absolute;
-			right: 20px;
-			top: 20px;
+		.popup-head{
+			border-bottom: none;
+		}
+		.popup-sex .popup-body,.popup-type .popup-body{
+			padding: 10px 0;
+		}
+
+		.popup-city_cn .popup-body{
+			padding: 0;
+		}
+		.popup-type .popup-body{
+			
+		}
+		.ion-ios-circle-filled{
+			color: red
+		}
+		.add-checkbox{
+			width: 20%;
+			float: left;
+			padding: 3px;
+			color: #717167;
+		}
+		.add-checkbox span{
+			margin: 0 auto;
+			text-align: center;
+			display: block;
+			font-size: 12px;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+		.add-checkbox-actived span{
+			border-radius: 3px;
+			background-color: #fe4342;
+			color: #fff;
+			
 		}
 	</style>
 	<ion-header-bar align-title="center">
@@ -59,8 +89,8 @@
 					</div>
 				</div>
 				<div id="pedata-txt">
-					<button class="button icon-left  button-clear button-dark " ng-click="editImg()">编辑头像</button>
-					<button class="button icon-left button-clear button-dark "  ng-click="" ui-sref="revisepassword">修改密码</button>
+					<button class="button icon-left button-clear button-dark" ng-click="editImg()">编辑头像</button>
+					<button class="button icon-left button-clear button-dark" ui-sref="revisepassword">修改密码</button>
 				</div>
 			</div>
 			<div class="pedata-body">
@@ -120,5 +150,16 @@
 			    	</ion-content>
 			  	</ion-popover-view>
 			</script>
-
+			<script id="city_cn.html" type="text/ng-template">
+				<div class="province" ng-if="!add.province" >
+					<div class="add-checkbox" ng-repeat="item in province.data" ng-click="getProvince($event,item.level,item.id)" ng-model="add.province" ng-value="item.id"><span>{{item.name}}</span></div>
+				</div>
+				<div class="city" ng-if="add.province">
+					<div class="add-checkbox" ng-repeat="item in city.data" ng-click="getCity($event,item.level,item.id)" ng-model="add.city" ng-value="item.id" ><span>{{item.name}}</span></div>
+				</div>
+				<div class="district" ng-if="add.city">
+					<div class="add-checkbox" ng-repeat="item in district.data" ng-click="getDistrict($event,item.level,item.id)" ng-model="add.district" ng-value="item.id" ><span>{{item.name}}</span></div>
+				</div>
+				
+			</script>
 </ion-view>

@@ -65540,14 +65540,14 @@ IonicModule
         '<input type="radio" name="radio-group">' +
         '<div class="radio-content">' +
           '<div class="item-content disable-pointer-events" ng-transclude></div>' +
-          '<i class="radio-icon disable-pointer-events icon ion-checkmark"></i>' +
+          '<i class="radio-icon disable-pointer-events icon ion-ios-circle-filled"></i>' +
         '</div>' +
       '</label>',
 
     compile: function(element, attr) {
       if (attr.icon) {
         var iconElm = element.find('i');
-        iconElm.removeClass('ion-checkmark').addClass(attr.icon);
+        iconElm.removeClass('ion-ios-circle-filled').addClass('ion-ios-circle-outline');
       }
 
       var input = element.find('input');

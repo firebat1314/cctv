@@ -137,48 +137,42 @@ angular.module('user-controllers',[])
 		department: '',
 		position: ''
 	};
-	$scope.nickname = function(){
-		$ionicPopup.confirm({
-			title: '昵称',
-			template: '<input type="text" ng-model="profile.nickname" autofocus><i ng-if="profile.nickname.length>0" class="ion ion-close-circled Octopus"></i>',
-			scope:$scope,
-			buttons: [{
-			text: '<b>确定</b>',
-			type: 'button-positive',
-			onTap: function(event) {
-						if($scope.profile.nickname == ''){
-							e.preventDefault();
-						}else{
-							$data.profile({
-								nickname:$scope.profile.nickname
-							}).success(function(data){
-								console.log(data);
-								$data.loadingShow(data.info);
-							})
-						}
-					}
-			}, {
-			text: '取消'
-			}]
-		})
-	};
-	$scope.tanchu = function(str,template,fun){
+	$scope.delText = function($event){
+		console.log($event);
+		$($event.target).siblings('input').val('');
+		$($event.target).siblings('input').blur();
+		$($event.target).siblings('input').focus();
+	}
+	$scope.tanchu = function(str,template,cssClass,fun,templateUrl){
 		$ionicPopup.confirm({
 			title: str,
 			template: template,
+			templateUrl: templateUrl,
 			scope:$scope,
+			cssClass:cssClass,
 			buttons: [{
 			text: '<b>确定</b>',
 			type: 'button-positive',
 			onTap: fun
 			}, {
-			text: '取消'
+				text: '取消'
 			}]
 		})
 	}
+	$scope.nickname = function(){
+		var template = '<input type="text" ng-model="profile.nickname" autofocus><i ng-if="profile.nickname.length>0" class="ion ion-close-circled Octopus" id="foucus" ng-click="delText($event)" ></i>';
+		$scope.tanchu('昵称',template,'popup-nickname',function(e){
+			$data.profile({
+				nickname:$scope.profile.nickname
+			}).success(function(data){
+				//console.log(data);
+				$data.loadingShow(data.info);
+			})
+		})
+	};
 	$scope.sex = function(){
 		var template = '<ion-list><ion-radio ng-model="profile.sex" ng-value="1">男</ion-radio><ion-radio ng-model="profile.sex" ng-value="0">女</ion-radio></ion-list>';
-		$scope.tanchu('性别',template,function(e){
+		$scope.tanchu('性别',template,'popup-sex',function(e){
 			$data.profile({
 				sex:$scope.profile.sex
 			}).success(function(data){
@@ -188,8 +182,8 @@ angular.module('user-controllers',[])
 		})
 	};
 	$scope.mobile = function(){
-		var template = '<input type="text" ng-model="profile.mobile" autofocus><i ng-if="profile.mobile.length>0" class="ion ion-close-circled Octopus"></i>';
-		$scope.tanchu('手机号',template,function(e){
+		var template = '<input type="text" ng-model="profile.mobile" autofocus><i ng-if="profile.mobile.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
+		$scope.tanchu('手机号',template,'',function(e){
 			if($scope.profile.mobile == ''){
 				e.preventDefault();
 			}else{
@@ -203,8 +197,8 @@ angular.module('user-controllers',[])
 		})
 	};
 	$scope.email = function(){
-		var template = '<input type="text" ng-model="profile.email" autofocus><i ng-if="profile.email.length>0" class="ion ion-close-circled Octopus"></i>';
-		$scope.tanchu('电子邮箱',template,function(e){
+		var template = '<input type="text" ng-model="profile.email" autofocus><i ng-if="profile.email.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
+		$scope.tanchu('电子邮箱',template,'',function(e){
 			if($scope.profile.email == ''){
 				e.preventDefault();
 			}else{
@@ -217,24 +211,49 @@ angular.module('user-controllers',[])
 			}
 		})
 	};
-	$scope.city_cn = function(){
-		var template = '<ion-list><ion-radio ng-model="profile.city_cn" ng-value="0">电视台</ion-radio><ion-radio ng-model="profile.city_cn" ng-value="1">非电视台</ion-radio><ion-radio ng-model="profile.city_cn" ng-value="2">记者台</ion-radio></ion-list>';
-		$scope.tanchu('所属地区',template,function(e){
-			if($scope.profile.city_cn == ''){
-				e.preventDefault();
-			}else{
-				$data.profile({
-					city_cn:$scope.profile.city_cn
-				}).success(function(data){
-					//console.log(data);
-					$data.loadingShow(data.info);
-				})
-			}
+	$scope.loadAddress = function(){
+		$data.getCityList(0,1).success(function(data) {
+		  console.log(data);
+		  $scope.province = data;
 		})
+	}
+	$scope.loadAddress();
+	$scope.city_cn = function(){
+		$scope.add = {};
+		$scope.getProvince = function($event,level,id){
+			$scope.add.province = id;
+			$($event.currentTarget).addClass('add-checkbox-actived').siblings().removeClass('add-checkbox-actived');
+			$data.getCityList($scope.add.province,2).success(function(data) {
+		  		$scope.city = data;
+			  	console.log(data);
+			})
+		}
+		$scope.getCity= function($event,level,id){
+			$scope.add.city = id;
+			$($event.currentTarget).addClass('add-checkbox-actived').siblings().removeClass('add-checkbox-actived');
+			$data.getCityList($scope.add.city,3).success(function(data) {
+		  		$scope.district = data;
+			  	console.log(data);
+			})
+		}
+		$scope.getDistrict = function($event,level,id){
+			$scope.add.district = id;
+			$($event.currentTarget).addClass('add-checkbox-actived').siblings().removeClass('add-checkbox-actived');
+		}
+		$scope.tanchu('所属地区','','popup-city_cn',function(e){
+			$data.profile({
+				province:1,
+				city:37,
+				district:568
+			}).success(function(data){
+				//console.log(data);
+				$data.loadingShow(data.info);
+			})
+		},'city_cn.html')
 	};
 	$scope.type = function(){
 		var template = '<ion-list><ion-radio ng-model="profile.type" ng-value="0">电视台</ion-radio><ion-radio ng-model="profile.type" ng-value="1">非电视台</ion-radio><ion-radio ng-model="profile.type" ng-value="2">记者台</ion-radio></ion-list>';
-		$scope.tanchu('公司性质',template,function(e){
+		$scope.tanchu('公司性质',template,'popup-type',function(e){
 			$data.profile({
 				type:$scope.profile.type
 			}).success(function(data){
@@ -244,8 +263,8 @@ angular.module('user-controllers',[])
 		})
 	};
 	$scope.company = function(){
-		var template = '<input type="text" ng-model="profile.company" autofocus><i ng-if="profile.company.length>0" class="ion ion-close-circled Octopus"></i>';
-		$scope.tanchu('电视台名称',template,function(e){
+		var template = '<input type="text" ng-model="profile.company" autofocus><i ng-if="profile.company.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
+		$scope.tanchu('电视台名称',template,'',function(e){
 			if($scope.profile.company == ''){
 				e.preventDefault();
 			}else{
@@ -259,8 +278,8 @@ angular.module('user-controllers',[])
 		})
 	};
 	$scope.department = function(){
-		var template = '<input type="text" ng-model="profile.department" autofocus><i ng-if="profile.department.length>0" class="ion ion-close-circled Octopus"></i>';
-		$scope.tanchu('部门',template,function(e){
+		var template = '<input type="text" ng-model="profile.department" autofocus><i ng-if="profile.department.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
+		$scope.tanchu('部门',template,'',function(e){
 			if($scope.profile.department == ''){
 				e.preventDefault();
 			}else{
@@ -274,8 +293,8 @@ angular.module('user-controllers',[])
 		})
 	};
 	$scope.position = function(){
-		var template = '<input type="text" ng-model="profile.position" autofocus><i ng-if="profile.position.length>0" class="ion ion-close-circled Octopus"></i>';
-		$scope.tanchu('职务',template,function(e){
+		var template = '<input type="text" ng-model="profile.position" autofocus><i ng-if="profile.position.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
+		$scope.tanchu('职务',template,'',function(e){
 			if($scope.profile.position == ''){
 				e.preventDefault();
 			}else{

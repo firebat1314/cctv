@@ -29,13 +29,29 @@
 	border-radius: 5px;
 }
 /* 确认框 */
+.popup-title{
+	font-weight: bold;
+}
+.popup-body{
+	position: relative;
+	padding-bottom: 13px;
+}
+.popup-body input {
+	background: url(../img/input.png) left bottom no-repeat;
+	-webkit-background-size: 100% auto;
+	background-size: 100% auto;
+}
+.popup-body .ion{
+	color: #b6b6b6;
+	position: absolute;
+	right: 20px;
+	top: 20px;
+}
 .popup-buttons{
 	padding: 0;
 	min-height: 35px;
 }
-.popup-title{
-	font-weight: bold;
-}
+
 .popup-buttons .button{
 	min-height: 40px;
 	border-radius: 0
@@ -44,6 +60,7 @@
 	margin: 0;
 	background-color: #fe4342;
 }
+
 .button.button-positive.activated{
 	background: red;
 }

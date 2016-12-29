@@ -120,15 +120,7 @@ angular.module('starter.controllers', ['user-controllers','news-controllers'])
       }]
     })
   };
-  $data.getCityList(0,1).success(function(data) {
-    console.log(data);
-  })
-   $data.getCityList(1,2).success(function(data) {
-    console.log(data);
-  })
-   $data.getCityList(37,3).success(function(data) {
-    console.log(data);
-  })
+  
 })
 
 

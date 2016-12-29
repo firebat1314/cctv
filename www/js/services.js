@@ -1,5 +1,5 @@
 angular.module('starter.services', [])
-  .factory('AuthInterceptor', function($rootScope, $q,$state) {
+  .factory('AuthInterceptor', function($rootScope, $q) {
       return {
           request: function(config){
             /*if($localstorage.userInfo.data.token){
@@ -8,14 +8,12 @@ angular.module('starter.services', [])
             return config;
           },
           requestError: function(err){
-            console.log(err);
+
             return $q.reject(err);
           },
           response: function(res){
-            console.log(res);
-              $state.go('/login');
-            return res;
 
+            return res;
           },
           responseError: function(err){
             if(-1 === err.status) {
@@ -25,8 +23,8 @@ angular.module('starter.services', [])
               // 处理各类自定义错误
             } else if(501 === err.status) {
               // ...
-            } else if (status == 401||status == 403) {
-              $state.go('/login');
+            } else if (err.status == 401||err.status == 403) {
+
             }
             return $q.reject(err);
           }
