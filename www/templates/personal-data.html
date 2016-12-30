@@ -97,7 +97,7 @@
 				<div class="card" >
 					<a href="" class="item" ng-click="nickname()">
 						昵称
-						<span class="item-note" ng-bind="dataInit.nickname || '点击设置'"></span>
+						<span class="item-note" ng-bind="profile.nickname || dataInit.nickname || '点击设置'"></span>
 					</a>
 					<a href="" class="item" ng-click="sex()">
 						性别
@@ -105,11 +105,11 @@
 					</a>
 					<a href="" class="item" ng-click="mobile()">
 						手机号
-						<span class="item-note" ng-bind="dataInit.mobile || '点击设置'"></span>
+						<span class="item-note" ng-bind="profile.mobile || dataInit.mobile || '点击设置'"></span>
 					</a>
 					<a href="" class="item" ng-click="email()">
 						电子邮箱
-						<span class="item-note" ng-bind="dataInit.email || '点击设置'"></span>
+						<span class="item-note" ng-bind="profile.email ||dataInit.email || '点击设置'"></span>
 					</a>
 				</div>
 				<div class="card" >
@@ -119,19 +119,19 @@
 					</a>
 					<a href="" class="item" ng-click="type()">
 						单位性质
-						<span class="item-note"  ng-bind="dataInit.type || '点击设置'"></span>
+						<span class="item-note"  ng-bind="profile.type || dataInit.type || '点击设置'"></span>
 					</a>
 					<a href="" class="item" ng-click="company()">
 						电视台名称
-						<span class="item-note"  ng-bind="dataInit.company || '点击设置'"></span>
+						<span class="item-note"  ng-bind="profile.company || dataInit.company || '点击设置'"></span>
 					</a>
 				  <a href="" class="item" ng-click="department()">
 						部门
-						<span class="item-note"  ng-bind="dataInit.department || '点击设置'"></span>
+						<span class="item-note"  ng-bind="profile.department || dataInit.department || '点击设置'"></span>
 					</a>
 				  <a href="" class="item" ng-click="position()">
 						职务
-						<span class="item-note"  ng-bind="dataInit.position || '点击设置'"></span>
+						<span class="item-note"  ng-bind="profile.position || dataInit.position || '点击设置'"></span>
 					</a>
 				</div>
 			</div>
@@ -151,7 +151,7 @@
 			  	</ion-popover-view>
 			</script>
 			<script id="city_cn.html" type="text/ng-template">
-				<div class="province" ng-if="!add.province" >
+				<!-- <div class="province" ng-if="!add.province" >
 					<div class="add-checkbox" ng-repeat="item in province.data" ng-click="getProvince($event,item.level,item.id)" ng-model="add.province" ng-value="item.id"><span>{{item.name}}</span></div>
 				</div>
 				<div class="city" ng-if="add.province">
@@ -159,7 +159,7 @@
 				</div>
 				<div class="district" ng-if="add.city">
 					<div class="add-checkbox" ng-repeat="item in district.data" ng-click="getDistrict($event,item.level,item.id)" ng-model="add.district" ng-value="item.id" ><span>{{item.name}}</span></div>
-				</div>
+				</div> -->
 				
 			</script>
 </ion-view>

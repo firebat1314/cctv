@@ -46,8 +46,9 @@ angular.module('starter.controllers', ['user-controllers','news-controllers'])
         return;
       };
       $data.loadingShow("登录中...");
+      console.log($scope.user);
       $data.login($scope.user).success(function(data, status, headers, config) {
-        console.log(data, status, headers(), config);
+        console.log(data);
         if (data.status == 1) {
           $data.loadingShow("成功登录");
           $data.storeData('userInfo', data);

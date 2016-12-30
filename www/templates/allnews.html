@@ -1,0 +1,42 @@
+<ion-view>
+	<style>
+		.item-thumbnail-left{
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-orient: vertical;
+			-webkit-box-direction: normal;
+			-ms-flex-direction: column;
+				flex-direction: column;
+			-webkit-box-pack: space-around;
+			-ms-flex-pack: space-around;
+				justify-content: space-around;
+		}
+		.an-c-content{
+			
+		}
+	</style>
+	<ion-header-bar align-title="center">
+		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+		<h1 class="title">所有新闻</h1>
+	</ion-header-bar>
+	<ion-content overflow-scroll="false" has-bouncing="true" >
+		<div class="card" style="margin: 10px;">
+		    <label class="item item-input" style="padding: 0 0 0 16px">
+		      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
+		      <input type="text" placeholder="废掉TPP，绝对超级大礼">
+		    </label>
+		</div>
+		<div class="card" ng-repeat="item in details" ng-click="toParticulars(item.id)">
+		    <a class="item item-thumbnail-left" href="">
+				<img ng-src="{{item.img}}">
+				<h2>{{item.title}}</h2>
+				<p>{{item.baoti_date}}</p>
+				<p style="background: url(img/icon/ico_56.png) right center no-repeat;-webkit-background-size: auto 80%;
+				background-size: auto 80%;">状态:  <span style="color: #ff8651">{{item.is_read?'已阅':'未阅'}}</span></p>
+			</a>
+		</div>
+		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>

@@ -1,34 +1,35 @@
 angular.module('starter.services', [])
-  .factory('AuthInterceptor', function($rootScope, $q) {
-      return {
-          request: function(config){
-            /*if($localstorage.userInfo.data.token){
-              config.headers['Authorization'] = 'Basic ' + btoa(storeData('userInfo').data.token + ':');
-            }*/
-            return config;
-          },
-          requestError: function(err){
+  .factory('AuthInterceptor', function($rootScope, $q, $location) {
+    return {
+      request: function(config) {
+        /*if($localstorage.userInfo.data.token){
+          config.headers['Authorization'] = 'Basic ' + btoa(storeData('userInfo').data.token + ':');
+        }*/
+        return config;
+      },
+      requestError: function(err) {
 
-            return $q.reject(err);
-          },
-          response: function(res){
+        return $q.reject(err);
+      },
+      response: function(res) {
 
-            return res;
-          },
-          responseError: function(err){
-            if(-1 === err.status) {
-              // 远程服务器无响应
+        return res;
+      },
+      responseError: function(err) {
+        if (-1 === err.status) {
+          // 远程服务器无响应
 
-            } else if(500 === err.status) {
-              // 处理各类自定义错误
-            } else if(501 === err.status) {
-              // ...
-            } else if (err.status == 401||err.status == 403) {
+        } else if (500 === err.status) {
+          // 处理各类自定义错误
+        } else if (501 === err.status) {
+          // ...
+        } else if (err.status == 401 || err.status == 403) {
+          $location.path('/login');
 
-            }
-            return $q.reject(err);
-          }
-        };     
+        }
+        return $q.reject(err);
+      }
+    };
   })
   .service('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
     var ip = 'http://cctvnnn.ivtime.net';
@@ -88,7 +89,7 @@ angular.module('starter.services', [])
           }
         })
       },
-     
+
       //新闻详情
       getNewsDetails: function(data) {
         return $http({
@@ -101,7 +102,7 @@ angular.module('starter.services', [])
         })
       },
       //6.修改密码
-      revisePassword:function(data){
+      revisePassword: function(data) {
         return $http({
           method: 'POST',
           url: ip + '/ManageApp/User/editPwd',
@@ -109,7 +110,7 @@ angular.module('starter.services', [])
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
-          data:data,
+          data: data,
           timeout: 5000
         })
       },
@@ -125,15 +126,48 @@ angular.module('starter.services', [])
         })
       },
       //8.资料修改
-      profile:function(data){
-         return $http({
+      profile: function(data) {
+        return $http({
           method: 'POST',
           url: ip + '/ManageApp/User/profile',
           headers: {
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           data: data
-        })    
+        })
+      },
+      //17.所有报题新闻
+      allNews: function(data) {
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/Baoti/index',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //18、 报题新闻详情
+      newParticulars:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/Baoti/view',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //已播出单
+      overPlay: function(data) {
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/Bochu/index',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          prames: data
+        })
       },
       //找回密码
       findPassword: function(data) {

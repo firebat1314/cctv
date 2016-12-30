@@ -169,6 +169,86 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     }
   })
 
+  .state('tab.allnews',{
+    url:'/account/allnews',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/allnews.html',
+        controller: 'AllNewsCtrl'
+      }
+    }
+  })
+
+  .state('tab.new-particulars',{
+    url:'/account/allnews/new-particulars/:id',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/new-particulars.html',
+        controller: 'NewParticularsCtrl'
+      }
+    }
+  })
+
+  .state('tab.allchuanlian',{
+    url:'/account/allchuanlian',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/allchuanlian.html',
+        controller: 'AllChuanLianCtrl'
+      }
+    }
+  })
+
+  .state('tab.alreadyreport',{
+    url:'/account/alreadyreport',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/alreadyreport.html',
+        controller: 'AlreadyReportCtrl'
+      }
+    }
+  })
+
+  .state('tab.alreadysweep',{
+    url:'/account/alreadysweep',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/alreadysweep.html',
+        controller: 'AlreadySweepCtrl'
+      }
+    }
+  })
+
+  .state('tab.overplay',{
+    url:'/account/overplay',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/overplay.html',
+        controller: 'OverPlayCtrl'
+      }
+    }
+  })
+
+  .state('tab.cardcase',{
+    url:'/account/cardcase',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/cardcase.html',
+        controller: 'CardCaseCtrl'
+      }
+    }
+  })
+
+  .state('tab.correctioncode',{
+    url:'/account/correctioncode',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/correctioncode.html',
+        controller: 'CorrectionCodeCtrl'
+      }
+    }
+  })
+
   .state('revisepassword',{
     url:'/account/revisepassword',
     templateUrl:'templates/revisepassword.html',

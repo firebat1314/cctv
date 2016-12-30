@@ -1,6 +1,9 @@
 angular.module('user-controllers',[])
 
 .controller('AccountCtrl', function($ionicHistory,$scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams) {
+	$data.userInfo().success(function(data){
+		$scope.img = data.data.avatar;	 	
+	})
 	$scope.jumpTo = function(){
 		$state.go('tab.management')
 	};
@@ -160,6 +163,7 @@ angular.module('user-controllers',[])
 		})
 	}
 	$scope.nickname = function(){
+		var value = $scope.dataInit.nickname;
 		var template = '<input type="text" ng-model="profile.nickname" autofocus><i ng-if="profile.nickname.length>0" class="ion ion-close-circled Octopus" id="foucus" ng-click="delText($event)" ></i>';
 		$scope.tanchu('昵称',template,'popup-nickname',function(e){
 			$data.profile({
@@ -167,17 +171,24 @@ angular.module('user-controllers',[])
 			}).success(function(data){
 				//console.log(data);
 				$data.loadingShow(data.info);
+				if (data.status == 0) {
+					$scope.profile.nickname = '';
+				}
 			})
 		})
 	};
 	$scope.sex = function(){
 		var template = '<ion-list><ion-radio ng-model="profile.sex" ng-value="1">男</ion-radio><ion-radio ng-model="profile.sex" ng-value="0">女</ion-radio></ion-list>';
 		$scope.tanchu('性别',template,'popup-sex',function(e){
+			
 			$data.profile({
 				sex:$scope.profile.sex
 			}).success(function(data){
 				//console.log(data);
 				$data.loadingShow(data.info);
+				if (data.status == 0) {
+					$scope.profile.sex = '';
+				}
 			})
 		})
 	};
@@ -192,6 +203,9 @@ angular.module('user-controllers',[])
 				}).success(function(data){
 					//console.log(data);
 					$data.loadingShow(data.info);
+					if (data.status == 0) {
+						$scope.profile.mobile = '';
+					}
 				})
 			}
 		})
@@ -207,6 +221,9 @@ angular.module('user-controllers',[])
 				}).success(function(data){
 					//console.log(data);
 					$data.loadingShow(data.info);
+					if (data.status == 0) {
+						$scope.profile.email = '';
+					}
 				})
 			}
 		})
@@ -257,8 +274,13 @@ angular.module('user-controllers',[])
 			$data.profile({
 				type:$scope.profile.type
 			}).success(function(data){
-				console.log(data);
 				$data.loadingShow(data.info);
+				if(data.status == 1){
+					$state.go('login');
+				}
+				if (data.status == 0) {
+					$scope.profile.type = '';
+				}
 			})
 		})
 	};
@@ -271,8 +293,10 @@ angular.module('user-controllers',[])
 				$data.profile({
 					company:$scope.profile.company
 				}).success(function(data){
-					console.log(data);
 					$data.loadingShow(data.info);
+					if (data.status == 0) {
+						$scope.profile.company = '';
+					}
 				})
 			}
 		})
@@ -286,8 +310,10 @@ angular.module('user-controllers',[])
 				$data.profile({
 					department:$scope.profile.department
 				}).success(function(data){
-					console.log(data);
 					$data.loadingShow(data.info);
+					if (data.status == 0) {
+						$scope.profile.department = '';
+					}
 				})
 			}
 		})
@@ -301,8 +327,10 @@ angular.module('user-controllers',[])
 				$data.profile({
 					position:$scope.profile.position
 				}).success(function(data){
-					console.log(data);
 					$data.loadingShow(data.info);
+					if (data.status == 0) {
+						$scope.profile.position = '';
+					}
 				})
 			}
 		})
@@ -331,7 +359,7 @@ angular.module('user-controllers',[])
 
 })
 
-.controller('SettingCtrl',function($ionicHistory,$scope, $data, $rootScope, $state,$ionicPopup){
+.controller('SettingCtrl',function($ionicHistory,$scope, $data, $state,$rootScope, $ionicPopup){
 	$scope.showCacheDialog = function() {
 	  $ionicPopup.confirm({
 	    title: '确认退出登录?',
@@ -349,3 +377,66 @@ angular.module('user-controllers',[])
 	};
   	
 })
+
+.controller('AllNewsCtrl',function($scope, $data, $state){
+	$scope.details = [];
+	$scope.size = 10;
+	$scope.page = 1;
+	$data.allNews().success(function(data){
+		console.log(data);
+  		$scope.details = data.data;
+	})
+
+	$scope.loadMore = function () {
+		$scope.page++;
+        $data.allNews({
+        	size:$scope.size,
+        	page:$scope.page
+        }).success(function (data) {
+    		console.log(data);
+            Array.prototype.push.apply($scope.details, data.data);
+        }).finally(function () {
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        });
+    };
+    $scope.toParticulars = function(id){
+    	$state.go('tab.new-particulars',{
+    		id:id
+    	})
+    }
+
+
+})
+
+.controller('NewParticularsCtrl',function($scope, $data, $state,$stateParams){
+  	$scope.id = $stateParams.id;
+	$data.newParticulars({
+		id:$scope.id
+	}).success(function(data,b,c,d){
+		console.log(data);
+		$scope.details = data;
+		$scope.video = $scope.details.data.videos[0].savepath;
+		console.log($scope.video);
+	})
+
+})
+
+.controller('AllChuanLianCtrl',function($scope, $data, $state){
+		 	
+})
+.controller('AlreadyReportCtrl',function($scope, $data, $state){
+		 	
+})
+.controller('AlreadySweepCtrl',function($scope, $data, $state){
+		 	
+})
+.controller('OverPlayCtrl',function($scope, $data, $state){
+		 	
+})
+.controller('CardCaseCtrl',function($scope, $data, $state){
+		 	
+})
+.controller('CorrectionCodeCtrl',function($scope, $data, $state){
+		 	
+})
+
