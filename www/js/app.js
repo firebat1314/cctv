@@ -1,6 +1,6 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives', 'starter.services','ngCordova','ionic-native-transitions','ti-segmented-control'])
 
 .run(function($ionicPlatform, $ionicPopup, $state, $data,$rootScope,$ionicHistory) {
 
@@ -19,7 +19,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     }
   });
    $rootScope.goBack = function(){
-         $ionicHistory.goBack();
+         $rootScope.$ionicGoBack();
   }
   $ionicPlatform.registerBackButtonAction(function(e) {
     var current_state_name = $state.current.name;
@@ -46,7 +46,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   }, 100);
 })
 
-.config(function($httpProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+.config(function($httpProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider ,$ionicNativeTransitionsProvider) {
   $ionicConfigProvider.platform.ios.tabs.style('standard');
   $ionicConfigProvider.platform.ios.tabs.position('bottom');
   $ionicConfigProvider.platform.android.tabs.style('standard');
@@ -60,6 +60,27 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
 
   $ionicConfigProvider.platform.ios.views.transition('ios');
   $ionicConfigProvider.platform.android.views.transition('android');
+
+  $ionicConfigProvider.views.transition('no');
+  $ionicNativeTransitionsProvider.setDefaultOptions({
+      duration: 400, // in milliseconds (ms), default 400,
+      slowdownfactor: 4, // overlap views (higher number is more) or no overlap (1), default 4
+      iosdelay: -1, // ms to wait for the iOS webview to update before animation kicks in, default -1
+      androiddelay: -1, // same as above but for Android, default -1
+      winphonedelay: -1, // same as above but for Windows Phone, default -1,
+      fixedPixelsTop: 0, // the number of pixels of your fixed header, default 0 (iOS and Android)
+      fixedPixelsBottom: 0, // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android)
+      triggerTransitionEvent: '$ionicView.afterEnter', // internal ionic-native-transitions option
+      backInOppositeDirection: false// Takes over default back transition and state back transition to use the opposite direction transition to go back
+  });
+  $ionicNativeTransitionsProvider.setDefaultTransition({
+    type: 'slide',
+    direction: 'left'
+  });
+  $ionicNativeTransitionsProvider.setDefaultBackTransition({
+    type: 'slide',
+    direction: 'right'
+  });
 
   $httpProvider.interceptors.push('AuthInterceptor');
 

@@ -408,16 +408,19 @@ angular.module('user-controllers',[])
 
 })
 
-.controller('NewParticularsCtrl',function($scope, $data, $state,$stateParams){
+.controller('NewParticularsCtrl',function($scope, $data, $state,$stateParams,$ionicSlideBoxDelegate){
   	$scope.id = $stateParams.id;
 	$data.newParticulars({
 		id:$scope.id
 	}).success(function(data,b,c,d){
 		console.log(data);
 		$scope.details = data;
-		$scope.video = $scope.details.data.videos[0].savepath;
+		$scope.video = $scope.details.data.videos?$scope.details.data.videos[0].savepath:'';
 		console.log($scope.video);
 	})
+	$scope.nextSlide = function() {
+	   $ionicSlideBoxDelegate.next();
+	}
 
 })
 

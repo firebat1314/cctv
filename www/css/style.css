@@ -1,7 +1,7 @@
 /* Empty. Add your own CSS if you like */
 .bar{
 	background: none;
-	position: static;
+	/*position: static;*/
 }
 .bar .button-clear i{
 	color: #fff;
@@ -64,9 +64,9 @@
 .button.button-positive.activated{
 	background: red;
 }
-.bar-light .button.button-clear{
+/*.bar-light .button.button-clear{
 	font-size: 30px;
-}
+}*/
 .platform-ios .popover-arrow{
 	display: none;
 }
@@ -81,4 +81,23 @@
 }
 .pane{
 	background-color: #fafafa;
+}
+
+/* actived */
+.item.active,
+
+.item.activated,
+
+.item-complex.active .item-content,
+
+.item-complex.activated .item-content,
+
+.item .item-content.active,
+
+.item .item-content.activated {
+
+border-color: #666;
+
+background-color: #F7F7F7;
+
 }

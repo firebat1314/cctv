@@ -29,7 +29,7 @@
 		</div>
 		<div class="card" ng-repeat="item in details" ng-click="toParticulars(item.id)">
 		    <a class="item item-thumbnail-left" href="">
-				<img ng-src="{{item.img}}">
+				<img ng-src="{{item.img || 'img/myself_02.jpg'}}">
 				<h2>{{item.title}}</h2>
 				<p>{{item.baoti_date}}</p>
 				<p style="background: url(img/icon/ico_56.png) right center no-repeat;-webkit-background-size: auto 80%;

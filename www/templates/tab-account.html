@@ -4,6 +4,7 @@
   	  	<h1 class="title">北京电视台</h1>
   	   	<button class="button button-clear" ng-click="goSetting()"><i class="icon ion-ios-gear-outline"></i></button>
   	</ion-header-bar>
+  	<ion-content class="has-tabs">
 		<div class="account-main-top padding">
 			<div class="account-title1">我的新闻</div>
 			<div class="account-title2"><span  class="account-title-txt">{{data.data.yueg_count||'--'}}</span> 篇</div>
@@ -19,7 +20,6 @@
 			</div>
 		</div>
 		<div  class="account-main-bottom">
-			
 			<button class="button" ng-click="jumpTo()">
 			  <img src="img/icon/ico_22.png" alt="" height="35"><br/>用户管理
 			</button>
@@ -48,5 +48,5 @@
 			  <img src="img/icon/ico_43.png" alt="" height="35"><br/>修改密码
 			</button>
 		</div>
-		
+  	</ion-content>
 </ion-view>

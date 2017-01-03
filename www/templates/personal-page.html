@@ -1,14 +1,104 @@
 <ion-view>
-	<style>
-		
-	</style>
-	<ion-header-bar align-title="center">
-  		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
-  	  	<h1 class="title">用户管理</h1>
-        <a class="button icon-right  button-clear" style="color: #fff">编辑  <img src="img/icon/ico_54.png" style="vertical-align: text-bottom;" alt=""></a>
-  	</ion-header-bar>
-  	<ion-content overflow-scroll="false" has-bouncing="true" >
-		
+    <style>
+      .pp-content{
+        width: 100%;
+        position: absolute;
+        top: 44px;
+      }
+      .pp-head{
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        -ms-flex-pack:distribute;
+            justify-content:space-around;
+        padding: 30px 0 10px;
+      }
+      .pp-profession,.pp-sex{
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+      .pp-profession .pp-head-icon{
+        background: #e24531 url(img/icon/ico_50.png) center center no-repeat;
+      }
+      .pp-sex .pp-head-icon{
+        background: #e24531 url(img/icon/ico_51.png) center center no-repeat;
+      }
+      .pp-pic{
+        width: 150px;
+        height: 150px;
+        background-color: #f46c44;
+        border-radius: 50%;
+        position: relative;
+      }
+      .pp-pic .pp-pic-child,.pp-pic .pp-pic-child .pp-pic-child2{
+        width:90%;
+        height: 90%;
+        background-color: #fff;
+        border-radius: 50%;
+        overflow: hidden;
+        position: absolute;
+        left: 0;right: 0;
+        top: 0;bottom: 0;
+        margin: auto auto;
+      }
+      .pp-pic .pp-pic-child .pp-pic-child2{
 
-  	</ion-content>
+      }
+      .pp-head-icon,.pp-head-text{
+        height: 25px;
+        width: 100%;
+        text-align: center;
+        background-color: #e64e36;
+        color: #ffffff;
+      }
+      .pp-username{
+        color: #fff;
+        text-align: center;
+        line-height: 40px;
+        font-size: 20px;
+      }
+    </style>
+    <ion-content overflow-scroll="true" has-bouncing="false">
+      <div style="background: url(img/myself_01.jpg) 0 0 no-repeat;-webkit-background-size: 100% 100%;background-size:100%  100%;height:400px">
+        <div class="bar bar-header bar-light" style="background: none;">
+          <button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+          <h1 class="title">用户管理</h1>
+          <a class="button icon-right  button-clear" style="color: #fff">编辑  <img src="img/icon/ico_54.png" style="vertical-align: text-bottom;" alt=""></a>
+        </div>
+        <div class="pp-content">
+          <div class="pp-head">
+            <div class="pp-profession">
+              <div class="pp-head-icon"></div>
+              <div class="pp-head-text">记者</div>
+            </div>
+            <div class="pp-pic">
+              <div class="pp-pic-child">
+                <div class="pp-pic-child2">
+                  <img src="img/myself_02.jpg" width="100%" height="100%" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="pp-sex">
+              <div class="pp-head-icon"></div>
+              <div class="pp-head-text">男</div>
+            </div>
+          </div>
+          <div class="pp-username">孙山杉</div>
+          <div>
+            <ti-segmented-control on-select="buttonClicked($index)" style="width: 300px;">
+              <ti-segmented-control-button class="button-royal" title="'Year'" selected></ti-segmented-control-button>
+              <ti-segmented-control-button class="button-royal" title="'Month'"></ti-segmented-control-button>
+              <ti-segmented-control-button class="button-royal" title="'Day'"></ti-segmented-control-button>
+            </ti-segmented-control>
+            <!-- <h4> Index selected: {{selectedIndex}}</h4> -->
+          </div>
+        </div>
+        
+      </div>
+    </ion-content>
 </ion-view>
