@@ -1,6 +1,6 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives', 'starter.services','ngCordova','ionic-native-transitions','ti-segmented-control'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives', 'starter.services','ngCordova','ionic-native-transitions'])
 
 .run(function($ionicPlatform, $ionicPopup, $state, $data,$rootScope,$ionicHistory) {
 
@@ -200,12 +200,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
     }
   })
 
-  .state('tab.new-particulars',{
+  .state('tab.news-particulars',{
     url:'/account/allnews/new-particulars/:id',
     views: {
       'tab-account': {
-        templateUrl: 'templates/new-particulars.html',
-        controller: 'NewParticularsCtrl'
+        templateUrl: 'templates/news-particulars.html',
+        controller: 'NewsParticularsCtrl'
       }
     }
   })

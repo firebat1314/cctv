@@ -45,8 +45,31 @@ angular.module('user-controllers',[])
 .controller('PersonalPageCtrl',function($ionicHistory,$scope, $data, $rootScope, $state,$stateParams){
   	$scope.uid = $stateParams.uid;
 	$data.personalDetails($scope.uid).success(function(data){
-		console.log(data);	 	
+		console.log(data);
+		$scope.details = data.data;
 	});
+	$('.pp-button').on('click',function(e){
+		$(this).parent().find('.pp-backdrop').css('opacity','.3');
+		$(this).find('.pp-backdrop').css('opacity','0');
+	});
+	$scope.editbutton = '编辑';
+	$scope.buttonIcon = 'img/icon/ico_60.png';
+	$scope.status = false;
+	$scope.click = function(){
+		if ($scope.status) {
+			$scope.editbutton = '编辑';
+			$scope.buttonIcon = 'img/icon/ico_60.png';
+			$scope.status = false;
+		}else{
+			$scope.editbutton = '保存';
+			$scope.buttonIcon = 'img/icon/ico_59.png';
+			$scope.status = true;
+		}
+	}
+	$('.fore input').on('focus',function(){
+		console.log(1);
+		$(this).parent('.fore').css('backgorund','#444')
+	})
 })
 
 .controller('PersonalDataCtrl',function($ionicHistory,$scope,$cordovaCamera, $cordovaImagePicker,$data,$timeout, $rootScope, $state,$ionicPopup,$ionicPopover,$ionicModal){
@@ -400,7 +423,7 @@ angular.module('user-controllers',[])
         });
     };
     $scope.toParticulars = function(id){
-    	$state.go('tab.new-particulars',{
+    	$state.go('tab.news-particulars',{
     		id:id
     	})
     }
@@ -408,14 +431,14 @@ angular.module('user-controllers',[])
 
 })
 
-.controller('NewParticularsCtrl',function($scope, $data, $state,$stateParams,$ionicSlideBoxDelegate){
+.controller('NewsParticularsCtrl',function($scope, $data, $state,$stateParams,$ionicSlideBoxDelegate){
   	$scope.id = $stateParams.id;
 	$data.newParticulars({
 		id:$scope.id
 	}).success(function(data,b,c,d){
 		console.log(data);
 		$scope.details = data;
-		$scope.video = $scope.details.data.videos?$scope.details.data.videos[0].savepath:'';
+		$scope.video = /*$scope.details.data.videos?$scope.details.data.videos[0].savepath:'http://bt.cctvnnn.cn/Uploads/video/2016/12/585ca4291ab3f.MOV'*/'http://bt.cctvnnn.cn/Uploads/video/2016/12/585ca4291ab3f.MOV';
 		console.log($scope.video);
 	})
 	$scope.nextSlide = function() {

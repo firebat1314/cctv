@@ -68,17 +68,7 @@ angular.module('starter.services', [])
           timeout: 5000
         })
       },
-      //获取资讯
-      getMessage: function(data) {
-        return $http({
-          method: 'GET',
-          url: ip + '/ManageApp/Index/lists?catid=' + data,
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-          }
-        })
-      },
+      
       //首页数据
       getHomeData: function(data) {
         return $http({
@@ -158,15 +148,246 @@ angular.module('starter.services', [])
           params: data
         })
       },
-      //已播出单
-      overPlay: function(data) {
+      //19、所有串联单
+      allChuanld:function(data){
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/Chuanld/index',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data: data
+        })
+      },
+      //20、收件箱
+      getMessage:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/User/getMessage',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //21、消息详情
+      getMessageInfo:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/User/getMessageInfo',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //22、批量删除消息
+      delMessage:function(data){
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/User/delMessage',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data: data
+        })
+      },
+      //23、 删除消息
+      getMessage:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/User/delMessage',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //24、 获取资讯
+      getInformationLists: function(data) {
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/Index/lists?catid=' + data,
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          }
+        })
+      },
+      //28、 上传接口
+      upload:function(data){
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/Public/upload',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //29、 会员管理
+      members:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp /User/members',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //30、 查看会员
+      viewMember:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/User/viewMember',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //31、 会员组
+      userGroup:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/User/userGroup',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //32、 审核会员
+      checkMember:function(data){
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/User/checkMember',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data: data
+        })
+      },
+      //33、 名片盒
+      mingPH:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/User/mingPH',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //34、 查看名片盒
+      mingPHG:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/User/mingPHG',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //35、 名片盒组
+      userGroup:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/User/userGroup',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //36、 已报题单
+      yBaoti:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/Baoti/ybaoti',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //37、 已划题单
+      yHuati:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/Huati/index',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //38、 播出单
+      yBochu:function(data){
         return $http({
           method: 'GET',
           url: ip + '/ManageApp/Bochu/index',
           headers: {
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
-          prames: data
+          params: data
+        })
+      },
+      //39、 （1）报题操作（获取报题标题和内容）
+      BaotiHandle:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/Baoti/baoti',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //（2）报题操作（报题和不通过）
+      BaotiHandlePass:function(data){
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/Baoti/ybaoti',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data: data
+        })
+      },
+      //（3）报题操作（约视频）
+      BaotiHandleVideo:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/Baoti/yuesp',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })
+      },
+      //40、 （1）串联单操作（约稿和不通过）
+      yBaoti:function(type,data,data){
+        return $http({
+          method: type,
+          url: ip + '/ManageApp/Chuanld/status',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: params,
+          data:data
+        })
+      },
+      //(2)串联单批量不通过操作
+      overPlay: function(data) {
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/Chuanld/batchBTG',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data: data
         })
       },
       //找回密码
