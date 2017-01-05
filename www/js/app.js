@@ -1,6 +1,6 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives', 'starter.services','ngCordova','ionic-native-transitions'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives', 'starter.services','ngCordova','ionic-native-transitions','ionic-datepicker'])
 
 .run(function($ionicPlatform, $ionicPopup, $state, $data,$rootScope,$ionicHistory) {
 
@@ -46,7 +46,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
   }, 100);
 })
 
-.config(function($httpProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider ,$ionicNativeTransitionsProvider) {
+.config(function($httpProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider ,$ionicNativeTransitionsProvider,ionicDatePickerProvider) {
   $ionicConfigProvider.platform.ios.tabs.style('standard');
   $ionicConfigProvider.platform.ios.tabs.position('bottom');
   $ionicConfigProvider.platform.android.tabs.style('standard');
@@ -81,6 +81,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
     type: 'slide',
     direction: 'right'
   });
+  var datePickerObj = {
+    inputDate: new Date(),
+    titleLabel: 'Select a Date',
+    setLabel: 'Set',
+    todayLabel: 'Today',
+    closeLabel: 'Close',
+    mondayFirst: false,
+    weeksList: ["S", "M", "T", "W", "T", "F", "S"],
+    monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+    templateType: 'popup',
+    from: new Date(2012, 8, 1),
+    to: new Date(2018, 8, 1),
+    showTodayButton: true,
+    dateFormat: 'dd MMMM yyyy',
+    closeOnSelect: false,
+    disableWeekdays: []
+  };
+  ionicDatePickerProvider.configDatePicker(datePickerObj);
 
   $httpProvider.interceptors.push('AuthInterceptor');
 

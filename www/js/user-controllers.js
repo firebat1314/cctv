@@ -42,34 +42,118 @@ angular.module('user-controllers',[])
   	}
 })
 
-.controller('PersonalPageCtrl',function($ionicHistory,$scope, $data, $rootScope, $state,$stateParams){
+.controller('PersonalPageCtrl',function($ionicPopup,$ionicHistory,$scope, $data, $rootScope, $state,$stateParams,ionicDatePicker){
   	$scope.uid = $stateParams.uid;
+  	$scope.editbutton = '编辑';
+  	$scope.buttonIcon = 'img/icon/ico_60.png';
+  	$scope.status = false;
 	$data.personalDetails($scope.uid).success(function(data){
 		console.log(data);
 		$scope.details = data.data;
+		$scope.user = {
+			uid:$scope.uid||'',
+			realname:$scope.details.name||'',
+			nickname:$scope.details.nick_name||'',
+			birthday:$scope.details.birthday||'',
+			mobile:$scope.details.mobile||'',
+			sex:$scope.details.sex||'',
+			groupid:$scope.details.groupid||'',
+			company:$scope.details.company||'',
+			department:$scope.details.department||'',
+			position:$scope.details.position||'',
+			province:$scope.details.province||'',
+			city:$scope.details.city||'',
+			district:$scope.details.district||''
+		}
 	});
+	$scope.getAddress = function(){
+		var province = 	$scope.details.province;
+		var city = $scope.details.city;
+		console.log(province,city);
+		$data.getCityList(city,2).success(function(data){
+			console.log(data);
+		})
+	};
+	$scope.datapicker = function(){
+		var ipObj1 = {
+	      callback: function (val) {  //Mandatory
+	        console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+	      },
+	      disabledDates: [            //Optional
+	        new Date(2016, 2, 16),
+	        new Date(2015, 3, 16),
+	        new Date(2015, 4, 16),
+	        new Date(2015, 5, 16),
+	        new Date('Wednesday, August 12, 2015'),
+	        new Date("08-16-2016"),
+	        new Date(1439676000000)
+	      ],
+	      from: new Date(2012, 1, 1), //Optional
+	      to: new Date(2016, 10, 30), //Optional
+	      inputDate: new Date(),      //Optional
+	      mondayFirst: true,          //Optional
+	      disableWeekdays: [0],       //Optional
+	      closeOnSelect: false,       //Optional
+	      templateType: 'popup'       //Optional
+	    };
+
+	      ionicDatePicker.openDatePicker(ipObj1);
+
+	}
 	$('.pp-button').on('click',function(e){
 		$(this).parent().find('.pp-backdrop').css('opacity','.3');
 		$(this).find('.pp-backdrop').css('opacity','0');
 	});
-	$scope.editbutton = '编辑';
-	$scope.buttonIcon = 'img/icon/ico_60.png';
-	$scope.status = false;
-	$scope.click = function(){
+
+	$scope.edit = function(){
 		if ($scope.status) {
-			$scope.editbutton = '编辑';
-			$scope.buttonIcon = 'img/icon/ico_60.png';
-			$scope.status = false;
+			$scope.saveCountersign();
 		}else{
 			$scope.editbutton = '保存';
 			$scope.buttonIcon = 'img/icon/ico_59.png';
 			$scope.status = true;
 		}
-	}
-	$('.fore input').on('focus',function(){
-		console.log(1);
-		$(this).parent('.fore').css('backgorund','#444')
-	})
+	};
+	$scope.submit = function(){
+		console.log($scope.user);
+		$data.editMember($scope.user).success(function(data){
+			console.log(data);
+			$data.loadingShow(data.info)
+			if(data.status == 1){
+				angular.extend($scope.details, $scope.user,{
+					name:$scope.user.realname
+				});
+			}
+		})
+	};
+	$scope.saveCountersign = function(){
+		$ionicPopup.confirm({
+			title: '退出编辑',
+			template: '是否保存？',
+			scope:$scope,
+			buttons: [{
+				text: '<b>确定</b>',
+				type: 'button-positive',
+				onTap: 	function(res){
+							$scope.submit();
+							$scope.editbutton = '编辑';
+							$scope.buttonIcon = 'img/icon/ico_60.png';
+							$scope.status = false;
+						}
+			}, {
+				text: '取消',
+				onTap: 	function(res){
+							$scope.editbutton = '编辑';
+							$scope.buttonIcon = 'img/icon/ico_60.png';
+							$scope.status = false;
+						}
+			}]
+		})
+	};
+
+	$scope.focus = function(){
+		
+	};
 })
 
 .controller('PersonalDataCtrl',function($ionicHistory,$scope,$cordovaCamera, $cordovaImagePicker,$data,$timeout, $rootScope, $state,$ionicPopup,$ionicPopover,$ionicModal){

@@ -46,6 +46,9 @@
         -webkit-background-size: 16px;
         background-size: 16px;
       }
+      .pp-sex .pp-head-icon{
+        background-image: url(img/icon/ico_51.png);
+      }
       .pp-pic{
         width: 130px;
         height: 130px;
@@ -138,15 +141,15 @@
       }
       .edit-list>li{
         width: 100%;
-        height: 42px;
+        height: 38px;
         border-radius: 5px;
         border: 1px solid #e6e6e6;
         margin-bottom: 15px;
       }
-      .edit-list>li:last-child{
+      .edit-list li:last-child{
         margin-bottom: 0;
       }
-      .edit-list>li label{
+      .edit-list li label{
         height: 100%;
         padding-left: 20px;
         color: #444;
@@ -160,6 +163,10 @@
       .edit-list li label input{
         height: 80%;
       }
+      .pp-main .radio{
+        margin-right: 10px;
+        padding: 0
+      }
     </style>
     <ion-content overflow-scroll="flase" has-bouncing="false" scroll="false">
       <div class="pp-flex">
@@ -167,7 +174,7 @@
           <div class="bar bar-header bar-light" style="background: none;">
             <button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
             <h1 class="title">用户管理</h1>
-            <a class="button icon-right  button-clear" style="color: #fff" ng-click="click()">{{editbutton}}  <img ng-src="{{buttonIcon}}" width="22" style="vertical-align: text-bottom;" alt=""></a>
+            <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">{{editbutton}}  <img ng-src="{{buttonIcon}}" width="22" style="vertical-align: text-bottom;" alt=""></a>
           </div>
           <div class="pp-content">
             <div class="pp-head">
@@ -184,25 +191,27 @@
               </div>
               <div class="pp-sex">
                 <div class="pp-head-icon"></div>
-                <div class="pp-head-text">{{details.sex=='1'?'男':'女'}}</div>
+                <div class="pp-head-text" ng-if="details.sex=='0'">保密</div>
+                <div class="pp-head-text" ng-if="details.sex=='1'">男</div>
+                <div class="pp-head-text" ng-if="details.sex=='2'">女</div>
               </div>
             </div>
-            <div class="pp-username">{{details.name}}</div>
+            <div class="pp-username">{{details.username}}</div>
           </div>
           <div class="pp-button-box">
-            <div class="pp-button" ng-click="click($index)">
+            <div class="pp-button">
               <div class="pp-backdrop"></div>
-              <span style="font-size: 18px;line-height: 25px">123</span>
+              <span style="font-size: 18px;line-height: 25px">{{details.xinw_count}}</span>
               <span>我的新闻</span>
             </div>
-            <div class="pp-button" ng-click="click($index)">
+            <div class="pp-button">
               <div class="pp-backdrop"></div>
-              <span style="font-size: 18px;line-height: 25px">123</span>
+              <span style="font-size: 18px;line-height: 25px">{{details.yueg_count}}</span>
               <span>约稿信息</span>
             </div>
-            <div class="pp-button" ng-click="click($index)">
+            <div class="pp-button">
               <div class="pp-backdrop"></div>
-              <span style="font-size: 18px;line-height: 25px">123</span>
+              <span style="font-size: 18px;line-height: 25px">{{details.xit_count}}</span>
               <span>系统信息</span>
             </div>
           </div>
@@ -215,8 +224,18 @@
                   </div>
                     <ul class="list padding" ng-if="status==false">
                       <li class="item">
+                        <span class="item-title">姓名</span>
+                        <span class="item-note">{{details.name}}</span>
+                      </li>
+                      <!-- <li class="item">
                         <span class="item-title">昵称</span>
                         <span class="item-note">{{details.nick_name}}</span>
+                      </li> -->
+                      <li class="item">
+                        <span class="item-title">性别</span>
+                        <span class="item-note" ng-if="details.sex==0">保密</span>
+                        <span class="item-note" ng-if="details.sex==1">男</span>
+                        <span class="item-note" ng-if="details.sex==2">女</span>
                       </li>
                       <li class="item">
                         <span class="item-title">手机</span>
@@ -230,21 +249,47 @@
                   <ul class="list padding edit-list" ng-if="status==true">
                       <li class="fore">
                         <label>
+                          <span>姓名</span>
+                          <input type="text" autofocus="autofocus" ng-model="user.realname" placeholder="{{details.name}}">
+                        </label>
+                      </li>
+                      <li class="fore">
+                        <label>
                           <span>昵称</span>
-                          <input type="text" autofocus="autofocus" placeholder="{{details.nick_name}}">
+                          <input type="text" autofocus="autofocus" ng-model="user.nickname" placeholder="{{details.nick_name}}">
+                        </label>
+                      </li>
+                      <li class="fore">
+                        <label>
+                          <span>性别</span>
+                            <label class="radio">
+                              <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==0]" ></i>
+                              <input type="radio" name="sex" value="0" ng-model="user.sex" ng-init="sex=0" style="display: none">保密
+                            </label>
+                            <label class="radio">
+                              <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==1]" ></i>
+                              <input type="radio" name="sex" value="1" ng-model="user.sex" ng-init="sex=0" style="display: none">男
+                            </label>
+                            <label class="radio">
+                              <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==2]"  ></i>
+                              <input type="radio" name="sex" value="2" ng-model="user.sex" ng-init="sex=0"  style="display: none">女
+                            </label>
                         </label>
                       </li>
                       <li class="fore">
                         <label>
                           <span>手机</span>
-                          <input type="text" placeholder="{{details.mobile}}">
+                          <input type="text" ng-model="user.mobile" placeholder="{{details.mobile}}">
                         </label>
                       </li>
-                      <li class="fore">
+                      <li class="fore" style="background: url(img/icon/ico_61.png) 95% center no-repeat;">
+                      <button class="button button-clear" style="min-height: 100%;width: 100%;padding: 0;color: #444;" ng-click="datapicker()">
                         <label>
                           <span>生日</span>
-                          <input type="text" placeholder="{{details.birthday}}">
+                          <span class="item-note" >{{details.birthday}}</span>
                         </label>
+                      </button>
+                        
                       </li>
                   </ul>
                   
@@ -262,18 +307,28 @@
                       <span class="item-title">部门</span>
                       <span class="item-note">{{details.department}}</span>
                     </li>
+                    <li class="item">
+                      <span class="item-title">职务</span>
+                      <span class="item-note">{{details.position}}</span>
+                    </li>
                   </ul>
                   <ul class="list padding edit-list" ng-if="status==true">
                       <li class="fore">
                         <label>
                           <span>名称</span>
-                          <input type="text" placeholder="{{details.company}}">
+                          <input type="text" ng-model="user.company" placeholder="{{details.company}}" ng-focus="focuss()" >
                         </label>
                       </li>
                       <li class="fore">
                         <label>
                           <span>部门</span>
-                          <input type="text" placeholder="{{details.department}}">
+                          <input type="text" ng-model="user.department" placeholder="{{details.department}}">
+                        </label>
+                      </li>
+                      <li class="fore">
+                        <label>
+                          <span>职务</span>
+                          <input type="text" ng-model="user.position" placeholder="{{details.position}}">
                         </label>
                       </li>
                   </ul>
@@ -285,14 +340,14 @@
                   <ul class="list padding" ng-if="status==false">
                     <li class="item">
                       <span class="item-title">省市</span>
-                      <span class="item-note">如火如荼和认同和</span>
+                      <span class="item-note">{{details.region}}</span>
                     </li>
                   </ul>
                   <ul class="list padding edit-list" ng-if="status==true">
                       <li class="fore">
                         <label>
                           <span>省市</span>
-                          <input type="text" placeholder="">
+                          <input type="text" placeholder="{{details.region}}">
                         </label>
                       </li>
                   </ul>
@@ -301,4 +356,7 @@
         </div>  
       </div>
     </ion-content>
+    <script id="dataspicker.html" type="text/ng-template">
+      <input type="text">
+    </script>
 </ion-view>

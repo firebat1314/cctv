@@ -126,6 +126,17 @@ angular.module('starter.services', [])
           data: data
         })
       },
+      //编辑会员信息
+      editMember:function(data){
+          return $http({
+            method: 'POST',
+            url: ip + '/ManageApp/User/editMember',
+            headers: {
+              'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+            },
+            data: data
+          })
+      },
       //17.所有报题新闻
       allNews: function(data) {
         return $http({
