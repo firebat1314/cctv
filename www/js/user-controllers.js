@@ -42,7 +42,7 @@ angular.module('user-controllers',[])
   	}
 })
 
-.controller('PersonalPageCtrl',function($ionicPopup,$ionicHistory,$scope, $data, $rootScope, $state,$stateParams,ionicDatePicker){
+.controller('PersonalPageCtrl',function($ionicPopup,$ionicHistory,$scope, $data, $rootScope, $state,$stateParams,ionicDatePicker,$filter){
   	$scope.uid = $stateParams.uid;
   	$scope.editbutton = '编辑';
   	$scope.buttonIcon = 'img/icon/ico_60.png';
@@ -76,25 +76,28 @@ angular.module('user-controllers',[])
 	};
 	$scope.datapicker = function(){
 		var ipObj1 = {
-	      callback: function (val) {  //Mandatory
-	        console.log('Return value from the datepicker popup is : ' + val, new Date(val));
-	      },
-	      disabledDates: [            //Optional
-	        new Date(2016, 2, 16),
-	        new Date(2015, 3, 16),
-	        new Date(2015, 4, 16),
-	        new Date(2015, 5, 16),
-	        new Date('Wednesday, August 12, 2015'),
-	        new Date("08-16-2016"),
-	        new Date(1439676000000)
-	      ],
-	      from: new Date(2012, 1, 1), //Optional
-	      to: new Date(2016, 10, 30), //Optional
-	      inputDate: new Date(),      //Optional
-	      mondayFirst: true,          //Optional
-	      disableWeekdays: [0],       //Optional
-	      closeOnSelect: false,       //Optional
-	      templateType: 'popup'       //Optional
+			callback: function (val) {  //Mandatory
+				console.log('the date is :'+val);
+				$scope.birthday = val;
+				$scope.user.birthday = $filter('date')(val, 'yyyy-MM-dd');
+				console.log($scope.user);
+			},
+			disabledDates: [            //Optional
+				// new Date(2016, 2, 16),
+				// new Date(2015, 3, 16),
+				// new Date(2015, 4, 16),
+				// new Date(2015, 5, 16),
+				// new Date('Wednesday, August 12, 2015'),
+				// new Date("08-16-2016"),
+				// new Date(1439676000000)
+			],
+			from: new Date(1950, 1, 1), //Optional
+			to: new Date(), //Optional
+			inputDate: new Date(),      //Optional
+			mondayFirst: false,          //Optional
+			disableWeekdays: [],       //Optional [0,6]
+			closeOnSelect: false,       //Optional
+			templateType: 'popup'       //Optional
 	    };
 
 	      ionicDatePicker.openDatePicker(ipObj1);

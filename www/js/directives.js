@@ -15,4 +15,15 @@ angular.module('starter.directives', [])
             });
         }
     };
+
+})
+.directive("getFocus", function() {
+    return {
+        restrict: "A",
+        link: function(scope, elem, attrs) {
+            $(elem).click(function() {
+                $(this).select();
+            });
+        }
+    }
 });

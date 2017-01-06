@@ -101,9 +101,36 @@
 /*background-color: #F7F7F7;*/
 
 }
+/*radio icon*/
 .ion-ios-circle-filled{
 	color: #fe4342;
 }
 .ion-ios-circle-outline{
 	color: #fe4342;
+}
+
+/* popup css */
+.ionic_datepicker_popup .popup-body .selected_date_full{
+	background-color: #fe4342 !important;
+}
+.ionic_datepicker_popup .popup-body .button-clear{
+	color: #fe4342 !important;
+}
+.ionic_datepicker_popup .popup-buttons button{
+	background-color: #fe4342 !important;
+}
+.month_select,.year_select{
+	border-bottom-color: #fe4342 !important;
+}
+.ionic_datepicker_popup .popup-body .month_select:after, .ionic_datepicker_popup .popup-body .year_select:after{
+	color: #fe4342 !important;
+}
+.today{
+	border-color: #fe4342 !important;
+}
+.selected_date{
+	background-color: #fe4342 !important;
+}
+.ionic_datepicker_popup .calendar_grid{
+	height: 180px !important ;
 }

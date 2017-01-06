@@ -129,6 +129,7 @@
         background-color: #ffffff;
         opacity: .3;
         position: absolute;
+        top: 0;
         width: 100%;
         height: 100%;
       }
@@ -166,6 +167,9 @@
       .pp-main .radio{
         margin-right: 10px;
         padding: 0
+      }
+      .fore .button-clear{
+        min-height: 100%;width: 100%;padding: 0;color: #444;
       }
     </style>
     <ion-content overflow-scroll="flase" has-bouncing="false" scroll="false">
@@ -250,13 +254,13 @@
                       <li class="fore">
                         <label>
                           <span>姓名</span>
-                          <input type="text" autofocus="autofocus" ng-model="user.realname" placeholder="{{details.name}}">
+                          <input type="text" get-focus autofocus="autofocus" ng-model="user.realname" placeholder="{{details.name}}">
                         </label>
                       </li>
                       <li class="fore">
                         <label>
                           <span>昵称</span>
-                          <input type="text" autofocus="autofocus" ng-model="user.nickname" placeholder="{{details.nick_name}}">
+                          <input type="text" get-focus autofocus="autofocus" ng-model="user.nickname" placeholder="{{details.nick_name}}">
                         </label>
                       </li>
                       <li class="fore">
@@ -279,17 +283,33 @@
                       <li class="fore">
                         <label>
                           <span>手机</span>
-                          <input type="text" ng-model="user.mobile" placeholder="{{details.mobile}}">
+                          <input type="text" get-focus ng-model="user.mobile" placeholder="{{details.mobile}}">
                         </label>
                       </li>
                       <li class="fore" style="background: url(img/icon/ico_61.png) 95% center no-repeat;">
-                      <button class="button button-clear" style="min-height: 100%;width: 100%;padding: 0;color: #444;" ng-click="datapicker()">
-                        <label>
-                          <span>生日</span>
-                          <span class="item-note" >{{details.birthday}}</span>
-                        </label>
-                      </button>
-                        
+                        <button class="button button-clear" ng-click="datapicker()">
+                          <label>
+                            <span>生日</span>
+                            <span class="item-note" >{{user.birthday}}</span>
+                          </label>
+                        </button>
+                      </li>
+                      <li class="fore"  style="background: url(img/icon/ico_62.png) 95% center no-repeat;"  >
+                        <!-- <button class="button button-clear">
+                          <label class="item item-input item-select" style="padding-left: 10px;">
+                            <div class="input-label">
+                              所属组
+                            </div>
+                            <span class="item-note" >{{user.birthday}}</span>
+                            <select ng-model="" ng-change="">
+                              <option ng-repeat="" ng-selected="" value="">
+                                <option>Blue</option>
+                                <option selected>Green</option>
+                                <option>Red</option>
+                              </option>
+                            </select>
+                          </label>
+                        </button> -->
                       </li>
                   </ul>
                   
@@ -316,19 +336,19 @@
                       <li class="fore">
                         <label>
                           <span>名称</span>
-                          <input type="text" ng-model="user.company" placeholder="{{details.company}}" ng-focus="focuss()" >
+                          <input type="text" get-focus ng-model="user.company" placeholder="{{details.company}}" ng-focus="focuss()" >
                         </label>
                       </li>
                       <li class="fore">
                         <label>
                           <span>部门</span>
-                          <input type="text" ng-model="user.department" placeholder="{{details.department}}">
+                          <input type="text" get-focus ng-model="user.department" placeholder="{{details.department}}">
                         </label>
                       </li>
                       <li class="fore">
                         <label>
                           <span>职务</span>
-                          <input type="text" ng-model="user.position" placeholder="{{details.position}}">
+                          <input type="text" get-focus ng-model="user.position" placeholder="{{details.position}}">
                         </label>
                       </li>
                   </ul>
@@ -347,7 +367,7 @@
                       <li class="fore">
                         <label>
                           <span>省市</span>
-                          <input type="text" placeholder="{{details.region}}">
+                          <input type="text" get-focus placeholder="{{details.region}}">
                         </label>
                       </li>
                   </ul>
