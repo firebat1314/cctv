@@ -32,8 +32,10 @@
 				<img ng-src="{{item.img || 'img/myself_02.jpg'}}">
 				<h2>{{item.title}}</h2>
 				<p>{{item.baoti_date}}</p>
-				<p style="background: url(img/icon/ico_56.png) right center no-repeat;-webkit-background-size: auto 80%;
-				background-size: auto 80%;">状态:  <span style="color: #ff8651">{{item.is_read?'未阅':'已阅'}}</span></p>
+				<p style="background: url(img/icon/ico_56.png) right center no-repeat;-webkit-background-size: auto 80%;background-size: auto 80%;">
+					状态:  	<span style="color: #ff8651" ng-if="item.is_read">已阅</span>
+							<span style="color: #ff8651" ng-if="!item.is_read">未阅</span>
+				</p>
 			</a>
 		</div>
 		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>

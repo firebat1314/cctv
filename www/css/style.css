@@ -134,3 +134,33 @@
 .ionic_datepicker_popup .calendar_grid{
 	height: 180px !important ;
 }
+/* 滑动列表 */
+/* .card-main-content-ul{
+	position: relative;
+	height: 100%;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-line-pack:distribute;
+	    align-content:space-around;
+	-ms-flex-flow: column;
+	    flex-flow: column;
+}
+.card-main-content-ul li {
+	padding-left: 20px;
+	background: url(img/icon/ico_3.png) 0 0 no-repeat;
+	-webkit-background-size: 13px 15px;
+	background-size: 13px 15px;
+}
+ */
+ .indicator{
+	background-color: #ff8651;
+	color: #fff;
+	line-height: 60px;
+	text-align: center;
+	height: 100%;
+	width: 15px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	border-radius: 5px 0 0 5px;
+}

@@ -1,9 +1,70 @@
 <ion-view>
+	<style>
+		.card {
+			position: relative;
+		}
+		.deletecard{
+			width: 20px;
+			height: 20px;
+			opacity: .5;
+			background-color: #444;
+			position: absolute;
+			right: 0;
+			top: 0;
+			color: #ffffff;
+			z-index: 10;
+			text-align: center;font-size: 28px;
+			border-bottom-left-radius: 3px;
+			cursor: pointer;
+		}
+		.chuanlian .item-content{
+			padding: 7px 49px 11px 0px;
+		}
+	</style>
 	<ion-header-bar align-title="center">
 		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
 		<h1 class="title">所有串联单</h1>
+        <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">
+        	{{editbutton}}  
+        	<img ng-src="{{buttonIcon}}" width="22" style="vertical-align: text-bottom;" alt="">
+        </a>
 	</ion-header-bar>
 	<ion-content overflow-scroll="false" has-bouncing="true" >
-		
+        <ion-list>
+        	<div class="card">
+        	    <label class="item item-input" style="padding: 0 0 0 16px">
+        	      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
+        	      <input type="text" placeholder="废掉TPP，绝对超级大礼">
+        	    </label>
+        	</div>
+			<div class="card chuanlian" ng-repeat="item in items">
+				<div class="deletecard" ng-if="status"><i class="icon ion-ios-checkmark-empty"></i></div>
+				<div class="item item-body">
+					<h2 style="margin: 0;">{{item.title}}</h2>
+					<p style="margin: 8px 0 5px;">播出时间：{{item.bochu_time}}</p>
+					<p style="border-bottom: 1px solid #e6e6e6;margin: 0 0 5px;padding-bottom: 5px;">发表时间：{{item.post_time}}</p>
+				    <div class="card-main-content">
+						<ion-list>
+						  <ion-item>
+						  	<div class="card-main-content-ul">
+						  		<div>播出栏目：<span style="color: #ff8651;">{{item.lanmu}}</span></div>
+						  		<div>发布单位：<span style="color: #ff8651;">{{item.tv_name}}</span></div>
+						  	</div>
+						  	<div class="indicator"><i class="icon ion-ios-arrow-left"></i></div>
+						    <ion-option-button>
+						    	<div class="icon"><img src="img/icon/ico_64.png" alt=""></div>
+						    	<div style="line-height: 14px">不通过</div>
+						    </ion-option-button>
+						    <ion-option-button ng-click="toApproximations(item.uid)" >
+						    	<div class="icon"><img src="img/icon/ico_63.png" alt=""></div>
+						    	<div style="line-height: 14px">约稿</div>
+						    </ion-option-button>
+						  </ion-item>
+						</ion-list>
+				    </div>
+				</div>
+			</div>
+        </ion-list>
+		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
 	</ion-content>
 </ion-view>

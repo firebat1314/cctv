@@ -12,7 +12,6 @@
       }
       .pp-container{
         background: url(img/myself_01.jpg) 0 0 no-repeat;
-        -webkit-background-size: 100% 100%;
         background-size:100%  100%;
         height: 300px;
         min-height: 300px;
@@ -43,7 +42,6 @@
       }
       .pp-profession .pp-head-icon,.pp-sex .pp-head-icon{
         background: #e24531 url(img/icon/ico_50.png) center center no-repeat;
-        -webkit-background-size: 16px;
         background-size: 16px;
       }
       .pp-sex .pp-head-icon{
@@ -155,8 +153,12 @@
         padding-left: 20px;
         color: #444;
         font-size: 16px;
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
-        align-items: center;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
       }
       .edit-list li label span{
         margin-right: 20px;
@@ -266,18 +268,18 @@
                       <li class="fore">
                         <label>
                           <span>性别</span>
-                            <label class="radio">
-                              <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==0]" ></i>
-                              <input type="radio" name="sex" value="0" ng-model="user.sex" ng-init="sex=0" style="display: none">保密
-                            </label>
-                            <label class="radio">
-                              <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==1]" ></i>
-                              <input type="radio" name="sex" value="1" ng-model="user.sex" ng-init="sex=0" style="display: none">男
-                            </label>
-                            <label class="radio">
-                              <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==2]"  ></i>
-                              <input type="radio" name="sex" value="2" ng-model="user.sex" ng-init="sex=0"  style="display: none">女
-                            </label>
+                          <label class="radio">
+                            <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==0]" ></i>
+                            <input type="radio" name="sex" value="0" ng-model="user.sex" ng-init="sex=0" style="display: none">保密
+                          </label>
+                          <label class="radio">
+                            <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==1]" ></i>
+                            <input type="radio" name="sex" value="1" ng-model="user.sex" ng-init="sex=0" style="display: none">男
+                          </label>
+                          <label class="radio">
+                            <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==2]"  ></i>
+                            <input type="radio" name="sex" value="2" ng-model="user.sex" ng-init="sex=0"  style="display: none">女
+                          </label>
                         </label>
                       </li>
                       <li class="fore">
@@ -294,22 +296,17 @@
                           </label>
                         </button>
                       </li>
-                      <li class="fore"  style="background: url(img/icon/ico_62.png) 95% center no-repeat;"  >
-                        <!-- <button class="button button-clear">
-                          <label class="item item-input item-select" style="padding-left: 10px;">
-                            <div class="input-label">
-                              所属组
-                            </div>
-                            <span class="item-note" >{{user.birthday}}</span>
-                            <select ng-model="" ng-change="">
-                              <option ng-repeat="" ng-selected="" value="">
-                                <option>Blue</option>
-                                <option selected>Green</option>
-                                <option>Red</option>
-                              </option>
-                            </select>
+                      <li class="fore"  style="background: url(img/icon/ico_62.png) 95% center no-repeat;" style="overflow: hidden;"  >
+                          <label class="item-select">
+                              <div class="input-label ">
+                                  所属组
+                              </div>
+                              <select ng-model="user.groupid">
+                                  <option ng-repeat="item in usergroups" ng-selected="item.groupid==details.groupid" value="{{item.groupid}}">
+                                    {{item.grouptitle}}
+                                  </option>
+                              </select>
                           </label>
-                        </button> -->
                       </li>
                   </ul>
                   
@@ -365,10 +362,34 @@
                   </ul>
                   <ul class="list padding edit-list" ng-if="status==true">
                       <li class="fore">
-                        <label>
-                          <span>省市</span>
-                          <input type="text" get-focus placeholder="{{details.region}}">
-                        </label>
+                         <label class="item-select">
+                              <div class="input-label ">省</div>
+                              <select ng-model="user.province" style="width: 70%" ng-change="provinceChange(user.province)">
+                                  <option ng-repeat="item in provinceList" ng-selected="item.id==details.province" value="{{item.id}}">
+                                    {{item.name}}
+                                  </option>
+                              </select>
+                          </label>
+                      </li>
+                      <li class="fore" ng-if="cityList">
+                        <label class="item-select">
+                              <div class="input-label ">市</div>
+                              <select ng-model="user.city" style="width: 70%" ng-change="cityChange(user.city)">
+                                  <option ng-repeat="item in cityList" value="{{item.id}}">
+                                    {{item.name}}
+                                  </option>
+                              </select>
+                          </label>
+                      </li>
+                      <li class="fore" ng-if="districtList">
+                        <label class="item-select">
+                              <div class="input-label ">区</div>
+                              <select ng-model="user.district" style="width: 70%">
+                                  <option ng-repeat="item in districtList" value="{{item.id}}">
+                                    {{item.name}}
+                                  </option>
+                              </select>
+                          </label>
                       </li>
                   </ul>
                 </div>

@@ -2,13 +2,13 @@ angular.module('user-controllers',[])
 
 .controller('AccountCtrl', function($ionicHistory,$scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams) {
 	$data.userInfo().success(function(data){
-		$scope.img = data.data.avatar;	 	
+		$scope.img = data.data.avatar;
 	})
 	$scope.jumpTo = function(){
 		$state.go('tab.management')
 	};
   	$scope.goSetting = function(){
-  		$state.go('setting');	 	
+  		$state.go('setting');
   	};
   	$data.vipInfoStatistics().success(function(data){
   		console.log(data);
@@ -16,7 +16,7 @@ angular.module('user-controllers',[])
   	});
 })
 
-.controller('ManagementCtrl',function($ionicHistory,$scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams){
+.controller('ManagementCtrl',function($scope, $data, $rootScope, $state){
 	$scope.items = [];
 	$scope.size = 10;
 	$scope.page = 1;
@@ -47,9 +47,13 @@ angular.module('user-controllers',[])
   	$scope.editbutton = '编辑';
   	$scope.buttonIcon = 'img/icon/ico_60.png';
   	$scope.status = false;
+  	$scope.details;
+
 	$data.personalDetails($scope.uid).success(function(data){
 		console.log(data);
 		$scope.details = data.data;
+		$scope.usergroups = data.usergroups;
+		$scope.cardgroups = data.cardgroups;
 		$scope.user = {
 			uid:$scope.uid||'',
 			realname:$scope.details.name||'',
@@ -65,15 +69,23 @@ angular.module('user-controllers',[])
 			city:$scope.details.city||'',
 			district:$scope.details.district||''
 		}
+		$scope.getAddress();
 	});
 	$scope.getAddress = function(){
-		var province = 	$scope.details.province;
-		var city = $scope.details.city;
-		console.log(province,city);
-		$data.getCityList(city,2).success(function(data){
-			console.log(data);
+		$data.getCityList(0,1).success(function(data){
+			$scope.provinceList = data.data;
 		})
 	};
+	$scope.provinceChange = function(prov){
+		$data.getCityList(prov,2).success(function(data){
+			$scope.cityList = data.data;
+		})
+	}
+	$scope.cityChange = function(city){
+		$data.getCityList(city,3).success(function(data){
+			$scope.districtList = data.data;
+		}) 	
+	}
 	$scope.datapicker = function(){
 		var ipObj1 = {
 			callback: function (val) {  //Mandatory
@@ -123,9 +135,9 @@ angular.module('user-controllers',[])
 			console.log(data);
 			$data.loadingShow(data.info)
 			if(data.status == 1){
-				angular.extend($scope.details, $scope.user,{
-					name:$scope.user.realname
-				});
+				$data.personalDetails($scope.uid).success(function(data){
+					$scope.details = data.data;
+				})
 			}
 		})
 	};
@@ -154,9 +166,6 @@ angular.module('user-controllers',[])
 		})
 	};
 
-	$scope.focus = function(){
-		
-	};
 })
 
 .controller('PersonalDataCtrl',function($ionicHistory,$scope,$cordovaCamera, $cordovaImagePicker,$data,$timeout, $rootScope, $state,$ionicPopup,$ionicPopover,$ionicModal){
@@ -464,7 +473,7 @@ angular.module('user-controllers',[])
 			}else{
 				$data.loadingShow(data.info);
 			}
-		})	 	
+		})
 	};
 
 })
@@ -488,7 +497,7 @@ angular.module('user-controllers',[])
   	
 })
 
-.controller('AllNewsCtrl',function($scope, $data, $state){
+.controller('AllNewsCtrl',function($scope, $data, $state,$rootScope){
 	$scope.details = [];
 	$scope.size = 10;
 	$scope.page = 1;
@@ -518,7 +527,7 @@ angular.module('user-controllers',[])
 
 })
 
-.controller('NewsParticularsCtrl',function($scope, $data, $state,$stateParams,$ionicSlideBoxDelegate){
+.controller('NewsParticularsCtrl',function($scope,$rootScope, $data, $state,$stateParams,$ionicSlideBoxDelegate){
   	$scope.id = $stateParams.id;
 	$data.newParticulars({
 		id:$scope.id
@@ -534,22 +543,96 @@ angular.module('user-controllers',[])
 
 })
 
-.controller('AllChuanLianCtrl',function($scope, $data, $state){
-		 	
+.controller('AllChuanLianCtrl',function($scope, $data, $state,$ionicPopup){
+	$data.allChuanld().success(function(data){
+		console.log(data);
+		$scope.items = data.data;
+	});
+	$scope.status = false;
+	$scope.editbutton = '编辑';
+	$scope.buttonIcon = 'img/icon/ico_53.png';
+	$scope.edit = function(){
+		if ($scope.status) {
+			$scope.noPass();
+		}else{
+			$scope.editbutton = '不通过';
+			$scope.buttonIcon = 'img/icon/ico_59.png';
+			$scope.status = true;
+		}
+	}
+	$scope.noPass = function(){
+		$ionicPopup.confirm({
+			title: '确认操作',
+			template: '是否保存？',
+			scope:$scope,
+			buttons: [{
+				text: '<b>确定</b>',
+				type: 'button-positive',
+				onTap: 	function(res){
+							$scope.submit();
+							$scope.editbutton = '编辑';
+							$scope.buttonIcon = 'img/icon/ico_60.png';
+							$scope.status = false;
+						}
+			}, {
+				text: '取消',
+				onTap: 	function(res){
+							$scope.editbutton = '编辑';
+							$scope.buttonIcon = 'img/icon/ico_60.png';
+							$scope.status = false;
+						}
+			}]
+		})
+	};
+	$scope.submit = function(){
+		$data.loadingShow('操作成功')
+	};
+
+	$scope.toApproximations = function(uid){
+		$state.go('approximations',{
+			uid:uid
+		});
+	}
+
+	$scope.items = [];
+	$scope.size = 3;
+	$scope.page = 1;
+	$scope.loadMore = function () {
+		$scope.page++;
+        $data.allChuanld($scope.size,$scope.page)
+        	.success(function (data) {
+                Array.prototype.push.apply($scope.items, data.data);
+            }).finally(function () {
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            });
+    };
+})
+.controller('ApproximationsCtrl',function($stateParams,$scope, $data, $state){
+  	$scope.uid = $stateParams.uid;
+	
+})
+.controller('NopassCtrl',function($scope, $data, $state){
+	
+})
+.controller('HuatiCtrl',function($scope, $data, $state){
+	
+})
+.controller('AddRebroadcatCtrl',function($scope, $data, $state){
+	
 })
 .controller('AlreadyReportCtrl',function($scope, $data, $state){
-		 	
+	
 })
 .controller('AlreadySweepCtrl',function($scope, $data, $state){
-		 	
+	
 })
 .controller('OverPlayCtrl',function($scope, $data, $state){
-		 	
+	
 })
 .controller('CardCaseCtrl',function($scope, $data, $state){
-		 	
+	
 })
 .controller('CorrectionCodeCtrl',function($scope, $data, $state){
-		 	
+	
 })
 

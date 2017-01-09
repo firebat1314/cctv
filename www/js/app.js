@@ -1,6 +1,6 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives', 'starter.services','ngCordova','ionic-native-transitions','ionic-datepicker'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives', 'starter.services','ngCordova','ionic-native-transitions','ionic-datepicker','ionic-citypicker'])
 
 .run(function($ionicPlatform, $ionicPopup, $state, $data,$rootScope,$ionicHistory) {
 
@@ -238,6 +238,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
     }
   })
 
+  .state('approximations',{
+    url:'/account/allchuanlian/approximations/:uid',
+    templateUrl:'templates/approximations.html',
+    controller: 'ApproximationsCtrl'
+  })
+
+  .state('nopass',{
+    url:'/account/allchuanlian/nopass',
+    templateUrl:'templates/nopass.html',
+    controller: 'NopassCtrl'
+  })
+
   .state('tab.alreadyreport',{
     url:'/account/alreadyreport',
     views: {
@@ -248,12 +260,28 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
     }
   })
 
+  .state('huati',{
+    url:'/account/alreadyreport/huati',
+    templateUrl:'templates/huati.html',
+    controller: 'HuatiCtrl'
+  })
+
   .state('tab.alreadysweep',{
     url:'/account/alreadysweep',
     views: {
       'tab-account': {
         templateUrl: 'templates/alreadysweep.html',
         controller: 'AlreadySweepCtrl'
+      }
+    }
+  })
+
+  .state('rebroadcast',{
+    url:'/account/alreadysweep/rebroadcast',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/add-rebroadcast.html',
+        controller: 'AddRebroadcastCtrl'
       }
     }
   })
@@ -291,6 +319,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
   .state('revisepassword',{
     url:'/account/revisepassword',
     templateUrl:'templates/revisepassword.html',
-    controller: 'RevisePassword'
+    controller: 'RevisePasswordCtrl'
   })
+
+
 });
