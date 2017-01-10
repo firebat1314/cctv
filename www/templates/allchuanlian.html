@@ -1,14 +1,23 @@
 <ion-view>
 	<style>
-		.card {
+		.card{
 			position: relative;
 		}
+		.chuanlian .mask{
+			
+			position: absolute;
+			width: 100%;
+			z-index: 100;
+			height: 100%;
+		}
 		.deletecard{
+			
 			width: 20px;
 			height: 20px;
 			opacity: .5;
 			background-color: #444;
 			position: absolute;
+			z-index: 101;
 			right: 0;
 			top: 0;
 			color: #ffffff;
@@ -19,6 +28,34 @@
 		}
 		.chuanlian .item-content{
 			padding: 7px 49px 11px 0px;
+		}
+		.chuanlian .btnbox{
+			width: 100%;
+			height: 100%;
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-orient: vertical;
+			-webkit-box-direction: normal;
+			-ms-flex-direction: column;
+			        flex-direction: column;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			        align-items: center;
+			-ms-flex-pack:distribute;
+			    justify-content:space-around;
+		}
+		
+		.chuanlian .mask.active{
+			-webkit-transition: background-color .1s;
+			transition: background-color .5s;
+			background-color: #000;
+			opacity: 0.2;
+		}
+		.chuanlian .mask.active .deletecard{
+			-webkit-transition: background-color .1s;
+			transition: background-color .5s;
+			background-color: red;
 		}
 	</style>
 	<ion-header-bar align-title="center">
@@ -38,26 +75,35 @@
         	    </label>
         	</div>
 			<div class="card chuanlian" ng-repeat="item in items">
-				<div class="deletecard" ng-if="status"><i class="icon ion-ios-checkmark-empty"></i></div>
+				<div class="mask" no-pass data-id="{{item.id}}" ng-if="status">
+					<div class="deletecard">
+						<i class="icon ion-ios-checkmark-empty"></i>
+						<!-- <input type="chcekbox" ng-value="item.id" style="display: none;" > -->
+					</div>
+				</div>
 				<div class="item item-body">
 					<h2 style="margin: 0;">{{item.title}}</h2>
 					<p style="margin: 8px 0 5px;">播出时间：{{item.bochu_time}}</p>
 					<p style="border-bottom: 1px solid #e6e6e6;margin: 0 0 5px;padding-bottom: 5px;">发表时间：{{item.post_time}}</p>
-				    <div class="card-main-content">
+				    <div>
 						<ion-list>
 						  <ion-item>
-						  	<div class="card-main-content-ul">
+						  	<div>
 						  		<div>播出栏目：<span style="color: #ff8651;">{{item.lanmu}}</span></div>
 						  		<div>发布单位：<span style="color: #ff8651;">{{item.tv_name}}</span></div>
 						  	</div>
 						  	<div class="indicator"><i class="icon ion-ios-arrow-left"></i></div>
-						    <ion-option-button>
-						    	<div class="icon"><img src="img/icon/ico_64.png" alt=""></div>
-						    	<div style="line-height: 14px">不通过</div>
+						    <ion-option-button  ng-click="toNopass(item)">
+						    	<div class="btnbox">
+						    		<img src="img/icon/ico_64.png" alt="">
+						    		<div style="line-height: 14px">不通过</div>
+						    	</div>
 						    </ion-option-button>
-						    <ion-option-button ng-click="toApproximations(item.uid)" >
-						    	<div class="icon"><img src="img/icon/ico_63.png" alt=""></div>
-						    	<div style="line-height: 14px">约稿</div>
+						    <ion-option-button ng-click="toApproximations(item)" >
+						    	<div class="btnbox">
+						    		<img src="img/icon/ico_63.png" alt="">
+						    		<div style="line-height: 14px" >约稿</div>
+						    	</div>
 						    </ion-option-button>
 						  </ion-item>
 						</ion-list>

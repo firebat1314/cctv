@@ -16,6 +16,7 @@ angular.module('news-controllers',[])
     $scope.Items = $data.storeData('homedata');
   }
   $data.getHomeData().success(function(data) {
+    console.log(data);
     $scope.Items = data;
     $data.storeData('homedata', data)
   });
@@ -25,7 +26,8 @@ angular.module('news-controllers',[])
     })
   }
   $scope.doRefresh = function() {
-    $data.getHomeData()
+    $timeout(function(){
+      $data.getHomeData()
       .success(function(newItems) {
         $scope.Items = newItems;
       })
@@ -34,7 +36,8 @@ angular.module('news-controllers',[])
       })
       .finally(function() {
         $scope.$broadcast('scroll.refreshComplete');
-      });
+      });     
+    },2000)
   };
 })
 

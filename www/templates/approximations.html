@@ -17,6 +17,9 @@
 		.approximations-main .app-mankind{
 			border-bottom: 1px solid #e6e6e6;
 		}
+		.approximations-main .app-mankind input{
+			padding-left: 5px;
+		}
 		.approximations-main .padding{
 			padding: 0 20px 20px;
 		}
@@ -29,6 +32,7 @@
 		}
 		.approximations-main  .app-title input{
 			border: 1px solid #e6e6e6;
+			padding: 0;
 			border-radius: 4px;
 			padding-left: 5px;
 		}
@@ -43,6 +47,20 @@
 			border: 1px solid #e6e6e6;
 			border-radius: 4px;
 			display: inline-block;
+			color: #ffffff;
+			text-align: center;
+
+		}
+		.approximations-main .app-note .radiobox.active{
+			background-color: #ff8651;
+		}
+		.approximations-btn .right-btn{
+			background-color: #ff8651;
+			color: #ffffff;
+		}
+		.approximations-btn .cancel-btn{
+			background-color: #a6a6a6;
+			color: #ffffff;
 		}
 	</style>
 	<ion-header-bar align-title="center">
@@ -52,41 +70,41 @@
 	<ion-content overflow-scroll="false" has-bouncing="true" >
         <div class="card approximations-main">
           	<div class="item item-divider">
-            	五桂山：酒店楼顶 一女子情绪激动欲跳楼
+            	{{title}}
           	</div>
       		<div class="list padding">
-      		  <label class="item item-input item-stacked-label app-mankind">
-      		    <span class="input-label">收件人</span>
-      		    <input type="text" placeholder="John">
-      		  </label>
-      		  <label class="item item-input item-stacked-label app-title">
-      		    <span class="input-label">标题</span>
-      		    <input type="text" placeholder="Suhr">
-      		  </label>
-      		  <label class="item item-input item-stacked-label app-content" style="border-top: none;">
-      		    <span class="input-label">发信内容</span>
-      		    <textarea placeholder="Comments" rows="7"></textarea>
-      		  </label>
-      		  <label class="item item-input item-stacked-label app-note">
-      		    <span class="input-label">是否发送手机短信：</span>
-      		    <div >
+      		  	<label class="item item-input item-stacked-label app-mankind">
+	      		    <span class="input-label">收件人</span>
+	      		    <input type="text" placeholder="{{details.name}}">
+      		  	</label>
+      		  	<label class="item item-input item-stacked-label app-title">
+	      		    <span class="input-label">标题</span>
+	      		    <input type="text" get-Focus ng-model="user.title" placeholder="约稿：{{title}}">
+      		  	</label>
+      		  	<label class="item item-input item-stacked-label app-content" style="border-top: none;">
+      		    	<span class="input-label">发信内容</span>
+      		    	<textarea ng-model="user.content" placeholder="Comments" rows="7"></textarea>
+      		  	</label>
+      		  	<div class="item item-input item-stacked-label app-note">
+      		    	<span class="input-label">是否发送手机短信：</span>
+      		    	<div >
       		    	<label class="radio">
-      		    		<div class="radiobox"><i ng-class="{true:'ion-checkmark-round',false:''}[user.note==1]" ></i></div>
-      		    	  	<input type="radio" name="note" value="1" ng-model="user.note" ng-init="note=1" style="display: none">是
+      		    		<div class="radiobox" ng-class="{true:'active',false:''}[user.is_sms==1]"><i class="ion-checkmark-round" ></i></div>
+      		    	  	<input type="radio" name="is_sms" value="1" ng-model="user.is_sms" ng-init="is_sms=1" style="display: none">是
       		    	</label>
       		    	<label class="radio">
-      		    		<div class="radiobox"><i ng-class="{true:'ion-checkmark-round',false:''}[user.note==0]" ></i></div>
-      		    	  	<input type="radio" name="note" value="0" ng-model="user.note" ng-init="note=0" style="display: none">否
+      		    		<div class="radiobox" ng-class="{true:'active',false:''}[user.is_sms==0]"><i class="ion-checkmark-round" ></i></div>
+      		    	  	<input type="radio" name="is_sms" value="0" ng-model="user.is_sms" ng-init="is_sms=0" style="display: none">否
       		    	</label>
-      		    </div>
-      		  </label>
+      		    	</div>
+      			</div>
       		</div>
         </div>
-        <div class="padding">
-        	<button class="button button-block" style="background-color: #ff8651;">
+        <div class="padding approximations-btn" >
+        	<button class="button button-block right-btn" ng-click="submit()">
         		确定
         	</button>
-        	<button class="button button-block" style="background-color: #a6a6a6;">
+        	<button class="button button-block cancel-btn" ng-click="goBack()">
         	  	取消
         	</button>
         </div>

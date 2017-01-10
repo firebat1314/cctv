@@ -43,7 +43,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
     } else {
       navigator.app.backHistory();
     }
-  }, 100);
+  }, 101);
 })
 
 .config(function($httpProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider ,$ionicNativeTransitionsProvider,ionicDatePickerProvider) {
@@ -55,7 +55,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
   $ionicConfigProvider.platform.ios.navBar.alignTitle('center');
   $ionicConfigProvider.platform.android.navBar.alignTitle('center');
 
-  $ionicConfigProvider.platform.ios.backButton.previousTitleText('').icon('ion-ios-arrow-thin-left');
+  $ionicConfigProvider.platform.ios.backButton.previousTitleText('').icon('ion-ios-arrow-back');
   $ionicConfigProvider.platform.android.backButton.previousTitleText('').icon('ion-android-arrow-back');
 
   $ionicConfigProvider.platform.ios.views.transition('ios');
@@ -63,7 +63,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
 
   $ionicConfigProvider.views.transition('no');
   $ionicNativeTransitionsProvider.setDefaultOptions({
-      duration: 400, // in milliseconds (ms), default 400,
+      duration: 200, // in milliseconds (ms), default 400,
       slowdownfactor: 4, // overlap views (higher number is more) or no overlap (1), default 4
       iosdelay: -1, // ms to wait for the iOS webview to update before animation kicks in, default -1
       androiddelay: -1, // same as above but for Android, default -1
@@ -108,7 +108,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
   .state('start-page', {
     url: '/start-page',
     templateUrl: 'templates/start-page.html',
-    controller: 'StartCtrl'
+    controller: 'StartCtrl',
+    nativeTransitions: {
+        type: "fade"
+    }
   })
 
   .state('login', {
@@ -138,6 +141,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
   .state('tab.news', {
     url: '/news',
     cache: true,
+    nativeTransitions: {
+        "type": "flip",
+        "direction": "up"
+    },
     views: {
       'tab-news': {
         templateUrl: 'templates/tab-news.html',
@@ -239,13 +246,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
   })
 
   .state('approximations',{
-    url:'/account/allchuanlian/approximations/:uid',
+    url:'/account/allchuanlian/approximations/:id/:title',
     templateUrl:'templates/approximations.html',
     controller: 'ApproximationsCtrl'
   })
 
   .state('nopass',{
-    url:'/account/allchuanlian/nopass',
+    url:'/account/allchuanlian/nopass/:id/:title',
     templateUrl:'templates/nopass.html',
     controller: 'NopassCtrl'
   })

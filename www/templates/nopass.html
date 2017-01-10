@@ -1,9 +1,83 @@
 <ion-view>
+	<style>
+		.approximations-main .item-divider{
+			background-color: #ff8651;
+			height: 50px;
+			color: #fff;
+			text-align: center;
+			line-height: 50px;
+			padding: 0;
+		}
+		.approximations-main .item-stacked-label{
+			border: none;
+		}
+		.approximations-main .item-stacked-label{
+			padding: 0;
+		}
+		.approximations-main .app-mankind{
+			border-bottom: 1px solid #e6e6e6;
+		}
+		.approximations-main .app-mankind input{
+			padding-left: 5px;
+		}
+		.approximations-main .padding{
+			padding: 0 20px 20px;
+		}
+		.approximations-main .item-stacked-label .input-label{
+			padding-left: 10px;
+			margin: 10px 0;
+			background: #fff url(img/icon/ico_52.png) left center no-repeat;
+			-webkit-background-size: 20px;
+			background-size:auto 20px;
+		}
+		.approximations-main  .app-title input{
+			border: 1px solid #e6e6e6;
+			padding: 0;
+			border-radius: 4px;
+			padding-left: 5px;
+		}
+		.approximations-main  .app-content textarea{
+			border: 1px solid #e6e6e6;
+			border-radius: 4px;
+			padding-left: 5px;
+		}
+		.approximations-btn .right-btn{
+			background-color: #ff8651;
+			color: #ffffff;
+		}
+		.approximations-btn .cancel-btn{
+			background-color: #a6a6a6;
+			color: #ffffff;
+		}
+		
+	</style>
 	<ion-header-bar align-title="center">
 		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
 		<h1 class="title">约稿</h1>
 	</ion-header-bar>
 	<ion-content overflow-scroll="false" has-bouncing="true" >
-        
+        <div class="card approximations-main">
+          	<div class="item item-divider">
+            	{{title}}
+          	</div>
+      		<div class="list padding">
+      		  	<label class="item item-input item-stacked-label app-title">
+	      		    <span class="input-label">标题</span>
+	      		    <input type="text" get-Focus ng-model="user.title" placeholder="约稿：{{title}}">
+      		  	</label>
+      		  	<label class="item item-input item-stacked-label app-content" style="border-top: none;">
+      		    	<span class="input-label">发信内容</span>
+      		    	<textarea ng-model="user.content" placeholder="Comments" rows="7"></textarea>
+      		  	</label>
+      		</div>
+        </div>
+        <div class="padding approximations-btn" >
+        	<button class="button button-block right-btn" ng-click="submit()">
+        		确定
+        	</button>
+        	<button class="button button-block cancel-btn" ng-click="goBack()">
+        	  	取消
+        	</button>
+        </div>
 	</ion-content>
 </ion-view>

@@ -42,6 +42,22 @@
 			top: 0;
 			border-radius: 5px 0 0 5px;
 		}
+		.card-main-content .btnbox{
+			width: 100%;
+			height: 100%;
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-orient: vertical;
+			-webkit-box-direction: normal;
+			-ms-flex-direction: column;
+			        flex-direction: column;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			        align-items: center;
+			-ms-flex-pack:distribute;
+			    justify-content:space-around;
+		}
 	</style>
   	<ion-header-bar align-title="center">
   		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
@@ -64,8 +80,18 @@
 					  		</ul>
 					  		<div class="indicator"><i class="icon ion-ios-arrow-left"></i></div>
 					  	</div>
-					    <ion-option-button class="" ng-click="toPersonalPage(item.uid)"><div><img src="img/icon/ico_17.png" alt=""></div><div style="line-height: 14px">查看</div></ion-option-button>
-					    <ion-option-button class="" ng-click=""><div class="icon"><img src="img/icon/ico_15.png" alt=""></div><div style="line-height: 14px">审核</div></ion-option-button>
+					    <ion-option-button class="" ng-click="toPersonalPage(item.uid)">
+					    	<div class="btnbox">
+					    		<img src="img/icon/ico_17.png" alt="">
+					    		<div style="line-height: 14px">查看</div>
+					    	</div>
+					    </ion-option-button>
+					    <ion-option-button class="" ng-click="">
+					    	<div class="btnbox">
+					    		<img src="img/icon/ico_15.png" alt="">
+					    		<div style="line-height: 14px">审核</div>
+					    	</div>
+					    </ion-option-button>
 					  </ion-item>
 					</ion-list>
 			    </div>

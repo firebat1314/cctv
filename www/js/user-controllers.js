@@ -165,7 +165,6 @@ angular.module('user-controllers',[])
 			}]
 		})
 	};
-
 })
 
 .controller('PersonalDataCtrl',function($ionicHistory,$scope,$cordovaCamera, $cordovaImagePicker,$data,$timeout, $rootScope, $state,$ionicPopup,$ionicPopover,$ionicModal){
@@ -174,10 +173,7 @@ angular.module('user-controllers',[])
 	}).then(function(popover) {
 		$scope.popover = popover;
 	});
-	$data.userInfo().success(function(data){
-		console.log(data);
-		$scope.dataInit = data.data;
-	})
+	
 	$scope.editImg = function(){
 		$scope.popover.show();
 	};
@@ -248,22 +244,26 @@ angular.module('user-controllers',[])
 				});
 	  	}, false);
 	};
-	$scope.profile = {
-		nickname: '',
-		sex:1,
-		mobile: '',
-		email: '',
-		city_cn: '',
-		type: '',
-		company: '',
-		department: '',
-		position: ''
+	$scope.getDetails = function(){
+		$data.userInfo().success(function(data){
+			console.log(data);
+			$scope.dataInit = data.data;
+			$scope.profile = {
+				nickname: $scope.dataInit.nickname,
+				sex:$scope.dataInit.sex,
+				mobile: $scope.dataInit.mobile,
+				email: $scope.dataInit.email,
+				city_cn: $scope.dataInit.city_cn,
+				type: $scope.dataInit.type,
+				company: $scope.dataInit.company,
+				department: $scope.dataInit.department,
+				position: $scope.dataInit.position
+			};
+		})	 	
 	};
+	$scope.getDetails();
 	$scope.delText = function($event){
-		console.log($event);
 		$($event.target).siblings('input').val('');
-		$($event.target).siblings('input').blur();
-		$($event.target).siblings('input').focus();
 	}
 	$scope.tanchu = function(str,template,cssClass,fun,templateUrl){
 		$ionicPopup.confirm({
@@ -283,21 +283,21 @@ angular.module('user-controllers',[])
 	}
 	$scope.nickname = function(){
 		var value = $scope.dataInit.nickname;
-		var template = '<input type="text" ng-model="profile.nickname" autofocus><i ng-if="profile.nickname.length>0" class="ion ion-close-circled Octopus" id="foucus" ng-click="delText($event)" ></i>';
+		var template = '<input type="text" ng-model="profile.nickname" get-focus><i ng-if="profile.nickname.length>0" class="ion ion-close-circled Octopus" id="foucus" ng-click="delText($event)" ></i>';
 		$scope.tanchu('昵称',template,'popup-nickname',function(e){
 			$data.profile({
 				nickname:$scope.profile.nickname
 			}).success(function(data){
 				//console.log(data);
 				$data.loadingShow(data.info);
-				if (data.status == 0) {
-					$scope.profile.nickname = '';
+				if(data.status == 1){
+					$scope.getDetails();
 				}
 			})
 		})
 	};
 	$scope.sex = function(){
-		var template = '<ion-list><ion-radio ng-model="profile.sex" ng-value="1">男</ion-radio><ion-radio ng-model="profile.sex" ng-value="0">女</ion-radio></ion-list>';
+		var template = '<ion-list><ion-radio ng-model="profile.sex" ng-value="1">男</ion-radio><ion-radio ng-model="profile.sex" ng-value="2">女</ion-radio></ion-list>';
 		$scope.tanchu('性别',template,'popup-sex',function(e){
 			
 			$data.profile({
@@ -305,14 +305,14 @@ angular.module('user-controllers',[])
 			}).success(function(data){
 				//console.log(data);
 				$data.loadingShow(data.info);
-				if (data.status == 0) {
-					$scope.profile.sex = '';
+				if(data.status == 1){
+					$scope.getDetails();
 				}
 			})
 		})
 	};
 	$scope.mobile = function(){
-		var template = '<input type="text" ng-model="profile.mobile" autofocus><i ng-if="profile.mobile.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
+		var template = '<input type="text" ng-model="profile.mobile" get-focus><i ng-if="profile.mobile.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
 		$scope.tanchu('手机号',template,'',function(e){
 			if($scope.profile.mobile == ''){
 				e.preventDefault();
@@ -322,15 +322,15 @@ angular.module('user-controllers',[])
 				}).success(function(data){
 					//console.log(data);
 					$data.loadingShow(data.info);
-					if (data.status == 0) {
-						$scope.profile.mobile = '';
+					if(data.status == 1){
+						$scope.getDetails();
 					}
 				})
 			}
 		})
 	};
 	$scope.email = function(){
-		var template = '<input type="text" ng-model="profile.email" autofocus><i ng-if="profile.email.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
+		var template = '<input type="text" ng-model="profile.email" get-focus><i ng-if="profile.email.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
 		$scope.tanchu('电子邮箱',template,'',function(e){
 			if($scope.profile.email == ''){
 				e.preventDefault();
@@ -340,8 +340,8 @@ angular.module('user-controllers',[])
 				}).success(function(data){
 					//console.log(data);
 					$data.loadingShow(data.info);
-					if (data.status == 0) {
-						$scope.profile.email = '';
+					if(data.status == 1){
+						$scope.getDetails();
 					}
 				})
 			}
@@ -397,14 +397,14 @@ angular.module('user-controllers',[])
 				if(data.status == 1){
 					$state.go('login');
 				}
-				if (data.status == 0) {
-					$scope.profile.type = '';
+				if(data.status == 1){
+					$scope.getDetails();
 				}
 			})
 		})
 	};
 	$scope.company = function(){
-		var template = '<input type="text" ng-model="profile.company" autofocus><i ng-if="profile.company.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
+		var template = '<input type="text" ng-model="profile.company" get-focus><i ng-if="profile.company.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
 		$scope.tanchu('电视台名称',template,'',function(e){
 			if($scope.profile.company == ''){
 				e.preventDefault();
@@ -413,15 +413,15 @@ angular.module('user-controllers',[])
 					company:$scope.profile.company
 				}).success(function(data){
 					$data.loadingShow(data.info);
-					if (data.status == 0) {
-						$scope.profile.company = '';
+					if(data.status == 1){
+						$scope.getDetails();
 					}
 				})
 			}
 		})
 	};
 	$scope.department = function(){
-		var template = '<input type="text" ng-model="profile.department" autofocus><i ng-if="profile.department.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
+		var template = '<input type="text" ng-model="profile.department" get-focus><i ng-if="profile.department.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
 		$scope.tanchu('部门',template,'',function(e){
 			if($scope.profile.department == ''){
 				e.preventDefault();
@@ -430,15 +430,15 @@ angular.module('user-controllers',[])
 					department:$scope.profile.department
 				}).success(function(data){
 					$data.loadingShow(data.info);
-					if (data.status == 0) {
-						$scope.profile.department = '';
+					if(data.status == 1){
+						$scope.getDetails();
 					}
 				})
 			}
 		})
 	};
 	$scope.position = function(){
-		var template = '<input type="text" ng-model="profile.position" autofocus><i ng-if="profile.position.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
+		var template = '<input type="text" ng-model="profile.position" get-focus><i ng-if="profile.position.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
 		$scope.tanchu('职务',template,'',function(e){
 			if($scope.profile.position == ''){
 				e.preventDefault();
@@ -447,8 +447,8 @@ angular.module('user-controllers',[])
 					position:$scope.profile.position
 				}).success(function(data){
 					$data.loadingShow(data.info);
-					if (data.status == 0) {
-						$scope.profile.position = '';
+					if(data.status == 1){
+						$scope.getDetails();
 					}
 				})
 			}
@@ -543,11 +543,15 @@ angular.module('user-controllers',[])
 
 })
 
-.controller('AllChuanLianCtrl',function($scope, $data, $state,$ionicPopup){
-	$data.allChuanld().success(function(data){
-		console.log(data);
-		$scope.items = data.data;
-	});
+.controller('AllChuanLianCtrl',function($scope,$rootScope, $data, $state,$ionicPopup,$timeout){
+	$scope.getDetails = function(){
+		$data.allChuanld().success(function(data){
+			console.log(data);
+			$scope.items = data.data;
+		});
+	};
+	$scope.getDetails();
+    $scope.arr = [];
 	$scope.status = false;
 	$scope.editbutton = '编辑';
 	$scope.buttonIcon = 'img/icon/ico_53.png';
@@ -585,34 +589,92 @@ angular.module('user-controllers',[])
 		})
 	};
 	$scope.submit = function(){
-		$data.loadingShow('操作成功')
+		$data.batchBTG({
+			ids:$scope.arr,
+			status:2,
+			note:'串联单批量不通过操作'
+		}).success(function(data){
+			console.log(data);
+			$data.loadingShow(data.info)
+		})
+		
 	};
 
-	$scope.toApproximations = function(uid){
+	$scope.toApproximations = function(item){
+		$rootScope.$broadcast('ChuanLianMessage',item);
 		$state.go('approximations',{
-			uid:uid
+			id:item.id,
+			title:item.title
 		});
-	}
-
+	};
+	$scope.toNopass = function(item){
+		$state.go('nopass',{
+			id:item.id,
+			title:item.title
+		});
+	};
 	$scope.items = [];
 	$scope.size = 3;
 	$scope.page = 1;
 	$scope.loadMore = function () {
 		$scope.page++;
-        $data.allChuanld($scope.size,$scope.page)
+        $timeout(function(){
+        	$data.allChuanld($scope.size,$scope.page)
         	.success(function (data) {
-                Array.prototype.push.apply($scope.items, data.data);
+                $timeout(function(){
+                	Array.prototype.push.apply($scope.items, data.data);	 	
+                })
             }).finally(function () {
                 $scope.$broadcast('scroll.infiniteScrollComplete');
-            });
+            });	 	
+        },2000)
     };
 })
-.controller('ApproximationsCtrl',function($stateParams,$scope, $data, $state){
-  	$scope.uid = $stateParams.uid;
-	
+.controller('ApproximationsCtrl',function($stateParams,$scope,$rootScope, $data, $state){
+  	$scope.id = $stateParams.id;
+  	$scope.title = $stateParams.title;
+	var deregister = $rootScope.$on('ChuanLianMessage',function(event,args){
+		$data.personalDetails(args.uid).success(function(data){
+			console.log(data);
+			$scope.details = data.data;
+			$scope.user = {
+				id:$scope.id,
+				uid:$scope.details.uid,
+				mobile:$scope.details.mobile,
+				title:'约稿：'+$scope.title,
+				content:'',
+				status:1,
+				is_sms:''
+			};
+		});
+	})
+	$scope.submit = function(){
+		$data.ChuanldStatus('POST','',$scope.user).success(function(data){
+			$data.loadingShow(data.info)
+			console.log(data);
+		})
+	}
+	$scope.$on('$destory',function(){
+		deregister();	 	
+	})
+
 })
-.controller('NopassCtrl',function($scope, $data, $state){
-	
+.controller('NopassCtrl',function($scope, $data, $state,$stateParams){
+  	$scope.id = $stateParams.id;
+  	$scope.title = $stateParams.title;
+	$scope.user = {
+		note:'',
+		status:'2',
+		id:$scope.id
+	};
+	$scope.submit = function(){
+		$data.ChuanldStatus('POST','',$scope.user).success(function(data){
+			$data.loadingShow(data.info);
+			if(data.status == 1){
+
+			}
+		})	 	
+	}
 })
 .controller('HuatiCtrl',function($scope, $data, $state){
 	
@@ -620,8 +682,85 @@ angular.module('user-controllers',[])
 .controller('AddRebroadcatCtrl',function($scope, $data, $state){
 	
 })
-.controller('AlreadyReportCtrl',function($scope, $data, $state){
+.controller('AlreadyReportCtrl',function($scope, $data, $state,$timeout){
+	$scope.getDetails = function(){
+		$data.yBaoti().success(function(data){
+			$scope.details = data.data;
+			console.log(data);
+		})
+	};
+	$scope.getDetails();
 	
+    $scope.arr = [];
+	$scope.status = false;
+	$scope.editbutton = '编辑';
+	$scope.buttonIcon = 'img/icon/ico_53.png';
+	$scope.edit = function(){
+		if ($scope.status) {
+			$scope.noPass();
+		}else{
+			$scope.editbutton = '不通过';
+			$scope.buttonIcon = 'img/icon/ico_59.png';
+			$scope.status = true;
+		}
+	}
+	$scope.noPass = function(){
+		$ionicPopup.confirm({
+			title: '确认操作',
+			template: '是否保存？',
+			scope:$scope,
+			buttons: [{
+				text: '<b>确定</b>',
+				type: 'button-positive',
+				onTap: 	function(res){
+							$scope.submit();
+							$scope.editbutton = '编辑';
+							$scope.buttonIcon = 'img/icon/ico_60.png';
+							$scope.status = false;
+						}
+			}, {
+				text: '取消',
+				onTap: 	function(res){
+							$scope.editbutton = '编辑';
+							$scope.buttonIcon = 'img/icon/ico_60.png';
+							$scope.status = false;
+						}
+			}]
+		})
+	};
+	$scope.submit = function(){
+		$data.BaotiHandlePass({
+			ids:$scope.arr,
+			status:2,
+			note:'已报题单批量不通过操作'
+		}).success(function(data){
+			console.log(data);
+			$data.loadingShow(data.info)
+		})
+		
+	};
+
+
+
+
+
+	$scope.items = [];
+	$scope.size = 3;
+	$scope.page = 1;
+	$scope.loadMore = function () {
+		$scope.page++;
+        $timeout(function(){
+        	$data.yBaoti($scope.size,$scope.page)
+        	.success(function (data) {
+        		console.log(data);
+                $timeout(function(){
+                	Array.prototype.push.apply($scope.details, data.data);	 	
+                })
+            }).finally(function () {
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            });
+        },1500)
+    };
 })
 .controller('AlreadySweepCtrl',function($scope, $data, $state){
 	

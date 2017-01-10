@@ -1,9 +1,79 @@
 <ion-view>
+<style>
+	.report .btnbox{
+		width: 100%;
+		height: 100%;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-ms-flex-direction: column;
+		        flex-direction: column;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		        align-items: center;
+		-ms-flex-pack:distribute;
+		    justify-content:space-around;
+	}
+	.report .item-content{
+		padding: 5px 0;
+	}
+	.report .report-title{
+		text-indent: 30px;
+		background: url(img/icon/ico_67.png) left top no-repeat;
+		-webkit-background-size: auto 20px;
+		background-size: auto 20px;
+		line-height: 22px;
+		margin-top: 0;
+		margin-bottom: 2px;
+	}
+</style>
 	<ion-header-bar align-title="center">
 		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
 		<h1 class="title">已报题单</h1>
 	</ion-header-bar>
 	<ion-content overflow-scroll="false" has-bouncing="true" >
-		
+        <ion-list>
+        	<div class="card">
+        	    <label class="item item-input" style="padding: 0 0 0 16px">
+        	      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
+        	      <input type="text" placeholder="废掉TPP，绝对超级大礼">
+        	    </label>
+        	</div>
+			<div class="card report" ng-repeat="item in details">
+				<div class="mask" no-pass data-id="{{item.id}}">
+					<div class="deletecard" ng-if="status">
+						<i class="icon ion-ios-checkmark-empty"></i>
+						<!-- <input type="chcekbox" ng-value="item.id" style="display: none;" > -->
+					</div>
+				</div>
+				<div class="item item-body">
+					<h2 class="report-title">{{item.title}}</h2>
+				    <div>
+						<ion-item>
+							<div>
+								<div>报题时间：<span style="line-height: 24px;">{{item.baoti_date}}</span></div>
+								<div>发布单位：<span style="color: #ff8651;line-height: 24px;">{{item.tv_name}}</span></div>
+							</div>
+							<div class="indicator"><i class="icon ion-ios-arrow-left"></i></div>
+							<ion-option-button  ng-click="toNopass(item)">
+								<div class="btnbox">
+									<img src="img/icon/ico_66.png" alt="">
+									<div style="line-height: 14px">不通过</div>
+								</div>
+							</ion-option-button>
+							<ion-option-button ng-click="toApproximations(item)" >
+								<div class="btnbox">
+									<img src="img/icon/ico_65.png" alt="">
+									<div style="line-height: 14px" >划题</div>
+								</div>
+							</ion-option-button>
+						</ion-item>
+				    </div>
+				</div>
+			</div>
+        </ion-list>
+		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
 	</ion-content>
 </ion-view>

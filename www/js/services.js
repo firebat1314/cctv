@@ -32,7 +32,7 @@ angular.module('starter.services', [])
     };
   })
   .service('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
-    var ip = 'http://cctvnnn.ivtime.net';
+    var ip = 'http://cctvadmin.ivtime.net';
     //http://cctvnnn.ivtime.net/ManageApp/Login/index
     function storeData(key, data) {
       if (data) {
@@ -379,7 +379,7 @@ angular.module('starter.services', [])
         })
       },
       //40、 （1）串联单操作（约稿和不通过）
-      yBaoti:function(type,data,data){
+      ChuanldStatus:function(type,params,data){
         return $http({
           method: type,
           url: ip + '/ManageApp/Chuanld/status',
@@ -391,7 +391,7 @@ angular.module('starter.services', [])
         })
       },
       //(2)串联单批量不通过操作
-      overPlay: function(data) {
+      batchBTG: function(data) {
         return $http({
           method: 'POST',
           url: ip + '/ManageApp/Chuanld/batchBTG',
@@ -428,7 +428,8 @@ angular.module('starter.services', [])
           headers: {
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
-          timeout: 5000
+          timeout: 5000,
+          parmas:data
         })
       },
       //用户管理

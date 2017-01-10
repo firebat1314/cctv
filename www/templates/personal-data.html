@@ -25,10 +25,10 @@
 		#pedata-txt button:last-child{
 			background-image: url(img/icon/ico_55.png);
 		}
-		.card{
+		.pedata-body .card{
 			margin: 20px 0;
 		}
-		.card .item{
+		.pedata-body .card .item{
 			margin-left: 10px;
 			margin-right: 10px;
 		}
@@ -97,41 +97,44 @@
 				<div class="card" >
 					<a href="" class="item" ng-click="nickname()">
 						昵称
-						<span class="item-note" ng-bind="profile.nickname || dataInit.nickname || '点击设置'"></span>
+						<span class="item-note" ng-bind="dataInit.nickname || '点击设置'"></span>
 					</a>
 					<a href="" class="item" ng-click="sex()">
 						性别
-						<span class="item-note" ng-bind="(dataInit.sex?'男':'女') || '点击设置'"></span>
+						<span class="item-note" ng-if="dataInit.sex=='1'">男</span>
+						<span class="item-note" ng-if="dataInit.sex=='2'">女</span>
 					</a>
 					<a href="" class="item" ng-click="mobile()">
 						手机号
-						<span class="item-note" ng-bind="profile.mobile || dataInit.mobile || '点击设置'"></span>
+						<span class="item-note" ng-bind="dataInit.mobile || '点击设置'"></span>
 					</a>
 					<a href="" class="item" ng-click="email()">
 						电子邮箱
-						<span class="item-note" ng-bind="profile.email ||dataInit.email || '点击设置'"></span>
+						<span class="item-note" ng-bind="dataInit.email || '点击设置'"></span>
 					</a>
 				</div>
 				<div class="card" >
 					<a href="" class="item" ng-click="city_cn()">
 						所属地区
-						<span class="item-note" ng-bind="dataInit.city_cn || '点击设置'"></span>
+						<span class="item-note" ng-bind="dataInit.province_cn || '点击设置'"></span>
 					</a>
 					<a href="" class="item" ng-click="type()">
 						单位性质
-						<span class="item-note"  ng-bind="profile.type || dataInit.type || '点击设置'"></span>
+						<span class="item-note" ng-if="dataInit.type==0">电视台</span>
+						<span class="item-note" ng-if="dataInit.type==1">非电视台</span>
+						<span class="item-note" ng-if="dataInit.type==3">中央台驻地方记者站</span>
 					</a>
 					<a href="" class="item" ng-click="company()">
 						电视台名称
-						<span class="item-note"  ng-bind="profile.company || dataInit.company || '点击设置'"></span>
+						<span class="item-note"  ng-bind="dataInit.company || '点击设置'"></span>
 					</a>
 				  <a href="" class="item" ng-click="department()">
 						部门
-						<span class="item-note"  ng-bind="profile.department || dataInit.department || '点击设置'"></span>
+						<span class="item-note"  ng-bind="dataInit.department || '点击设置'"></span>
 					</a>
 				  <a href="" class="item" ng-click="position()">
 						职务
-						<span class="item-note"  ng-bind="profile.position || dataInit.position || '点击设置'"></span>
+						<span class="item-note"  ng-bind="dataInit.position || '点击设置'"></span>
 					</a>
 				</div>
 			</div>
