@@ -10,7 +10,6 @@ angular.module('starter.directives', [])
             });
 
             scope.$on('$ionicView.beforeLeave', function() {
-            	console.log(1232);
                 $rootScope.hideTabs = false;
             });
         }

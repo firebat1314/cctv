@@ -83,17 +83,17 @@
       		  	</label>
       		  	<label class="item item-input item-stacked-label app-content" style="border-top: none;">
       		    	<span class="input-label">发信内容</span>
-      		    	<textarea ng-model="user.content" placeholder="Comments" rows="7"></textarea>
+      		    	<textarea ng-model="user.content" placeholder="" rows="7"></textarea>
       		  	</label>
       		  	<div class="item item-input item-stacked-label app-note">
       		    	<span class="input-label">是否发送手机短信：</span>
       		    	<div >
       		    	<label class="radio">
-      		    		<div class="radiobox" ng-class="{true:'active',false:''}[user.is_sms==1]"><i class="ion-checkmark-round" ></i></div>
+      		    		<div class="radiobox" ng-class="{true:'active',false:''}[user.is_sms=='1']"><i class="ion-checkmark-round" ></i></div>
       		    	  	<input type="radio" name="is_sms" value="1" ng-model="user.is_sms" ng-init="is_sms=1" style="display: none">是
       		    	</label>
       		    	<label class="radio">
-      		    		<div class="radiobox" ng-class="{true:'active',false:''}[user.is_sms==0]"><i class="ion-checkmark-round" ></i></div>
+      		    		<div class="radiobox" ng-class="{true:'active',false:''}[user.is_sms=='0']"><i class="ion-checkmark-round" ></i></div>
       		    	  	<input type="radio" name="is_sms" value="0" ng-model="user.is_sms" ng-init="is_sms=0" style="display: none">否
       		    	</label>
       		    	</div>

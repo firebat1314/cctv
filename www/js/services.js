@@ -46,6 +46,7 @@ angular.module('starter.services', [])
       login: function(data) {
         return $http({
           method: "POST",
+          // url: "http://cctvad nnn.ivtime.net/App/Login/index",
           url: ip + "/ManageApp/Login/index",
           data: data,
           timeout: 5000
@@ -367,6 +368,7 @@ angular.module('starter.services', [])
           data: data
         })
       },
+
       //（3）报题操作（约视频）
       BaotiHandleVideo:function(data){
         return $http({
@@ -401,6 +403,93 @@ angular.module('starter.services', [])
           data: data
         })
       },
+      //已报题单操作（划题和不通过）
+      BaotiCZ:function(data){
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/Baoti/huati',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data: data
+        })     
+      },
+      //已报题单批量不通过操作
+      batchHT:function(data){
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/Baoti/batchHT',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data: data
+        })     
+      },
+      //42、 （1）已划题单操作（添加播出和不通过）
+      HuatiCZ:function(data){
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/Huati/bochu',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data: data
+        })     
+      },
+      getHuatiCZ:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/Huati/bochu',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })     
+      },
+      //下载
+      down:function(data){
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/Huati/down',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data: data
+        })     
+      },
+      //（2）已划题单批量不通过操作
+      batchBC:function(data){
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/Huati/batchBC',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data: data
+        })     
+      },
+      //43、 播出频道
+      channelList:function(data){
+        return $http({
+          method: 'get',
+          url: ip + '/ManageApp/Huati/pindao',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })     
+      },
+      //38、 播出单
+      BochuList:function(data){
+        return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/Bochu/index',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
+        })     
+      },
       //找回密码
       findPassword: function(data) {
         return $http({
@@ -433,13 +522,14 @@ angular.module('starter.services', [])
         })
       },
       //用户管理
-      userCtrl: function(size, page) {
+      userCtrl: function(data) {
         return $http({
           method: 'GET',
-          url: ip + '/ManageApp/User/members?size=' + size + '&page=' + page,
+          url: ip + '/ManageApp/User/members',
           headers: {
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
+          params:data,
           timeout: 5000
         })
       },

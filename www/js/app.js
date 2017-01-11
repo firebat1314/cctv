@@ -246,13 +246,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
   })
 
   .state('approximations',{
-    url:'/account/allchuanlian/approximations/:id/:title',
+    url:'/account/allchuanlian/approximations/:id/:uid/:title',
     templateUrl:'templates/approximations.html',
     controller: 'ApproximationsCtrl'
   })
 
   .state('nopass',{
-    url:'/account/allchuanlian/nopass/:id/:title',
+    url:'/account/allchuanlian/nopass/:id',
     templateUrl:'templates/nopass.html',
     controller: 'NopassCtrl'
   })
@@ -268,7 +268,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
   })
 
   .state('huati',{
-    url:'/account/alreadyreport/huati',
+    url:'/account/alreadyreport/huati/:id',
     templateUrl:'templates/huati.html',
     controller: 'HuatiCtrl'
   })
@@ -283,8 +283,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
     }
   })
 
-  .state('rebroadcast',{
-    url:'/account/alreadysweep/rebroadcast',
+  .state('tab.rebroadcast',{
+    url:'/account/alreadysweep/rebroadcast/:id',
     views: {
       'tab-account': {
         templateUrl: 'templates/add-rebroadcast.html',
@@ -309,16 +309,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
       'tab-account': {
         templateUrl: 'templates/cardcase.html',
         controller: 'CardCaseCtrl'
-      }
-    }
-  })
-
-  .state('tab.correctioncode',{
-    url:'/account/correctioncode',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/correctioncode.html',
-        controller: 'CorrectionCodeCtrl'
       }
     }
   })

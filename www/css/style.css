@@ -5,13 +5,15 @@
 }
 .bar .button-clear i{
 	color: #fff;
-	
 }
 .bar .button .icon:before{
 }
 .bar .title{
 	color: #fff;
-	font-family: 'microsoft yahei'
+}
+
+.card{
+	position: relative;
 }
 
 .bar.bar-header{

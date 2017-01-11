@@ -1,10 +1,91 @@
-<ion-view>
-
+<ion-view hide-tabs="true">
+<style>
+	.my_card .item-divider{
+		background-color: #ff8651;
+		height: 50px;
+		color: #fff;
+		text-align: center;
+		line-height: 50px;
+		padding: 0 20px;
+	}
+	.my_card .item-stacked-label{
+		border: none;
+		padding: 0;
+	}
+	.my_card .input-label{
+		padding-left: 10px;
+		margin: 10px 0;
+		background: #fff url(img/icon/ico_52.png) left center no-repeat;
+		-webkit-background-size:auto 20px;
+		background-size:auto 20px;
+	}
+	.my_card input,.my_card textarea,.date_icon,.my_select_wrap{
+		border: 1px solid #e6e6e6;
+		border-radius: 4px;
+		padding: 5px;
+		height: 34px;
+	}
+	.my_card .right-btn{
+		background-color: #ff8651;
+		color: #ffffff;
+	}
+	.my_card .cancel-btn{
+		background-color: #a6a6a6;
+		color: #ffffff;
+	}
+	.date_icon{
+		background: url(img/icon/ico_61.png) 95% center no-repeat;
+	}
+	.my_select_wrap .my_select{
+		height: 34px;
+		width: 100%;
+		max-width: 100%;
+		direction: ltr;
+	}
+</style>
 	<ion-header-bar align-title="center">
 		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
 		<h1 class="title">添加重播</h1>
 	</ion-header-bar>
-	<ion-content overflow-scroll="false" has-bouncing="true" >
-        
+	<ion-content overflow-scroll="false" has-bouncing="false" >
+        <div class="my_card">
+	        <div class="card">
+	          	<div class="item item-divider">
+	            	{{title}}
+	          	</div>
+	      		<div class="list padding">
+	      		  	<label class="item item-input item-stacked-label">
+	      		    	<span class="input-label">正文：</span>
+	      		    	
+	      		  	</label>
+	      		  	<div  class="content" >
+	      		  		<ion-scroll zooming="true" direction="y" style="width: 100%; height: 200px;border: 1px solid #e6e6e6;border-radius: 4px;overflow: hidden;padding: 5px;">
+	      		  		  <div ng-bind-html="content" style="color: #a6a6a6;"></div>
+	      		  		</ion-scroll>
+	      		  	</div>
+	      		  	<label class="item item-input item-stacked-label">
+		      		    <span class="input-label">播出标题</span>
+		      		    <input type="text" ng-model="user.bochu_title" placeholder="">
+	      		  	</label>
+	      		  	<div class="item item-input item-stacked-label">
+		      		    <span class="input-label">播出时间</span>
+		      		    <p ng-click="datapicker()" class="date_icon">{{user.bochu_date}}</p>
+	      		  	</div>
+	      		  	<div class="item item-input item-stacked-label">
+	      		    	<span class="input-label">播出频道及时段</span>
+	      		    	<label class=" item-input item-select my_select_wrap">
+	      		    	  	<select class="my_select" ng-model="user.bochu_pindao">
+	      		    	    	<option ng-repeat="item in channelList">{{item.title}}</option>
+	      		    	  	</select>
+	      		    	</label>
+	      		  	</div>
+	      		</div>
+	        </div>
+	        <div class="padding" >
+	        	<button class="button button-block right-btn" ng-click="submit()">
+	        		确定
+	        	</button>
+	        </div>
+        </div>
 	</ion-content>
 </ion-view>

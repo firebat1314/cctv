@@ -16,11 +16,10 @@ angular.module('user-controllers',[])
   	});
 })
 
-.controller('ManagementCtrl',function($scope, $data, $rootScope, $state){
-	$scope.items = [];
-	$scope.size = 10;
+.controller('ManagementCtrl',function($scope, $data, $rootScope, $state,$timeout){
+	$scope.size = 5;
 	$scope.page = 1;
-  	$data.userCtrl($scope.size,$scope.page).success(function(details){
+  	$data.userCtrl().success(function(details){
   		console.log(details.data);
   		$scope.items = details.data;
   	})
@@ -28,12 +27,18 @@ angular.module('user-controllers',[])
   	//console.log(navigator);
 	$scope.loadMore = function () {
 		$scope.page++;
-        $data.userCtrl($scope.size,$scope.page)
-        	.success(function (data) {
-                Array.prototype.push.apply($scope.items, data.data);
-            }).finally(function () {
-                $scope.$broadcast('scroll.infiniteScrollComplete');
-            });
+		$timeout(function(){
+			$data.userCtrl({
+        		size:$scope.size,
+        		page:$scope.page
+        	})
+			.success(function (data) {
+		        Array.prototype.push.apply($scope.items, data.data);
+		    }).finally(function () {
+		        $scope.$broadcast('scroll.infiniteScrollComplete');
+		    });
+		})
+        
     };
   	$scope.toPersonalPage = function(uid){
   		$state.go('tab.personal-page',{
@@ -95,9 +100,6 @@ angular.module('user-controllers',[])
 				console.log($scope.user);
 			},
 			disabledDates: [            //Optional
-				// new Date(2016, 2, 16),
-				// new Date(2015, 3, 16),
-				// new Date(2015, 4, 16),
 				// new Date(2015, 5, 16),
 				// new Date('Wednesday, August 12, 2015'),
 				// new Date("08-16-2016"),
@@ -114,7 +116,7 @@ angular.module('user-controllers',[])
 
 	      ionicDatePicker.openDatePicker(ipObj1);
 
-	}
+	};
 	$('.pp-button').on('click',function(e){
 		$(this).parent().find('.pp-backdrop').css('opacity','.3');
 		$(this).find('.pp-backdrop').css('opacity','0');
@@ -259,7 +261,7 @@ angular.module('user-controllers',[])
 				department: $scope.dataInit.department,
 				position: $scope.dataInit.position
 			};
-		})	 	
+		})
 	};
 	$scope.getDetails();
 	$scope.delText = function($event){
@@ -499,7 +501,7 @@ angular.module('user-controllers',[])
 
 .controller('AllNewsCtrl',function($scope, $data, $state,$rootScope){
 	$scope.details = [];
-	$scope.size = 10;
+	$scope.size = 5;
 	$scope.page = 1;
 	$data.allNews().success(function(data){
 		console.log(data);
@@ -594,17 +596,17 @@ angular.module('user-controllers',[])
 			status:2,
 			note:'串联单批量不通过操作'
 		}).success(function(data){
-			console.log(data);
-			$data.loadingShow(data.info)
+			console.log('成功');
+			$data.loadingShow(data.info);
 		})
 		
 	};
 
 	$scope.toApproximations = function(item){
-		$rootScope.$broadcast('ChuanLianMessage',item);
 		$state.go('approximations',{
 			id:item.id,
-			title:item.title
+			title:item.title,
+			uid:item.uid
 		});
 	};
 	$scope.toNopass = function(item){
@@ -613,57 +615,55 @@ angular.module('user-controllers',[])
 			title:item.title
 		});
 	};
-	$scope.items = [];
-	$scope.size = 3;
+
+	$scope.size = 5;
 	$scope.page = 1;
 	$scope.loadMore = function () {
 		$scope.page++;
         $timeout(function(){
-        	$data.allChuanld($scope.size,$scope.page)
+        	$data.allChuanld({
+        		size:$scope.size,
+        		page:$scope.page
+        	})
         	.success(function (data) {
                 $timeout(function(){
-                	Array.prototype.push.apply($scope.items, data.data);	 	
+                	Array.prototype.push.apply($scope.items, data.data);
                 })
             }).finally(function () {
                 $scope.$broadcast('scroll.infiniteScrollComplete');
-            });	 	
-        },2000)
+            });
+        },1000)
     };
 })
 .controller('ApproximationsCtrl',function($stateParams,$scope,$rootScope, $data, $state){
   	$scope.id = $stateParams.id;
+  	$scope.uid = $stateParams.uid;
   	$scope.title = $stateParams.title;
-	var deregister = $rootScope.$on('ChuanLianMessage',function(event,args){
-		$data.personalDetails(args.uid).success(function(data){
-			console.log(data);
-			$scope.details = data.data;
-			$scope.user = {
-				id:$scope.id,
-				uid:$scope.details.uid,
-				mobile:$scope.details.mobile,
-				title:'约稿：'+$scope.title,
-				content:'',
-				status:1,
-				is_sms:''
-			};
-		});
-	})
+	$data.personalDetails($scope.uid).success(function(data){
+		console.log(data);
+		$scope.details = data.data;
+		$scope.user = {
+			id:$scope.id,
+			uid:$scope.details.uid,
+			mobile:$scope.details.mobile,
+			title:'约稿：'+$scope.title,
+			content:'',
+			status:1,
+			is_sms:''
+		};
+	});
 	$scope.submit = function(){
 		$data.ChuanldStatus('POST','',$scope.user).success(function(data){
 			$data.loadingShow(data.info)
 			console.log(data);
 		})
 	}
-	$scope.$on('$destory',function(){
-		deregister();	 	
-	})
-
 })
 .controller('NopassCtrl',function($scope, $data, $state,$stateParams){
   	$scope.id = $stateParams.id;
   	$scope.title = $stateParams.title;
 	$scope.user = {
-		note:'',
+		note:'不通过',
 		status:'2',
 		id:$scope.id
 	};
@@ -673,16 +673,11 @@ angular.module('user-controllers',[])
 			if(data.status == 1){
 
 			}
-		})	 	
+		})
 	}
 })
-.controller('HuatiCtrl',function($scope, $data, $state){
-	
-})
-.controller('AddRebroadcatCtrl',function($scope, $data, $state){
-	
-})
-.controller('AlreadyReportCtrl',function($scope, $data, $state,$timeout){
+
+.controller('AlreadyReportCtrl',function($scope, $data, $state,$timeout,$ionicPopup){
 	$scope.getDetails = function(){
 		$data.yBaoti().success(function(data){
 			$scope.details = data.data;
@@ -690,7 +685,26 @@ angular.module('user-controllers',[])
 		})
 	};
 	$scope.getDetails();
-	
+	$scope.size = 5;
+	$scope.page = 1;
+	$scope.loadMore = function () {
+		$scope.page++;
+        $timeout(function(){
+        	$data.yBaoti({
+        		size:$scope.size,
+        		page:$scope.page
+        	})
+        	.success(function (data) {
+        		console.log(data);
+                $timeout(function(){
+                	Array.prototype.push.apply($scope.details, data.data);
+                })
+            }).finally(function () {
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            });
+        },1000)
+    };
+
     $scope.arr = [];
 	$scope.status = false;
 	$scope.editbutton = '编辑';
@@ -729,49 +743,207 @@ angular.module('user-controllers',[])
 		})
 	};
 	$scope.submit = function(){
-		$data.BaotiHandlePass({
+		$data.batchHT({
 			ids:$scope.arr,
 			status:2,
 			note:'已报题单批量不通过操作'
 		}).success(function(data){
-			console.log(data);
-			$data.loadingShow(data.info)
+			$data.loadingShow(data.info);
+
 		})
 		
 	};
 
+	$scope.toHuati = function(item){
+		$state.go('huati',{
+			id:item.id,
+			title:item.title
+		})
+	};
+	$scope.toNopass = function(item){
+		$state.go('nopass',{
+			id:item.id,
+			title:item.title
+		})
+	}
+})
+.controller('HuatiCtrl',function($scope, $data, $state,$stateParams,$rootScope){
+	$scope.id = $stateParams.id;
+  	$scope.title = $stateParams.title;
+  	$scope.user = {
+  		content:'',
+  		status:'',
+		id:$scope.id
+  	}
+	$scope.submit = function(){
+  		$data.BaotiCZ($scope.user).success(function(data){
+  			$data.loadingShow(data.info);
+  			if(data.status == '1'){
+  				$rootScope.$ionicGoBack();
+  			}
+  		})
+	}
+})
 
-
-
-
-	$scope.items = [];
-	$scope.size = 3;
+.controller('AlreadySweepCtrl',function($scope, $data, $state,$timeout,$ionicPopup){
+	$scope.getDetails = function(){
+		$data.yHuati().success(function(data){
+			console.log(data);
+			$scope.details = data.data;
+		})
+	};
+	$scope.getDetails();
+	$scope.size = 5;
 	$scope.page = 1;
 	$scope.loadMore = function () {
 		$scope.page++;
         $timeout(function(){
-        	$data.yBaoti($scope.size,$scope.page)
+        	$data.yHuati({
+        		size:$scope.size,
+        		page:$scope.page
+        	})
         	.success(function (data) {
         		console.log(data);
                 $timeout(function(){
-                	Array.prototype.push.apply($scope.details, data.data);	 	
+                	Array.prototype.push.apply($scope.details, data.data);
                 })
             }).finally(function () {
                 $scope.$broadcast('scroll.infiniteScrollComplete');
             });
-        },1500)
+        },1000)
     };
-})
-.controller('AlreadySweepCtrl',function($scope, $data, $state){
-	
-})
-.controller('OverPlayCtrl',function($scope, $data, $state){
-	
-})
-.controller('CardCaseCtrl',function($scope, $data, $state){
-	
-})
-.controller('CorrectionCodeCtrl',function($scope, $data, $state){
-	
-})
 
+    $scope.arr = [];
+	$scope.status = false;
+	$scope.editbutton = '编辑';
+	$scope.buttonIcon = 'img/icon/ico_53.png';
+	$scope.edit = function(){
+		if ($scope.status) {
+			$scope.noPass();
+		}else{
+			$scope.editbutton = '不通过';
+			$scope.buttonIcon = 'img/icon/ico_59.png';
+			$scope.status = true;
+		}
+	}
+	$scope.noPass = function(){
+		$ionicPopup.confirm({
+			title: '确认操作',
+			template: '是否保存？',
+			scope:$scope,
+			buttons: [{
+				text: '<b>确定</b>',
+				type: 'button-positive',
+				onTap: 	function(res){
+							$scope.submit();
+							$scope.editbutton = '编辑';
+							$scope.buttonIcon = 'img/icon/ico_60.png';
+							$scope.status = false;
+						}
+			}, {
+				text: '取消',
+				onTap: 	function(res){
+							$scope.editbutton = '编辑';
+							$scope.buttonIcon = 'img/icon/ico_60.png';
+							$scope.status = false;
+						}
+			}]
+		})
+	};
+	$scope.submit = function(){
+		$data.batchBC({
+			ids:$scope.arr,
+			status:2,
+			note:'已划题单批量不通过操作'
+		}).success(function(data){
+			$data.loadingShow(data.info);
+		})
+	};
+
+	$scope.down = function(id){
+		console.log(id);
+		$data.down({
+			id:id
+		}).success(function(data){
+			console.log(data);
+		})
+	};
+
+	$scope.toAddReb = function(item){
+		$state.go('tab.rebroadcast',{
+			id:item.id,
+			title:item.title
+		});
+	}
+})
+.controller('AddRebroadcastCtrl',function($scope, $data,$filter, $state,$stateParams,ionicDatePicker){
+	$scope.id = $stateParams.id;
+  	$data.channelList().success(function(data){
+  		console.log(data);
+  		$scope.channelList = data.data;
+  	});
+  	$data.getHuatiCZ({
+  		id:$scope.id
+  	}).success(function(data){
+  		console.log(data);
+  		var regRN = /\r\n/g;
+  		$scope.content = data.data.content.replace(regRN,"<br />");
+  		$scope.title = data.data.title;
+  		$scope.uid = data.data.uid;
+  	});
+  	$scope.user = {
+  		bochu_pindao:'',
+  		bochu_title:'',
+  		bochu_date:'',
+  		status:'1',
+  		id:$scope.id
+  	};
+  	$scope.datapicker = function(){
+  		var ipObj1 = {
+  			callback: function (val) {  //Mandatory
+  				$scope.user.bochu_date = $filter('date')(val, 'yyyy-MM-dd');
+  			},
+  			disabledDates: [            //Optional
+  				// new Date(2015, 5, 16),
+  				// new Date('Wednesday, August 12, 2015'),
+  				// new Date("08-16-2016"),
+  				// new Date(1439676000000)
+  			],
+  			from: new Date(), //Optional
+  			to: new Date(2018,1,1), //Optional
+  			inputDate: new Date(),      //Optional
+  			mondayFirst: false,          //Optional
+  			disableWeekdays: [],       //Optional [0,6]
+  			closeOnSelect: false,       //Optional
+  			templateType: 'popup'       //Optional
+  	    };
+  		ionicDatePicker.openDatePicker(ipObj1);
+  	};
+  	$scope.submit = function(){
+  		console.log($scope.user);
+  		$data.HuatiCZ($scope.user).success(function(data){
+  			$data.loadingShow(data.info)
+  		});
+  	}
+})
+.controller('OverPlayCtrl',function($scope, $data, $state,$stateParams){
+	$data.BochuList().success(function(data){
+		console.log(data);
+		$scope.details = data.data;
+	})
+})
+.controller('CardCaseCtrl',function($scope, $data, $state,$stateParams){
+	
+})
+.controller('RevisePasswordCtrl',function($scope, $data, $state,$stateParams){
+	var user = {
+		oldpassword:'',
+		password:'',
+		cpassword:''
+	}
+	$scope.submit = function(){
+		$data.revisePassword(user).success(function(data){
+			$data.loadingShow(data.info);
+		})
+	}
+})
