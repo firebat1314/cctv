@@ -1,9 +1,284 @@
 <ion-view>
+<style>
+	.scroll{
+		height:100%;
+	}
+	.tabbed-slidebox .tsb-icons:after{
+		display:none;
+	}
+	.card-main-content{
+		margin: 5px 0 5px;
+		border-top:1px solid #e6e6e6;
+		margin-top: 4px;
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-line-pack:distribute;
+		    align-content:space-around;
+		-ms-flex-flow: column;
+		    flex-flow: column;
+	}
+	.item.item-avatar{
+		padding-bottom:  ;
+	}
+	.card-main-content-ul{
+		position: relative;
+		height: 100%;
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-line-pack:distribute;
+		    align-content:space-around;
+		-ms-flex-flow: column;
+		    flex-flow: column;
+	}
+	.card-main-content-ul li {
+		padding-left: 20px;
+		background: url(img/icon/ico_3.png) 0 0 no-repeat;
+		-webkit-background-size: 13px 15px;
+		background-size: 13px 15px;
+	}
+	.indicator{
+		background-color: #ff8651;
+		color: #fff;
+		line-height: 60px;
+		text-align: center;
+		height: 100%;
+		width: 15px;
+		position: absolute;
+		right: 0;
+		top: 0;
+		border-radius: 5px 0 0 5px;
+	}
+	.card-main-content .btnbox{
+		width: 100%;
+		height: 100%;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-ms-flex-direction: column;
+		        flex-direction: column;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		        align-items: center;
+		-ms-flex-pack:distribute;
+		    justify-content:space-around;
+	}
+</style>
 	<ion-header-bar align-title="center">
 		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
 		<h1 class="title">名片盒</h1>
 	</ion-header-bar>
-	<ion-content overflow-scroll="false" has-bouncing="true" >
-		
+	<ion-content overflow-scroll="false" has-bouncing="true" scroll="false">
+		<tab-slide-box>
+			<div class="tsb-icons">
+				<div class="tsb-ic-wrp">
+					<ion-scroll direction="x" class="tsb-hscroll" has-bouncing="true">
+						<a href="javascript:;">全部名片盒</a>
+						<a href="javascript:;">临时名片盒</a>
+						<a href="javascript:;">未整理名片盒</a>
+						<a href="javascript:;">地方资源组</a>
+						<a href="javascript:;">地方组</a>
+					</ion-scroll>
+				</div>
+			</div>
+			<ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
+			    <ion-slide>
+					<ion-scroll style="height:100%" delegate-handle="slide1Scroll"  has-bouncing="true">
+			            <ion-list>
+			    			<div class=" card" ng-repeat="item in details_a">
+			    			  <div class="item item-avatar">
+			    			    <img ng-src="{{item.avatar}}">
+			    			    <h2><span style="float:left;" ng-bind="item.name"></span><span style="float:right;color: #ed6d00;" ng-bind="item.position">记者</span></h2>
+			    			    <div class="card-main-content">
+			    					<ion-list>
+			    					  <ion-item>
+			    					  	<div class="card-main-content-ul">
+			    					  		<ul class="card-main-content-ul">
+			    					  			<li style="background-image: url(img/icon/ico_3.png)">{{item.region}}</li>
+			    					  			<li style="background-image: url(img/icon/ico_7.png)">{{item.group_name}}</li>
+			    					  			<li style="background-image: url(img/icon/ico_11.png)">{{item.mobile}}</li>
+			    					  		</ul>
+			    					  		<div class="indicator"><i class="icon ion-ios-arrow-left"></i></div>
+			    					  	</div>
+			    					    <ion-option-button class="" ng-click="toPersonalPage(item.uid)">
+			    					    	<div class="btnbox">
+			    					    		<img src="img/icon/ico_17.png" alt="">
+			    					    		<div style="line-height: 14px">查看</div>
+			    					    	</div>
+			    					    </ion-option-button>
+			    					    <ion-option-button class="" ng-click="">
+			    					    	<div class="btnbox">
+			    					    		<img src="img/icon/ico_15.png" alt="">
+			    					    		<div style="line-height: 14px">审核</div>
+			    					    	</div>
+			    					    </ion-option-button>
+			    					  </ion-item>
+			    					</ion-list>
+			    			    </div>
+			    			  </div>
+			    			</div>
+			            </ion-list>
+			    		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+					</ion-scroll>
+			    </ion-slide>
+			    <ion-slide>
+			    	<ion-scroll style="height:100%" delegate-handle="slide1Scroll"  has-bouncing="true">
+			            <ion-list>
+			    			<div class=" card" ng-repeat="item in details_b">
+			    			  <div class="item item-avatar">
+			    			    <img ng-src="{{item.avatar}}">
+			    			    <h2><span style="float:left;" ng-bind="item.name"></span><span style="float:right;color: #ed6d00;" ng-bind="item.position">记者</span></h2>
+			    			    <div class="card-main-content">
+			    					<ion-list>
+			    					  <ion-item>
+			    					  	<div class="card-main-content-ul">
+			    					  		<ul class="card-main-content-ul">
+			    					  			<li style="background-image: url(img/icon/ico_3.png)">{{item.region}}</li>
+			    					  			<li style="background-image: url(img/icon/ico_7.png)">{{item.group_name}}</li>
+			    					  			<li style="background-image: url(img/icon/ico_11.png)">{{item.mobile}}</li>
+			    					  		</ul>
+			    					  		<div class="indicator"><i class="icon ion-ios-arrow-left"></i></div>
+			    					  	</div>
+			    					    <ion-option-button class="" ng-click="toPersonalPage(item.uid)">
+			    					    	<div class="btnbox">
+			    					    		<img src="img/icon/ico_17.png" alt="">
+			    					    		<div style="line-height: 14px">查看</div>
+			    					    	</div>
+			    					    </ion-option-button>
+			    					    <ion-option-button class="" ng-click="">
+			    					    	<div class="btnbox">
+			    					    		<img src="img/icon/ico_15.png" alt="">
+			    					    		<div style="line-height: 14px">审核</div>
+			    					    	</div>
+			    					    </ion-option-button>
+			    					  </ion-item>
+			    					</ion-list>
+			    			    </div>
+			    			  </div>
+			    			</div>
+			            </ion-list>
+			    		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+					</ion-scroll>
+			    </ion-slide>
+			    <ion-slide>
+			       	<ion-scroll style="height:100%" delegate-handle="slide1Scroll"  has-bouncing="true">
+			            <ion-list>
+			    			<div class=" card" ng-repeat="item in details_c">
+			    			  <div class="item item-avatar">
+			    			    <img ng-src="{{item.avatar}}">
+			    			    <h2><span style="float:left;" ng-bind="item.name"></span><span style="float:right;color: #ed6d00;" ng-bind="item.position">记者</span></h2>
+			    			    <div class="card-main-content">
+			    					<ion-list>
+			    					  <ion-item>
+			    					  	<div class="card-main-content-ul">
+			    					  		<ul class="card-main-content-ul">
+			    					  			<li style="background-image: url(img/icon/ico_3.png)">{{item.region}}</li>
+			    					  			<li style="background-image: url(img/icon/ico_7.png)">{{item.group_name}}</li>
+			    					  			<li style="background-image: url(img/icon/ico_11.png)">{{item.mobile}}</li>
+			    					  		</ul>
+			    					  		<div class="indicator"><i class="icon ion-ios-arrow-left"></i></div>
+			    					  	</div>
+			    					    <ion-option-button class="" ng-click="toPersonalPage(item.uid)">
+			    					    	<div class="btnbox">
+			    					    		<img src="img/icon/ico_17.png" alt="">
+			    					    		<div style="line-height: 14px">查看</div>
+			    					    	</div>
+			    					    </ion-option-button>
+			    					    <ion-option-button class="" ng-click="">
+			    					    	<div class="btnbox">
+			    					    		<img src="img/icon/ico_15.png" alt="">
+			    					    		<div style="line-height: 14px">审核</div>
+			    					    	</div>
+			    					    </ion-option-button>
+			    					  </ion-item>
+			    					</ion-list>
+			    			    </div>
+			    			  </div>
+			    			</div>
+			            </ion-list>
+			    		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+					</ion-scroll>
+			    </ion-slide>
+				<ion-slide>
+			       	<ion-scroll style="height:100%" delegate-handle="slide1Scroll"  has-bouncing="true">
+			            <ion-list>
+			    			<div class=" card" ng-repeat="item in details_d">
+			    			  <div class="item item-avatar">
+			    			    <img ng-src="{{item.avatar}}">
+			    			    <h2><span style="float:left;" ng-bind="item.name"></span><span style="float:right;color: #ed6d00;" ng-bind="item.position">记者</span></h2>
+			    			    <div class="card-main-content">
+			    					<ion-list>
+			    					  <ion-item>
+			    					  	<div class="card-main-content-ul">
+			    					  		<ul class="card-main-content-ul">
+			    					  			<li style="background-image: url(img/icon/ico_3.png)">{{item.region}}</li>
+			    					  			<li style="background-image: url(img/icon/ico_7.png)">{{item.group_name}}</li>
+			    					  			<li style="background-image: url(img/icon/ico_11.png)">{{item.mobile}}</li>
+			    					  		</ul>
+			    					  		<div class="indicator"><i class="icon ion-ios-arrow-left"></i></div>
+			    					  	</div>
+			    					    <ion-option-button class="" ng-click="toPersonalPage(item.uid)">
+			    					    	<div class="btnbox">
+			    					    		<img src="img/icon/ico_17.png" alt="">
+			    					    		<div style="line-height: 14px">查看</div>
+			    					    	</div>
+			    					    </ion-option-button>
+			    					    <ion-option-button class="" ng-click="">
+			    					    	<div class="btnbox">
+			    					    		<img src="img/icon/ico_15.png" alt="">
+			    					    		<div style="line-height: 14px">审核</div>
+			    					    	</div>
+			    					    </ion-option-button>
+			    					  </ion-item>
+			    					</ion-list>
+			    			    </div>
+			    			  </div>
+			    			</div>
+			            </ion-list>
+			    		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+					</ion-scroll>
+			    </ion-slide>
+			    <ion-slide>
+			       	<ion-scroll style="height:100%" delegate-handle="slide1Scroll"  has-bouncing="true">
+			            <ion-list>
+			    			<div class=" card" ng-repeat="item in details_e">
+			    			  <div class="item item-avatar">
+			    			    <img ng-src="{{item.avatar}}">
+			    			    <h2><span style="float:left;" ng-bind="item.name"></span><span style="float:right;color: #ed6d00;" ng-bind="item.position">记者</span></h2>
+			    			    <div class="card-main-content">
+			    					<ion-list>
+			    					  <ion-item>
+			    					  	<div class="card-main-content-ul">
+			    					  		<ul class="card-main-content-ul">
+			    					  			<li style="background-image: url(img/icon/ico_3.png)">{{item.region}}</li>
+			    					  			<li style="background-image: url(img/icon/ico_7.png)">{{item.group_name}}</li>
+			    					  			<li style="background-image: url(img/icon/ico_11.png)">{{item.mobile}}</li>
+			    					  		</ul>
+			    					  		<div class="indicator"><i class="icon ion-ios-arrow-left"></i></div>
+			    					  	</div>
+			    					    <ion-option-button class="" ng-click="toPersonalPage(item.uid)">
+			    					    	<div class="btnbox">
+			    					    		<img src="img/icon/ico_17.png" alt="">
+			    					    		<div style="line-height: 14px">查看</div>
+			    					    	</div>
+			    					    </ion-option-button>
+			    					    <ion-option-button class="" ng-click="">
+			    					    	<div class="btnbox">
+			    					    		<img src="img/icon/ico_15.png" alt="">
+			    					    		<div style="line-height: 14px">审核</div>
+			    					    	</div>
+			    					    </ion-option-button>
+			    					  </ion-item>
+			    					</ion-list>
+			    			    </div>
+			    			  </div>
+			    			</div>
+			            </ion-list>
+			    		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+					</ion-scroll>
+			    </ion-slide>
+			</ion-slide-box>
+		</tab-slide-box>
 	</ion-content>
 </ion-view>

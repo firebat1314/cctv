@@ -1,4 +1,21 @@
 <ion-view>
+	<style>
+		.report .report-title{
+			text-indent: 23px;
+		    background: url(img/icon/ico_70.png) left top no-repeat;
+		    -webkit-background-size: auto 17px;
+		    background-size: auto 17px;
+		    line-height: 26px;
+		    margin: 0;
+		}
+		.report .origin_text{
+			margin: 1px 0 11px 0;
+			width: 97%;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+	</style>
 	<ion-header-bar align-title="center">
 		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
 		<h1 class="title">已播单</h1>
@@ -14,10 +31,10 @@
 			<div class="card report" ng-repeat="item in details">
 				<div class="item item-body">
 					<h2 class="report-title">{{item.bochu_title}}</h2>
-					<p>原文标题：{{item.title}}</p>
-					<div>
+					<p class="origin_text">原文标题：{{item.title}}</p>
+					<div style="padding-top: 6px;border-top: 1px solid #e6e6e6;">
 						<div style="line-height: 24px;">播出栏目：<span style="color: #a6a6a6;">{{item.bochu_lanmu}}</span></div>
-						<div style="line-height: 24px;">播出时间：<span style="color: #a6a6a6;">{{item.bochu_time}}</span></div>
+						<div style="line-height: 24px;">播出时间：<span style="color: #a6a6a6;">{{item.dateline}}</span></div>
 						<div style="line-height: 24px;">发布单位：<span style="color: #ff8651;">{{item.tv_name}}</span></div>
 					</div>
 				</div>

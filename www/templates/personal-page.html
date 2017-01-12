@@ -371,7 +371,7 @@
                               </select>
                           </label>
                       </li>
-                      <li class="fore" ng-if="cityList">
+                      <li class="fore">
                         <label class="item-select">
                               <div class="input-label ">市</div>
                               <select ng-model="user.city" style="width: 70%" ng-change="cityChange(user.city)">
@@ -381,7 +381,7 @@
                               </select>
                           </label>
                       </li>
-                      <li class="fore" ng-if="districtList">
+                      <li class="fore" ng-if="districtList || item.area">
                         <label class="item-select">
                               <div class="input-label ">区</div>
                               <select ng-model="user.district" style="width: 70%">

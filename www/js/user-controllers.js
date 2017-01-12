@@ -72,9 +72,11 @@ angular.module('user-controllers',[])
 			position:$scope.details.position||'',
 			province:$scope.details.province||'',
 			city:$scope.details.city||'',
-			district:$scope.details.district||''
+			district:$scope.details.area||''
 		}
 		$scope.getAddress();
+		$scope.provinceChange($scope.details.province);
+		$scope.cityChange($scope.details.city);
 	});
 	$scope.getAddress = function(){
 		$data.getCityList(0,1).success(function(data){
@@ -84,13 +86,13 @@ angular.module('user-controllers',[])
 	$scope.provinceChange = function(prov){
 		$data.getCityList(prov,2).success(function(data){
 			$scope.cityList = data.data;
-		})
-	}
+		});
+	};
 	$scope.cityChange = function(city){
 		$data.getCityList(city,3).success(function(data){
 			$scope.districtList = data.data;
 		}) 	
-	}
+	};
 	$scope.datapicker = function(){
 		var ipObj1 = {
 			callback: function (val) {  //Mandatory
@@ -876,7 +878,7 @@ angular.module('user-controllers',[])
 		});
 	}
 })
-.controller('AddRebroadcastCtrl',function($scope, $data,$filter, $state,$stateParams,ionicDatePicker){
+.controller('AddRebroadcastCtrl',function($scope, $data,$filter, $state,$stateParams,ionicDatePicker,$window){
 	$scope.id = $stateParams.id;
   	$data.channelList().success(function(data){
   		console.log(data);
@@ -898,6 +900,19 @@ angular.module('user-controllers',[])
   		status:'1',
   		id:$scope.id
   	};
+/*  	$scope.$on('$ionicView.beforeEnter',function(){
+	  	$window.myIscroll = new IScroll('.text_content', {
+			scrollbars: true,
+			bounce: true,
+			preventDefault: true, //让点击事件得以执行
+			probeType: 2, //让滚动条滚动正常
+			interactiveScrollbars: false,
+			shrinkScrollbars: 'scale',
+			mouseWheel: true,
+			fadeScrollbars: true
+		}); 	
+  	})*/
+  	
   	$scope.datapicker = function(){
   		var ipObj1 = {
   			callback: function (val) {  //Mandatory
@@ -926,14 +941,73 @@ angular.module('user-controllers',[])
   		});
   	}
 })
-.controller('OverPlayCtrl',function($scope, $data, $state,$stateParams){
+.controller('OverPlayCtrl',function($scope, $data, $state,$stateParams,$timeout){
 	$data.BochuList().success(function(data){
 		console.log(data);
 		$scope.details = data.data;
-	})
+	});
+	$scope.size = 5;
+	$scope.page = 1;
+	$scope.loadMore = function () {
+		$scope.page++;
+        $timeout(function(){
+        	$data.BochuList({
+        		size:$scope.size,
+        		page:$scope.page
+        	})
+        	.success(function (data) {
+        		console.log(data);
+                $timeout(function(){
+                	Array.prototype.push.apply($scope.details, data.data);
+                })
+            }).finally(function () {
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            });
+        },1000)
+    };
+
 })
 .controller('CardCaseCtrl',function($scope, $data, $state,$stateParams){
-	
+	$data.mingPH({type:0}).success(function(data){
+		console.log('全部',data);
+		$scope.details_a = data.data;
+	});
+	$data.mingPH({type:3}).success(function(data){
+		console.log('临时名片盒',data);
+		$scope.details_b = data.data;
+	});
+	$data.mingPH({type:1}).success(function(data){
+		console.log('未整理名片盒',data);
+		$scope.details_c = data.data;
+	});
+	$data.mingPH({type:2}).success(function(data){
+		console.log('地方资源组',data);
+		$scope.details_d = data.data;
+	});
+	$data.mingPH({type:4}).success(function(data){
+		console.log('地方部',data);
+		$scope.details_e = data.data;
+	});
+	/*$scope.details_a = [];
+	$scope.size = 5;
+	$scope.page = 1;
+	$scope.loadMore = function (type) {
+		$scope.page++;
+        $timeout(function(){
+        	$data.mingPH({
+        		size:$scope.size,
+        		page:$scope.page,
+        		type:0
+        	}).success(function (data) {
+        		console.log(data);
+                $timeout(function(){
+                	Array.prototype.push.apply($scope.details, data.data);
+                })
+            }).finally(function () {
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            });
+        },1000)
+    };*/
 })
 .controller('RevisePasswordCtrl',function($scope, $data, $state,$stateParams){
 	var user = {
