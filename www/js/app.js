@@ -1,6 +1,20 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives', 'starter.services','ngCordova','ionic-native-transitions','ionic-datepicker','ionic-citypicker','tabSlideBox',"ngSanitize","com.2fdevs.videogular"])
+angular.module('starter', [ 'ionic', 
+                            'starter.controllers', 
+                            'starter.directives', 
+                            'starter.services',
+                            'ngCordova',
+                            'ionic-native-transitions',
+                            'ionic-datepicker',
+                            'ionic-citypicker',
+                            'tabSlideBox',
+                            "ngSanitize",
+                            "com.2fdevs.videogular",
+                            "com.2fdevs.videogular.plugins.controls",
+                            "com.2fdevs.videogular.plugins.overlayplay",
+                            "com.2fdevs.videogular.plugins.poster"
+                          ])
 
 .run(function($ionicPlatform, $ionicPopup, $state, $data,$rootScope,$ionicHistory) {
 
@@ -309,6 +323,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
       'tab-account': {
         templateUrl: 'templates/cardcase.html',
         controller: 'CardCaseCtrl'
+      }
+    }
+  })
+
+  .state('tab.inbox',{
+    url:'/account/inbox',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/inbox.html',
+        controller: 'InboxCtrl'
       }
     }
   })

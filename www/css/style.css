@@ -1,6 +1,7 @@
 /* Empty. Add your own CSS if you like */
 .bar{
 	background: none;
+	border:none;
 	/*position: static;*/
 }
 .bar .button-clear i{
@@ -63,7 +64,7 @@
 	background-color: #fe4342;
 }
 
-.button.button-positive.activated{
+.popup-buttons .button.button-positive.activated{
 	background: red;
 }
 /*.bar-light .button.button-clear{
@@ -136,8 +137,122 @@
 .ionic_datepicker_popup .calendar_grid{
 	height: 180px !important ;
 }
-/* 滑动列表 */
-/* .card-main-content-ul{
+.indicator{
+	background-color: #ff8651;
+	color: #fff;
+	text-align: center;
+	height: 100%;
+	width: 15px;
+	position: absolute;
+	right: 0;top: 0;
+	font-size: 18px;
+	border-radius: 5px 0 0 5px;
+}
+.indicator .ion-ios-arrow-left{
+	vertical-align: middle;
+	display: inline-block;
+}
+.indicator span{
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+/* 滑动卡片 */
+.report .report-title{
+	text-indent: 23px;
+    background: url(../img/icon/ico_70.png) left top no-repeat;
+    -webkit-background-size: auto 17px;
+    background-size: auto 17px;
+    line-height: 26px;
+    margin: 0;
+}
+.report .origin_text{
+	margin: 1px 0 11px 0;
+	width: 97%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.report .mask{
+	position: absolute;
+	width: 100%;
+	z-index: 100;
+	height: 100%;
+}
+.deletecard{
+	width: 20px;
+	height: 20px;
+	background-color: #b6b6b6;
+	position: absolute;
+	z-index: 101;
+	right: 0;
+	top: 0;
+	color: #ffffff;
+	text-align: center;font-size: 28px;
+	border-bottom-left-radius: 3px;
+	cursor: pointer;
+}
+.report .mask.active{
+	-webkit-transition: background-color .1s;
+	transition: background-color .5s;
+	/*background-color: #000;
+	opacity: 0.2;*/
+}
+.report .mask.active .deletecard{
+	-webkit-transition: background-color .1s;
+	transition: background-color .5s;
+	background-color: #e14330;
+}
+.report .item-content{
+	padding: 5px 0;
+}
+.button{
+	background-color: #fffbfa;
+}
+.report .btnbox,.my-idcard .btnbox{
+	width: 100%;
+	height: 100%;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	        align-items: center;
+	-ms-flex-pack:distribute;
+	    justify-content:space-around;
+}
+.report .btnbox .btn-txt,.my-idcard .btnbox .btn-txt{
+	line-height: normal;color: #ff8651;
+}
+/* 名片盒 */
+.my-idcard .item-avatar > img:first-child{
+	max-width: 47px;
+    max-height: 47px;
+}
+.my-idcard .item-name{
+	margin: 0;
+	padding-bottom: 5px;
+	border-bottom:1px solid #e6e6e6;
+}
+.my-idcard .card-main-content{
+	margin: 10px 0;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-line-pack:distribute;
+	    align-content:space-around;
+	-ms-flex-flow: column;
+	    flex-flow: column;
+}
+.my-idcard .item.item-avatar{
+	padding-right: 0;
+	padding-bottom: 0px;
+}
+.my-idcard .card-main-content-ul{
 	position: relative;
 	height: 100%;
 	display: -ms-flexbox;
@@ -147,22 +262,16 @@
 	-ms-flex-flow: column;
 	    flex-flow: column;
 }
-.card-main-content-ul li {
-	padding-left: 20px;
-	background: url(img/icon/ico_3.png) 0 0 no-repeat;
-	-webkit-background-size: 13px 15px;
-	background-size: 13px 15px;
+.my-idcard .card-main-content-ul li {
+	padding-left: 18px;
+	background: url(../img/icon/ico_3.png) 0 center no-repeat;
+	-webkit-background-size: 12px auto;
+	background-size: 12px auto;
 }
- */
- .indicator{
-	background-color: #ff8651;
-	color: #fff;
-	line-height: 60px;
-	text-align: center;
-	height: 100%;
-	width: 15px;
-	position: absolute;
-	right: 0;
-	top: 0;
-	border-radius: 5px 0 0 5px;
+.my-idcard .card-main-content .button{
+	min-height: initial;
 }
+.my-idcard .card-main-content .btnbox img{
+	max-height: 20px;
+}
+

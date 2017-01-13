@@ -6596,7 +6596,6 @@ button.item.item-button-right {
   z-index: 1;
   height: 100%; }
   .item-options .button {
-    background-color: none;
     height: 100%;
     border: none;
     border-radius: 0;

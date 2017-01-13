@@ -1,0 +1,123 @@
+<ion-view style="background-color: #ffffff;">
+<style>
+	.bar-subheader{
+		display: flex;
+		padding: 0;
+		border-bottom: 1px solid #d9d9d9;
+	}
+	.bar-subheader .button-dark{
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		border: 0;
+		font-weight: 700;
+	}
+	.bar-subheader .button-dark img{
+		width: 20px;
+	}
+	.inbox .item-complex{
+		background-color: #ffffff;
+		margin: -2px;
+		height: 90px;
+		max-height: 90px;
+	}
+	.inbox .item-complex .item-content{
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-ms-flex-direction: column;
+		        flex-direction: column;
+		height: 100%;
+		padding: 10px 5px;
+		
+	}
+	.inbox .item-complex .item-content p{
+		margin-bottom: 10px;
+	}
+	.inbox .item-complex .item-content div{
+		background: url(img/icon/ico_76.png) 95% center no-repeat;
+		-webkit-background-size: 10px;
+		background-size: 10px;
+		padding-right: 30px;
+		-webkit-box-flex: 1;-ms-flex-positive: 1;flex-grow: 1;
+	}
+</style>
+	<ion-header-bar align-title="center">
+		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+		<h1 class="title">收件箱</h1>
+		<a class="button icon-right  button-clear" ng-click="edit()">
+			<img src="img/icon/ico_71.png" width="22" style="vertical-align: text-bottom;" alt="">
+		</a>
+	</ion-header-bar>
+	<div class="bar bar-subheader">
+	  	<div style="flex: 1;border-right: 1px solid #d9d9d9">
+	  		<button class="button button-clear button-dark">
+	  			<img src="img/icon/ico_72.png" alt="">
+	  		  	系统消息
+	  		</button>
+	  	</div>
+	  	<div style="flex: 1;">
+	  		<button class="button button-clear button-dark">
+	  			<img src="img/icon/ico_74.png" alt="">
+	  		  	约稿消息
+	  		</button>
+	  	</div>
+	</div>
+	<ion-content overflow-scroll="false" has-bouncing="true" class="has-subheader padding inbox" >
+		<div style="overflow: hidden;">
+			<ul>
+	        	<li ng-repeat="item in sysMesg">
+					<!-- <label class="checkbox">
+						<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.msg]" ></i>
+						<input type="checkbox" name="msg" ng-value="item.msg_id" ng-model="user.msg" ng-init="user.msg=false" style="display: none">保密{{user.msg}}
+					</label> -->
+
+	        	</li>
+	        </ul>
+
+	        <ion-list><!--  can-swipe="listCanSwipe" -->
+	          <ion-item ng-repeat="item in sysMesg">
+
+	            <p><span style="float: left;">{{item.from_name}}</span><span style="float: right;color: #ff3636;">{{item.dateline}}</span></p>
+	            <div>{{item.title}}</div>
+	            <ion-option-button ng-click="">删除</ion-option-button>
+	          </ion-item>
+	        </ion-list>
+
+	        <div class="list">
+
+		        <ion-checkbox ng-repeat="item in devList" ng-model="item.checked" ng-checked="item.checked">
+		          	{{ item.text }}
+		        </ion-checkbox>
+		        
+		        <div class="item">
+		          	<pre ng-bind="devList | json"></pre> 
+		        </div>
+		        ---------------------
+		        <div class="item item-divider"> 
+		          	Notifications
+		        </div>
+		        ----------------------
+		        <ion-checkbox ng-model="pushNotification.checked" ng-change="pushNotificationChange()">
+		          	Push Notifications
+		        </ion-checkbox>
+		        
+		        <div class="item">
+		          	<pre ng-bind="pushNotification | json"></pre> 
+		        </div>
+		        ----------------------
+		        <ion-checkbox ng-model="emailNotification" ng-true-value="'Subscribed'" ng-false-value="'Unubscribed'">
+		          	Newsletter
+		        </ion-checkbox>
+
+	        	<div class="item">
+	          		<pre ng-bind="emailNotification | json"></pre> 
+	        	</div>
+	        
+	      </div>
+		</div>
+	        
+	</ion-content>
+</ion-view>

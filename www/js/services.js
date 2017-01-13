@@ -194,7 +194,7 @@ angular.module('starter.services', [])
         })
       },
       //22、批量删除消息
-      delMessage:function(data){
+      delMessages:function(data){
         return $http({
           method: 'POST',
           url: ip + '/ManageApp/User/delMessage',
@@ -205,7 +205,7 @@ angular.module('starter.services', [])
         })
       },
       //23、 删除消息
-      getMessage:function(data){
+      delMessage:function(data){
         return $http({
           method: 'GET',
           url: ip + '/ManageApp/User/delMessage',

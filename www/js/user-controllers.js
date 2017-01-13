@@ -531,19 +531,38 @@ angular.module('user-controllers',[])
 
 })
 
-.controller('NewsParticularsCtrl',function($scope,$rootScope, $data, $state,$stateParams,$ionicSlideBoxDelegate){
+.controller('NewsParticularsCtrl',function($scope,$rootScope, $data, $state,$stateParams,$ionicSlideBoxDelegate,$sce){
   	$scope.id = $stateParams.id;
 	$data.newParticulars({
 		id:$scope.id
-	}).success(function(data,b,c,d){
+	}).success(function(data){
 		console.log(data);
 		$scope.details = data;
-		$scope.video = /*$scope.details.data.videos?$scope.details.data.videos[0].savepath:'http://bt.cctvnnn.cn/Uploads/video/2016/12/585ca4291ab3f.MOV'*/'http://bt.cctvnnn.cn/Uploads/video/2016/12/585ca4291ab3f.MOV';
-		console.log($scope.video);
+		$scope.video = data.data.videos[0].savepath;
 	})
 	$scope.nextSlide = function() {
 	   $ionicSlideBoxDelegate.next();
-	}
+	};
+	$scope.config = {
+		sources: [
+			{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"), type: "video/mp4"},
+			{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.webm"), type: "video/webm"},
+			{src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"}
+		],
+		tracks: [
+			{
+				src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
+				kind: "subtitles",
+				srclang: "en",
+				label: "English",
+				default: ""
+			}
+		],
+		theme: "lib/videogular-themes-default/videogular.css",
+		plugins: {
+			poster: "http://www.videogular.com/assets/images/videogular.png"
+		}
+	};
 
 })
 
@@ -968,6 +987,12 @@ angular.module('user-controllers',[])
 
 })
 .controller('CardCaseCtrl',function($scope, $data, $state,$stateParams){
+	$scope.toPersonalPage = function(uid){
+		$state.go('tab.personal-page',{
+  			uid:uid
+  		});
+	};
+
 	$data.mingPH({type:0}).success(function(data){
 		console.log('全部',data);
 		$scope.details_a = data.data;
@@ -1020,4 +1045,24 @@ angular.module('user-controllers',[])
 			$data.loadingShow(data.info);
 		})
 	}
+})
+.controller('InboxCtrl',function($scope, $data, $state,$stateParams){
+	$data.getMessage().success(function(data){
+		console.log(data);
+		$scope.sysMesg = data.data;
+	});
+
+
+	$scope.devList = [
+		{ text: "HTML5", checked: true },
+		{ text: "CSS3", checked: false },
+		{ text: "JavaScript", checked: false }
+	];
+
+	$scope.pushNotificationChange = function() {
+		console.log('Push Notification Change', $scope.pushNotification.checked);
+	};
+	  
+	$scope.pushNotification = { checked: true };
+	$scope.emailNotification = '';
 })

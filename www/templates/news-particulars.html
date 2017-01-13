@@ -24,16 +24,34 @@
 				</div>
 				<div class="item item-body" style="padding: 0 5px 5px;">
 					<h2 style="font-weight: 700;">约稿：{{details.data.tags}}</h2>
-				    <p>发布时间：{{'--'}}</p>
+				    <p>发布时间：{{'--'}}{{video}}</p>
 				    <p>分类：{{'--'}}</p>
 				    <p style="color: #ff8651;">发布单位：{{details.data.tv_name}}</p>
-				    <p>
-				      	<video width="100%" controls="controls" src="">
-				      			http://bt.cctvnnn.cn/upload/upload/vedio/2016/11/test.mp4
-				      			http://cctvnnn.ivtime.net/Uploads/video/2017/01/5875e707b5dcf.mp4
-				      			Your browser does not support the video tag.
-				      	</video>
-				    </p>
+				      	<div>
+			      			<videogular vg-theme="config.theme">
+			      				<vg-media vg-src="config.sources"
+			      						  vg-tracks="config.tracks">
+			      				</vg-media>
+
+			      				<vg-controls vg-autohide="true" vg-autohide-time="2000">
+			      					<vg-play-pause-button></vg-play-pause-button>
+			      					<vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+			      					<vg-scrub-bar>
+			      						<vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+			      					</vg-scrub-bar>
+			      					<vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+			      					<vg-volume>
+			      						<vg-mute-button></vg-mute-button>
+			      						<vg-volume-bar></vg-volume-bar>
+			      					</vg-volume>
+			      					<vg-fullscreen-button></vg-fullscreen-button>
+			      				</vg-controls>
+			      				
+			      				<vg-overlay-play></vg-overlay-play>
+			      				<vg-poster vg-url='config.plugins.poster'></vg-poster>
+			      			</videogular>
+
+			      		</div>
 				    <p>文件大小：{{'--'}}</p>
 				    <p>上传时间：{{'--'}}</p>
 				    <p>上传速度：{{'--'}}</p>

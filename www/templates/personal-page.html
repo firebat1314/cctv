@@ -13,8 +13,8 @@
       .pp-container{
         background: url(img/myself_01.jpg) 0 0 no-repeat;
         background-size:100%  100%;
-        height: 300px;
-        min-height: 300px;
+        height: 290px;
+        min-height: 290px;
         position: relative;
         margin-bottom: 1px;
       }
@@ -114,12 +114,14 @@
                 flex: 1;
         border-right: 1px solid #fff;
       }
+      .pp-button .my-message{
+        font-size: 18px;
+        line-height: 25px;
+        height: 25px;
+      }
       .pp-button-active{
         opacity: 0;
       }
-       .pp-button.activated{
-
-       }
       .pp-button-box .pp-button:last-child{
         border: none;
       }
@@ -207,17 +209,17 @@
           <div class="pp-button-box">
             <div class="pp-button">
               <div class="pp-backdrop"></div>
-              <span style="font-size: 18px;line-height: 25px">{{details.xinw_count}}</span>
+              <span class="my-message">{{details.xinw_count}}</span>
               <span>我的新闻</span>
             </div>
             <div class="pp-button">
               <div class="pp-backdrop"></div>
-              <span style="font-size: 18px;line-height: 25px">{{details.yueg_count}}</span>
+              <span class="my-message">{{details.yueg_count}}</span>
               <span>约稿信息</span>
             </div>
             <div class="pp-button">
               <div class="pp-backdrop"></div>
-              <span style="font-size: 18px;line-height: 25px">{{details.xit_count}}</span>
+              <span class="my-message">{{details.xit_count}}</span>
               <span>系统信息</span>
             </div>
           </div>
