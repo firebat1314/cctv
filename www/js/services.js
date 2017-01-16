@@ -24,7 +24,7 @@ angular.module('starter.services', [])
         } else if (501 === err.status) {
           // ...
         } else if (err.status == 401 || err.status == 403) {
-          $location.path('/login');
+          //$location.path('/login');
 
         }
         return $q.reject(err);
@@ -582,7 +582,7 @@ angular.module('starter.services', [])
         if (data) {
           return $window.localStorage[key] = angular.toJson(data);
         } else {
-          return (key && angular.fromJson($window.localStorage[key])) || {};
+          return (key && angular.fromJson($window.localStorage[key])) || null;
         }
       },
 

@@ -210,7 +210,7 @@
 .button{
 	background-color: #fffbfa;
 }
-.report .btnbox,.my-idcard .btnbox{
+.report .btnbox,.my-idcard .btnbox,.btnbox{
 	width: 100%;
 	height: 100%;
 	display: -webkit-box;
@@ -226,7 +226,7 @@
 	-ms-flex-pack:distribute;
 	    justify-content:space-around;
 }
-.report .btnbox .btn-txt,.my-idcard .btnbox .btn-txt{
+.report .btnbox .btn-txt,.my-idcard .btnbox .btn-txt,.btnbox .btn-txt{
 	line-height: normal;color: #ff8651;
 }
 /* 名片盒 */

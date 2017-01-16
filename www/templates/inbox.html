@@ -22,6 +22,22 @@
 		max-height: 90px;
 	}
 	.inbox .item-complex .item-content{
+		display: -webkit-box;display: -ms-flexbox;display: flex;
+		height: 100%;
+		padding: 10px 5px;
+	}
+	.inbox .item-complex .item-content p{
+		margin-bottom: 10px;
+	}
+	.inbox .item-complex .item-content .content-title{
+		background: url(img/icon/ico_76.png) 95% center no-repeat;
+		-webkit-background-size: 10px;
+		background-size: 10px;
+		padding-right: 30px;
+		white-space: pre-wrap;
+		-webkit-box-flex: 1;-ms-flex-positive: 1;flex-grow: 1;
+	}
+	.inbox .item-complex .item-content .content-btm{
 		display: -webkit-box;
 		display: -ms-flexbox;
 		display: flex;
@@ -30,24 +46,24 @@
 		-ms-flex-direction: column;
 		        flex-direction: column;
 		height: 100%;
-		padding: 10px 5px;
-		
-	}
-	.inbox .item-complex .item-content p{
-		margin-bottom: 10px;
-	}
-	.inbox .item-complex .item-content div{
-		background: url(img/icon/ico_76.png) 95% center no-repeat;
-		-webkit-background-size: 10px;
-		background-size: 10px;
-		padding-right: 30px;
 		-webkit-box-flex: 1;-ms-flex-positive: 1;flex-grow: 1;
+	}
+	.mycheckbox{
+		min-width: 30px;
+		font-size: 20px;
+	}
+	.bar-footer{
+		display: flex;
+		justify-content: space-between;
+	}
+	.bar-footer button{
+		width: 77px;
 	}
 </style>
 	<ion-header-bar align-title="center">
 		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
 		<h1 class="title">收件箱</h1>
-		<a class="button icon-right  button-clear" ng-click="edit()">
+		<a class="button icon-right  button-clear" ng-click="showCheckbox=!showCheckbox">
 			<img src="img/icon/ico_71.png" width="22" style="vertical-align: text-bottom;" alt="">
 		</a>
 	</ion-header-bar>
@@ -65,59 +81,47 @@
 	  		</button>
 	  	</div>
 	</div>
-	<ion-content overflow-scroll="false" has-bouncing="true" class="has-subheader padding inbox" >
+
+	<ion-content overflow-scroll="false" has-bouncing="true" class="has-subheader padding inbox" ng-class="{true:'has-footer',false:''}[showCheckbox]" >
 		<div style="overflow: hidden;">
-			<ul>
-	        	<li ng-repeat="item in sysMesg">
-					<!-- <label class="checkbox">
-						<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.msg]" ></i>
-						<input type="checkbox" name="msg" ng-value="item.msg_id" ng-model="user.msg" ng-init="user.msg=false" style="display: none">保密{{user.msg}}
-					</label> -->
-
-	        	</li>
-	        </ul>
-
-	        <ion-list><!--  can-swipe="listCanSwipe" -->
-	          <ion-item ng-repeat="item in sysMesg">
-
-	            <p><span style="float: left;">{{item.from_name}}</span><span style="float: right;color: #ff3636;">{{item.dateline}}</span></p>
-	            <div>{{item.title}}</div>
-	            <ion-option-button ng-click="">删除</ion-option-button>
-	          </ion-item>
+	        <ion-list can-swipe="true">
+	        	<ion-item ng-repeat="item in sysMesg" class="item-remove-animate" ng-click="">
+	        		<label class="mycheckbox" ng-if="showCheckbox">
+						<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[item.state]" ></i>
+						<input type="checkbox" ng-value="item.msg_id" ng-model="item.state" ng-init="item.state=false" ng-click="updateSelection($event,tag.id,$index)" style="display: none">
+					</label>
+					<div class="content-btm">
+						<p>
+							<span style="float: left;" ng-if="item.from_name!=''">{{item.from_name}}</span>
+							<span style="color: #ff3636;" ng-if="item.from_name==''">匿名</span>
+							<span style="float: right;color: #ff3636;">{{item.dateline}}</span>
+						</p>
+			            <div class="content-title"><span>{{item.title}}</span></div>
+					</div>
+		        	<ion-option-button ng-click="deleteMsg($index,item.msg_id)">
+						<div class="btnbox">
+							<img src="img/icon/ico_66.png" alt="">
+						</div>
+		        	</ion-option-button>
+	        	</ion-item>
 	        </ion-list>
-
-	        <div class="list">
-
-		        <ion-checkbox ng-repeat="item in devList" ng-model="item.checked" ng-checked="item.checked">
-		          	{{ item.text }}
-		        </ion-checkbox>
-		        
-		        <div class="item">
-		          	<pre ng-bind="devList | json"></pre> 
-		        </div>
-		        ---------------------
-		        <div class="item item-divider"> 
-		          	Notifications
-		        </div>
-		        ----------------------
-		        <ion-checkbox ng-model="pushNotification.checked" ng-change="pushNotificationChange()">
-		          	Push Notifications
-		        </ion-checkbox>
-		        
-		        <div class="item">
-		          	<pre ng-bind="pushNotification | json"></pre> 
-		        </div>
-		        ----------------------
-		        <ion-checkbox ng-model="emailNotification" ng-true-value="'Subscribed'" ng-false-value="'Unubscribed'">
-		          	Newsletter
-		        </ion-checkbox>
-
-	        	<div class="item">
-	          		<pre ng-bind="emailNotification | json"></pre> 
-	        	</div>
-	        
-	      </div>
-		</div>
-	        
+	    </div>
+		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" ng-if="!moreDataCanBeLoaded" distance="1%"></ion-infinite-scroll>
 	</ion-content>
+	<div class="bar bar-footer pull-right" ng-if="showCheckbox" style="bottom: 49px;">
+		<label class="mycheckbox" style="margin-left: 7px;">
+			<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[selectAll]" ></i>
+			<input type="checkbox" ng-model="selectAll"  ng-click="all(selectAll)"  style="display: none">
+			<span ng-hide="selectAll">全选</span>
+			<span ng-show="selectAll">取消全选</span>
+		</label>
+		<div style="float: right" class="btn-box">
+			<button class="button button-outline button-assertive" ng-click="delMessages()">
+			  	删除
+			</button>
+			<button class="button button-outline button-assertive" ng-click="cancel()">
+			  	取消
+			</button>
+		</div>
+	</div>
 </ion-view>

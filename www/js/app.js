@@ -156,8 +156,7 @@ angular.module('starter', [ 'ionic',
     url: '/news',
     cache: true,
     nativeTransitions: {
-        "type": "flip",
-        "direction": "up"
+        "type": "fade",
     },
     views: {
       'tab-news': {
