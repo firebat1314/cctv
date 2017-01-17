@@ -24,7 +24,7 @@ angular.module('starter.services', [])
         } else if (501 === err.status) {
           // ...
         } else if (err.status == 401 || err.status == 403) {
-          //$location.path('/login');
+          $location.path('/start-page');
 
         }
         return $q.reject(err);

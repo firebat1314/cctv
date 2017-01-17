@@ -75,7 +75,7 @@
 }
 .popover{
 	opacity: 1;
-
+	height: auto;
 }
 /* 下拉刷新 */
 .spinner svg {
@@ -224,10 +224,13 @@
 	-ms-flex-align: center;
 	        align-items: center;
 	-ms-flex-pack:distribute;
-	    justify-content:space-around;
+	    justify-content:center;
+}
+.report .btnbox img,.my-idcard .btnbox img,.btnbox img{
+	height: 22px;
 }
 .report .btnbox .btn-txt,.my-idcard .btnbox .btn-txt,.btnbox .btn-txt{
-	line-height: normal;color: #ff8651;
+	line-height: normal;margin-top:4px;color: #ff8651;
 }
 /* 名片盒 */
 .my-idcard .item-avatar > img:first-child{

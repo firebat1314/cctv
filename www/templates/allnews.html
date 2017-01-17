@@ -1,6 +1,6 @@
 <ion-view>
 	<style>
-		.item-thumbnail-left{
+		.allnews .item-content{
 			display: -webkit-box;
 			display: -ms-flexbox;
 			display: flex;
@@ -12,8 +12,17 @@
 			-ms-flex-pack: space-around;
 				justify-content: space-around;
 		}
-		.an-c-content{
-			
+		.allnews .indicator{
+			color: #fff;
+			text-align: center;
+			height: 100%;
+			width: 1px;
+			position: absolute;
+			right: 0;
+			top: 0;
+			font-size: 18px;
+			box-shadow: 0 0px 11px #ff8651;
+			background-color: #fff;
 		}
 	</style>
 	<ion-header-bar align-title="center">
@@ -21,23 +30,39 @@
 		<h1 class="title">所有新闻</h1>
 	</ion-header-bar>
 	<ion-content overflow-scroll="false" has-bouncing="true" >
-		<div class="card" style="margin: 10px;">
-		    <label class="item item-input" style="padding: 0 0 0 16px">
-		      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
-		      <input type="text" placeholder="废掉TPP，绝对超级大礼">
-		    </label>
-		</div>
-		<div class="card" ng-repeat="item in details" ng-click="toParticulars(item.id)">
-		    <a class="item item-thumbnail-left" href="">
-				<img ng-src="{{item.img || 'img/myself_02.jpg'}}">
-				<h2>{{item.title}}</h2>
-				<p>{{item.baoti_date}}</p>
-				<p style="background: url(img/icon/ico_56.png) right center no-repeat;-webkit-background-size: auto 80%;background-size: auto 80%;">
-					状态:  	<span style="color: #ff8651" ng-if="item.is_read">已阅</span>
-							<span style="color: #ff8651" ng-if="!item.is_read">未阅</span>
-				</p>
-			</a>
-		</div>
+		<ion-list class="allnews">
+			<div class="card" style="margin: 10px;">
+			    <label class="item item-input" style="padding: 0 0 0 16px">
+			      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
+			      <input type="text" placeholder="废掉TPP，绝对超级大礼">
+			    </label>
+			</div>
+			<div class="card" ng-repeat="item in details" ng-click="toParticulars(item.id)">
+			    <ion-item class="item item-thumbnail-left" >
+					<img ng-src="{{item.img}}">
+					<h2>{{item.title}}</h2>
+					<p>{{item.baoti_date}}</p>
+					<!-- <p style="background: url(img/icon/ico_56.png) right center no-repeat;-webkit-background-size: auto 80%;background-size: auto 80%;"> -->
+					<p>
+						状态:  	<span style="color: #ff8651" ng-if="item.is_read=='1'">已阅</span>
+								<span style="color: #ff8651" ng-if="item.is_read=='0'">未阅</span>
+					</p>
+					<div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
+					<ion-option-button ng-click="toParticulars(item.id)">
+						<div class="btnbox">
+							<img src="img/icon/ico_64.png" alt="">
+							<div class="btn-txt">查看</div>
+						</div>
+					</ion-option-button>
+					<ion-option-button>
+						<div class="btnbox">
+							<img src="img/icon/ico_63.png" alt="">
+							<div class="btn-txt" >报题</div>
+						</div>
+					</ion-option-button>
+				</ion-item>
+			</div>
+		</ion-list>
 		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
 
 	</ion-content>

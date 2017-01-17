@@ -7,16 +7,16 @@
   	<ion-content class="has-tabs">
 		<div class="account-main-top padding">
 			<div class="account-title1">我的新闻</div>
-			<div class="account-title2"><span  class="account-title-txt">{{data.data.new_count||'--'}}</span> 篇</div>
+			<div class="account-title2"><span  class="account-title-txt">{{data.data.new_count||'0'}}</span> 篇</div>
 		</div>
 		<div class="account-main-center padding">
 			<div class="account-main-center-l" ui-sref="tab.inbox">
 				<p>约稿信息</p>
-				<p style="font-size: 24px;">{{data.data.yueg_count||'--'}}</p>
+				<p style="font-size: 24px;">{{data.data.yueg_count||'0'}}</p>
 			</div>
 			<div class="account-main-center-r" ui-sref="tab.inbox">
 				<p>系统信息</p>
-				<p style="font-size: 24px;">{{data.data.xit_count||'--'}}</p>
+				<p style="font-size: 24px;">{{data.data.xit_count||'0'}}</p>
 			</div>
 		</div>
 		<div  class="account-main-bottom">

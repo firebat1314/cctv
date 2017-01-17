@@ -4,6 +4,7 @@ angular.module('starter', [ 'ionic',
                             'starter.controllers', 
                             'starter.directives', 
                             'starter.services',
+                            'starter.filter',
                             'ngCordova',
                             'ionic-native-transitions',
                             'ionic-datepicker',
@@ -178,6 +179,9 @@ angular.module('starter', [ 'ionic',
 
   .state('tab.account', {
     url: '/account',
+    nativeTransitions: {
+        "type": "fade",
+    },
     views: {
       'tab-account': {
         templateUrl: 'templates/tab-account.html',

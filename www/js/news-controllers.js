@@ -10,7 +10,7 @@ angular.module('news-controllers',[])
   });
   $scope.addClass = function(e, name) {
     $(e.target).addClass('selected').siblings().removeClass('selected');
-    $ionicScrollDelegate.scrollTo(0, $ionicPosition.offset($(name)).top - 50, true)
+    $ionicScrollDelegate.scrollTo(0, $ionicPosition.offset($(name)).top-50, true)
   };
   if ($data.storeData('homedata')) {
     $scope.Items = $data.storeData('homedata');
@@ -37,7 +37,7 @@ angular.module('news-controllers',[])
       .finally(function() {
         $scope.$broadcast('scroll.refreshComplete');
       });     
-    },2000)
+    },100)
   };
 })
 

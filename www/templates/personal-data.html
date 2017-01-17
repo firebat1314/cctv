@@ -53,6 +53,7 @@
 		.popup-type .popup-body{
 			
 		}
+
 		.ion-ios-circle-filled{
 			color: red
 		}
@@ -74,7 +75,6 @@
 			border-radius: 3px;
 			background-color: #fe4342;
 			color: #fff;
-			
 		}
 	</style>
 	<ion-header-bar align-title="center">
@@ -89,7 +89,7 @@
 					</div>
 				</div>
 				<div id="pedata-txt">
-					<button class="button icon-left button-clear button-dark" ng-click="editImg()">编辑头像</button>
+					<button class="button icon-left button-clear button-dark" ng-click="editImg($event)">编辑头像</button>
 					<button class="button icon-left button-clear button-dark" ui-sref="revisepassword">修改密码</button>
 				</div>
 			</div>
@@ -141,17 +141,15 @@
 		</ion-content>
 			<script id="my-popover.html" type="text/ng-template">
 			  	<ion-popover-view>
-			    	<ion-content overflow-scroll="false" has-bouncing="false">
-			      	<p href="" class="item" style="text-align: center;">
+			      		<p href="" class="item" style="text-align: center;">
 							更改头像
 						</p>
 						<a href="" class="item" ng-click="openCamera();">
 							拍照
 						</a>
-						<a href="" class="item" ng-click="openImagePicker()">
+						<a href="" class="item" ng-click="openImagePicker();">
 							从相册中选择
 						</a>
-			    	</ion-content>
 			  	</ion-popover-view>
 			</script>
 			<script id="city_cn.html" type="text/ng-template">

@@ -24,8 +24,8 @@
 				</div>
 				<div class="item item-body" style="padding: 0 5px 5px;">
 					<h2 style="font-weight: 700;">约稿：{{details.data.tags}}</h2>
-				    <p>发布时间：{{'--'}}{{video}}</p>
-				    <p>分类：{{'--'}}</p>
+				    <p>发布时间：{{details.data.dateline||'--'}}</p>
+				    <p>分类：{{details.data.typetitle||'--'}}</p>
 				    <p style="color: #ff8651;">发布单位：{{details.data.tv_name}}</p>
 				      	<div>
 			      			<videogular vg-theme="config.theme">
@@ -52,10 +52,10 @@
 			      			</videogular>
 
 			      		</div>
-				    <p>文件大小：{{'--'}}</p>
-				    <p>上传时间：{{'--'}}</p>
-				    <p>上传速度：{{'--'}}</p>
-				    <p>视频格式：{{'--'}}</p>
+				    <p>文件大小：{{details.data.videos[0].size | videoSize}}M</p>
+				    <p>上传时间：{{details.data.videos[0].ctime | date:'yyyy-MM-dd' || '--'}}</p>
+				    <p>上传速度：{{details.data.videos[0].itime || '--'}}</p>
+				    <p>视频格式：{{details.data.videos[0].ext || '--'}}</p>
 				</div>
 				<div style="text-align: center;padding-top: 4px;">
 					<a class="button button-small button-icon icon ion-arrow-down-b" style="color: #9e9e9e;"></a>
@@ -67,7 +67,7 @@
 					<i class="icon"><img src="img/icon/ico_58.png" height="20" alt=""></i>
 				</div>
 				<div class="item item-body" style="padding: 5px 5px;border:none;">
-				    <img class="" width="100%" src="img/pic.jpg" style="border-radius: 2px;">
+				    <img class="" width="100%" ng-src="{{details.data.pics[0].savepath}}" style="border-radius: 2px;">
 				</div>
 				<div style="text-align: center;padding-top: 4px;">
 					<a class="button button-small button-icon icon ion-arrow-down-b" style="color: #9e9e9e;"></a>

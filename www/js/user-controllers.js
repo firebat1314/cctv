@@ -171,20 +171,49 @@ angular.module('user-controllers', [])
 	};
 })
 
-.controller('PersonalDataCtrl', function($ionicHistory, $scope, $cordovaCamera, $cordovaImagePicker, $data, $timeout, $rootScope, $state, $ionicPopup, $ionicPopover, $ionicModal) {
+.controller('PersonalDataCtrl', function($ionicHistory, $scope, $cordovaCamera, $cordovaImagePicker, $data, $timeout, $rootScope, $state, $ionicPopup, $ionicPopover, $ionicModal,$ionicActionSheet,$cordovaFileTransfer) {
 	$ionicPopover.fromTemplateUrl('my-popover.html', {
 		scope: $scope
 	}).then(function(popover) {
 		$scope.popover = popover;
 	});
 
-	$scope.editImg = function() {
+	$scope.editImg = function($event) {
 		$scope.popover.show();
-	};
 
+		/*$ionicActionSheet.show({
+            buttons: [
+              { text: '拍照' },
+              { text: '从相册中选择' }
+            ],
+            cancelText: '关闭',
+            cancel: function() {
+                return true;
+            },
+            buttonClicked: function(index) {
+                switch (index){
+                    case 0:
+                        $scope.openCamera
+                        break;
+                    case 1:
+                        $scope.openImagePicker
+                        break;
+                    default:
+                        break;
+                }   
+                return true;
+            }
+        });*/
+	};
+	$scope.$on('$ionicView.beforeEnter',function(){
+		console.log('进入个人中心...');
+	});
+	$scope.$on('$ionicView.beforeLeave',function(){
+		console.log('离开个人中心...');
+	});
 	$scope.openCamera = function() {
 		document.addEventListener("deviceready", function() {
-			//console.log(Camera);
+			console.log(Camera);
 			var options = {
 				quality: 80,
 				destinationType: Camera.DestinationType.DATA_URL,
@@ -199,53 +228,54 @@ angular.module('user-controllers', [])
 			};
 
 			$cordovaCamera.getPicture(options)
-				.then(function(imageData) {
-					var image = document.getElementById('myImage');
-					$scope.img = imageData;
-					if ($scope.img) {
-						image.src = $scope.img;
-						$data.editPic({
-							avatar: $scope.img,
-							step: 'cropper'
-						}).success(function(data) {
-							console.log(data);
-							$scope.items = data;
-						})
-					}
-
+				.then(function(results) {
+					console.log(results);
+					$scope.dataInit.avatar = "data:image/jpeg;base64," + results;
+					$data.editPic({
+						avatar:"data:image/jpeg;base64," + results,
+						step:'cropper',
+						thumb:1
+					}).success(function(data) {
+						console.log(data);
+						$data.loadingShow(data.info)
+						if(data.status == '1'){
+							$scope.dataInit.avatar = data.data.avatar;
+						}
+					})
 				}, function(err) {
 					// error
 					console.log(1);
 				});
 		}, false);
-
 		$scope.popover.hide();
 	};
+	
 	$scope.openImagePicker = function() {
 		document.addEventListener("deviceready", function() {
 			var options = {
-				maximumImagesCount: 10,
+				maximumImagesCount: 1,
 				width: 800,
 				height: 800,
 				quality: 80
 			};
-
 			$cordovaImagePicker.getPictures(options)
-				.then(function(results) {
-					$scope.img = results;
-					var image = document.getElementById('myImage');
-					image.src = $scope.img;
+				.then(function(imgData) {
+					console.log(imgData);
 					$data.editPic({
-						avatar: $scope.img,
-						step: 'cropper'
+						avatar: imgData[0]
 					}).success(function(data) {
 						console.log(data);
-						$scope.items = data;
+						$data.loadingShow(data.info)
+							$scope.dataInit.avatar = imgData[0];
+						if(data.status == '1'){
+							$scope.dataInit.avatar = imgData[0];
+						}
 					})
 				}, function(error) {
-					$data.loadingShow('打开相册失败')
+					$data.loadingShow('相册打开失败')
 				});
 		}, false);
+		$scope.popover.hide();
 	};
 	$scope.getDetails = function() {
 		$data.userInfo().success(function(data) {
