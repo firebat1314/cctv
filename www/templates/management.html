@@ -9,7 +9,11 @@
 			  	<div class="item item-avatar">
     			    <img ng-src="{{item.avatar}}">
     			    <h2 class="item-name">
-                        <span style="float:left;" ng-bind="item.name"></span>
+                        <span style="float:left;">
+                            {{item.name}}
+                            <span ng-if="item.check=='0'" style="font-size: 12px;color: #ff8651;margin-left: 10px">未审核</span>
+                            <span ng-if="item.check=='1'" style="font-size: 12px;color: #e6e6e6;">已审核</span>
+                        </span>
                         <span style="float:right;color: #ed6d00;padding-right: 10px;" ng-bind="item.position">记者</span>
                     </h2>
     			    <div class="card-main-content">
@@ -28,7 +32,7 @@
     					    		<div class="btn-txt">查看</div>
     					    	</div>
     					    </ion-option-button>
-    					    <ion-option-button ng-click="">
+    					    <ion-option-button ng-click="checkMember(item.uid,$index)" ng-disabled="item.check=='1'">
     					    	<div class="btnbox">
     					    		<img src="img/icon/ico_15.png" alt="">
     					    		<div class="btn-txt">审核</div>

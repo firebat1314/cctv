@@ -56,7 +56,6 @@
 	      		<div class="list padding">
 	      		  	<label class="item item-input item-stacked-label">
 	      		    	<span class="input-label">正文：</span>
-	      		    	
 	      		  	</label>
 	      		  	<div  class="content" >
 	      		  		<ion-scroll zooming="true" direction="y" style="width: 100%; height: 200px;border: 1px solid #e6e6e6;border-radius: 4px;overflow: hidden;padding: 5px;">
@@ -75,7 +74,9 @@
 	      		    	<span class="input-label">播出频道及时段</span>
 	      		    	<label class=" item-input item-select my_select_wrap">
 	      		    	  	<select class="my_select" ng-model="user.bochu_pindao">
-	      		    	    	<option ng-repeat="item in channelList">{{item.title}}</option>
+	      		    	    	<option ng-repeat="item in channelList" ng-select="item.id=='5'" value="{{item.title}}" >
+	      		    	    		{{item.title}}
+	      		    	    	</option>
 	      		    	  	</select>
 	      		    	</label>
 	      		  	</div>

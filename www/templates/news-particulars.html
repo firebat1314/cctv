@@ -53,8 +53,8 @@
 
 			      		</div>
 				    <p>文件大小：{{details.data.videos[0].size | videoSize}}M</p>
-				    <p>上传时间：{{details.data.videos[0].ctime | date:'yyyy-MM-dd' || '--'}}</p>
-				    <p>上传速度：{{details.data.videos[0].itime || '--'}}</p>
+				    <p>上传时间：{{details.data.videos[0].date || '--'}}</p>
+				    <p>上传速度：{{details.data.videos[0].files || '--'}}kb/s</p>
 				    <p>视频格式：{{details.data.videos[0].ext || '--'}}</p>
 				</div>
 				<div style="text-align: center;padding-top: 4px;">
@@ -79,7 +79,7 @@
 				</div>
 				<div class="item item-body" style="padding: 5px 5px;">
 					<h2 style="color: #3d3d3d;">{{details.data.title}}</h2>
-			      	<p style="color: #9e9e9e;">{{details.data.content}}</p>
+			      	<p style="color: #9e9e9e;padding: 10px;" ng-bind-html="content"></p>
 				</div>
 			</div>
 		</div>

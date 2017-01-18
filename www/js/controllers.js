@@ -39,32 +39,29 @@ angular.module('starter.controllers', ['user-controllers','news-controllers'])
       $scope.user.password = '';
     };
     $scope.verification = function() {
-      $scope.user.username = $('#login-username').val();
-      $scope.user.password = $('#login-password').val();
+      console.log($scope.user);
       if ($scope.user.username == null || $scope.user.username.length == 0 || $scope.user.password == null || $scope.user.password.length == 0) {
         $data.loadingShow("手机号用户名或密码不能为空");
         return;
       };
-      $data.loadingShow("登录中...");
-      console.log($scope.user);
-      $data.login($scope.user).success(function(data, status, headers, config) {
-        console.log(data);
-        if (data.status == 1) {
-          $data.loadingShow("成功登录");
-          $data.storeData('userInfo', data);
-          $data.storeData('isLogin', 'yes');
-          $data.storeData('username', $scope.user.username);
-          $state.go('tab.news');
-        } else if (data.info == "您的账户未审核") {
-          $data.loadingShow("您的账户未审核");
-        } else if(data.status == 0){
-          $data.loadingShow("用户名或密码错误");
-        } else {
-          $data.loadingShow("登录失败，请重试");
-        };
-      }).error(function(data) {
-        $data.loadingShow("网络连接错误");
-      })
+      $scope.status = true;
+      $timeout(function(){
+         $data.login($scope.user).success(function(data, status, headers, config) {
+           console.log(data);
+           $data.loadingShow(data.info);
+           if (data.status == 1) {
+             $data.storeData('userInfo', data);
+             $data.storeData('isLogin', 'yes');
+             $data.storeData('username', $scope.user.username);
+             $state.go('tab.news');
+           }else{
+             $scope.status = false;
+           }
+         }).error(function(data) {
+           $data.loadingShow("网络连接错误");
+         })
+      },500)
+      
     };
   })
 

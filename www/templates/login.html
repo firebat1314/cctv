@@ -8,7 +8,6 @@
 			text-align: center;
 			font-size: 25px;
 			font-weight: 700;
-			font-family: '宋体';
 		}
 		#landinghead p{
 			font-size: 15px;
@@ -53,19 +52,22 @@
 		}
 		#login-enter{
 			margin-top: 20%;
-			font-family: 'microsoft yahei'
+			color: #fff;
+		}
+		#login-enter .spinner svg {
+		  stroke: #fff;
+		  fill: #fff;
+		  vertical-align: middle;
 		}
 		.forget-password{
 			text-align: center;
 			color:#333;
-			font-family: 'microsoft yahei'
 		}
 		.btn-register-box{
 			text-align: center;
 			margin-top: 30%;
 		}
 		.btn-register{
-			font-family: 'microsoft yahei';
 		}
 	</style>
 		<div id="landinghead">
@@ -84,15 +86,18 @@
 				<i ng-if="user.password.length>0" id="Passwords" class="ion ion-close-circled Octopus" ng-click="deletePasswords()"></i>
 				<p class="triangle"></p>
 			</div>
-			<button class="button button-block button-assertive" id="login-enter" ng-click="verification()">登　录</button>
+			<button class="button button-block button-assertive" id="login-enter" ng-disabled="status" ng-click="verification()">
+				<span ng-if="!status">登　录</span>
+				<ion-spinner icon="bubbles" ng-if="status"></ion-spinner>
+			</button>
 			<p class="forget-password">
 				忘记密码 <i class="ion-ios-help-outline" data-pack="ios" data-tags="question, information, ?"></i>
 			</p>
-			<p class="btn-register-box">
+			<!-- <p class="btn-register-box">
 				<button class="button button-clear button-assertive btn-register" ng-click="goRegister()">注册
 					<i class="ion-ios-arrow-right" data-pack="ios" data-tags="chevron"></i>
 				</button>
-			</p>
+			</p> -->
 		</form>
 </ion-view>
 

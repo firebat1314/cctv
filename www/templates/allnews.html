@@ -1,6 +1,7 @@
 <ion-view>
 	<style>
 		.allnews .item-content{
+			padding-bottom: 10px;
 			display: -webkit-box;
 			display: -ms-flexbox;
 			display: flex;
@@ -34,14 +35,14 @@
 			<div class="card" style="margin: 10px;">
 			    <label class="item item-input" style="padding: 0 0 0 16px">
 			      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
-			      <input type="text" placeholder="废掉TPP，绝对超级大礼">
+        	      <input type="text" ng-model="searchs" ng-change="getDetails(searchs)" placeholder="标题关键字">
 			    </label>
 			</div>
 			<div class="card" ng-repeat="item in details" ng-click="toParticulars(item.id)">
 			    <ion-item class="item item-thumbnail-left" >
 					<img ng-src="{{item.img}}">
 					<h2>{{item.title}}</h2>
-					<p>{{item.baoti_date}}</p>
+					<p>{{item.dateline}}</p>
 					<!-- <p style="background: url(img/icon/ico_56.png) right center no-repeat;-webkit-background-size: auto 80%;background-size: auto 80%;"> -->
 					<p>
 						状态:  	<span style="color: #ff8651" ng-if="item.is_read=='1'">已阅</span>
@@ -54,7 +55,7 @@
 							<div class="btn-txt">查看</div>
 						</div>
 					</ion-option-button>
-					<ion-option-button>
+					<ion-option-button ng-click="toBaoti(item.id)">
 						<div class="btnbox">
 							<img src="img/icon/ico_63.png" alt="">
 							<div class="btn-txt" >报题</div>

@@ -252,6 +252,12 @@ angular.module('starter', [ 'ionic',
     }
   })
 
+  .state('baoti',{
+    url:'/account/allnews/baoti/:id',
+    templateUrl:'templates/baoti.html',
+    controller: 'BaotiCtrl'
+  })
+
   .state('tab.allchuanlian',{
     url:'/account/allchuanlian',
     views: {
@@ -269,7 +275,7 @@ angular.module('starter', [ 'ionic',
   })
 
   .state('nopass',{
-    url:'/account/allchuanlian/nopass/:id',
+    url:'/account/allchuanlian/nopass/:id/:title',
     templateUrl:'templates/nopass.html',
     controller: 'NopassCtrl'
   })
@@ -285,7 +291,7 @@ angular.module('starter', [ 'ionic',
   })
 
   .state('huati',{
-    url:'/account/alreadyreport/huati/:id',
+    url:'/account/alreadyreport/huati/:id/:status',
     templateUrl:'templates/huati.html',
     controller: 'HuatiCtrl'
   })

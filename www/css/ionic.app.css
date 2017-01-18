@@ -8747,8 +8747,8 @@ progress {
       color: #fff;
       text-decoration: none; }
     .button.button-assertive.active, .button.button-assertive.activated {
-      border-color: #a2a2a2;
-      background-color: #e42112; }
+      /*border-color: #a2a2a2;*/
+      /*background-color: #e42112;*/ }
     .button.button-assertive.button-clear {
       border-color: transparent;
       background: none;

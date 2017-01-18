@@ -361,7 +361,7 @@ angular.module('starter.services', [])
       BaotiHandlePass:function(data){
         return $http({
           method: 'POST',
-          url: ip + '/ManageApp/Baoti/ybaoti',
+          url: ip + '/ManageApp/Baoti/baoti',
           headers: {
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
@@ -412,6 +412,16 @@ angular.module('starter.services', [])
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           data: data
+        })     
+      },
+      GetBaotiContent:function(data){
+        return $http({
+          method: 'get',
+          url: ip + '/ManageApp/Baoti/huati',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params: data
         })     
       },
       //已报题单批量不通过操作

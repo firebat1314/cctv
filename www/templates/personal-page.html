@@ -1,27 +1,17 @@
 <ion-view>
     <style>
-      .pp-flex{
-        height: 100%;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-                flex-direction: column;
-      }
+
       .pp-container{
         background: url(img/myself_01.jpg) 0 0 no-repeat;
         background-size:100%  100%;
-        height: 290px;
-        min-height: 290px;
+        height: 250px;
+        min-height: 250px;
         position: relative;
         margin-bottom: 1px;
       }
       .pp-content{
         width: 100%;
         position: absolute;
-        top: 44px;
       }
       .pp-head{
         display: -webkit-box;
@@ -176,14 +166,16 @@
         min-height: 100%;width: 100%;padding: 0;color: #444;
       }
     </style>
-    <ion-content overflow-scroll="flase" has-bouncing="false" scroll="false">
-      <div class="pp-flex">
+    <ion-header-bar align-title="center">
+    <button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+    <h1 class="title">用户管理</h1>
+        <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">
+          {{editbutton}}  
+          <img ng-src="{{buttonIcon}}" width="22" style="vertical-align: text-bottom;" alt="">
+        </a>
+    </ion-header-bar>
+    <ion-content overflow-scroll="flase" has-bouncing="true">
         <div class="pp-container" style="">
-          <div class="bar bar-header bar-light" style="background: none;">
-            <button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
-            <h1 class="title">用户管理</h1>
-            <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">{{editbutton}}  <img ng-src="{{buttonIcon}}" width="22" style="vertical-align: text-bottom;" alt=""></a>
-          </div>
           <div class="pp-content">
             <div class="pp-head">
               <div class="pp-profession">
@@ -224,7 +216,7 @@
             </div>
           </div>
         </div>
-        <div class="pp-main" style="-webkit-box-flex: 1;-ms-flex-positive: 1;flex-grow: 1;overflow: scroll;">
+        <div class="pp-main">
               <div class="pp-wrapper">
                 <div class="card padding">
                   <div class="item" style="background: url(img/icon/ico_52.png) 3px center no-repeat;">
@@ -304,14 +296,13 @@
                                   所属组
                               </div>
                               <select ng-model="user.groupid">
-                                  <option ng-repeat="item in usergroups" ng-selected="item.groupid==details.groupid" value="{{item.groupid}}">
+                                  <option ng-repeat="item in usergroups" value="{{item.groupid}}">
                                     {{item.grouptitle}}
                                   </option>
                               </select>
                           </label>
                       </li>
                   </ul>
-                  
                 </div>
                 <div class="card padding">
                   <div class="item" style="background: url(img/icon/ico_52.png) 3px center no-repeat;">
@@ -383,7 +374,7 @@
                               </select>
                           </label>
                       </li>
-                      <li class="fore" ng-if="districtList || item.area">
+                      <li class="fore" ng-if="districtList">
                         <label class="item-select">
                               <div class="input-label ">区</div>
                               <select ng-model="user.district" style="width: 70%">
@@ -397,7 +388,6 @@
                 </div>
               </div>
         </div>  
-      </div>
     </ion-content>
     <script id="dataspicker.html" type="text/ng-template">
       <input type="text">

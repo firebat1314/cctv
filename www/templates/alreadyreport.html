@@ -12,7 +12,7 @@
         	<div class="card">
         	    <label class="item item-input" style="padding: 0 0 0 16px">
         	      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
-        	      <input type="text" placeholder="废掉TPP，绝对超级大礼">
+        	      <input type="text" ng-model="searchs" ng-change="getDetails(searchs)" placeholder="标题关键字">
         	    </label>
         	</div>
 			<div class="card report" ng-repeat="item in details">
@@ -30,13 +30,13 @@
 								<div>发布单位：<span style="color: #ff8651;line-height: 24px;">{{item.tv_name}}</span></div>
 							</div>
 							<div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
-							<ion-option-button  ng-click="toHuati(item)">
+							<ion-option-button  ng-click="toHuati(item,2)">
 								<div class="btnbox">
 									<img src="img/icon/ico_66.png" alt="">
 									<div class="btn-txt">不通过</div>
 								</div>
 							</ion-option-button>
-							<ion-option-button ng-click="toHuati(item)" >
+							<ion-option-button ng-click="toHuati(item,1)" >
 								<div class="btnbox">
 									<img src="img/icon/ico_65.png" alt="">
 									<div class="btn-txt" >划题</div>
