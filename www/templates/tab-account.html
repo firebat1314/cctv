@@ -4,7 +4,13 @@
   	  	<h1 class="title">北京电视台</h1>
   	   	<button class="button button-clear" ng-click="goSetting()"><i class="icon ion-ios-gear-outline"></i></button>
   	</ion-header-bar>
-  	<ion-content class="has-tabs">
+  	<ion-content overflow-scroll="false" has-bouncing="true">
+ 		<ion-refresher
+		    pulling-text="下拉刷新..."
+		    spinner="bubbles"
+		    class="spinner-energized"
+		    on-refresh="doRefresh()">
+		</ion-refresher>
 		<div class="account-main-top padding">
 			<div class="account-title1">我的新闻</div>
 			<div class="account-title2"><span  class="account-title-txt">{{data.data.new_count||'0'}}</span> 篇</div>

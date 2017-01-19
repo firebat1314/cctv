@@ -49,6 +49,8 @@
 
 		.popup-city_cn .popup-body{
 			padding: 0;
+			height: 200px;
+			overflow: hidden;
 		}
 		.popup-type .popup-body{
 			
@@ -62,16 +64,19 @@
 			float: left;
 			padding: 3px;
 			color: #717167;
-		}
-		.add-checkbox span{
-			margin: 0 auto;
 			text-align: center;
-			display: block;
 			font-size: 12px;
 			overflow: hidden;
+		}
+		.popup-city_cn .popup-body .add-checkbox.activated{
+			border-radius: 3px;
+			background-color: #fe4342;
+			color: #fff;
+		}
+		.add-checkbox span{
 			white-space: nowrap;
 		}
-		.add-checkbox-actived span{
+		.add-checkbox-actived{
 			border-radius: 3px;
 			background-color: #fe4342;
 			color: #fff;
@@ -114,9 +119,10 @@
 					</a>
 				</div>
 				<div class="card" >
+
 					<a href="" class="item" ng-click="city_cn()">
 						所属地区
-						<span class="item-note" ng-bind="dataInit.province_cn || '点击设置'"></span>
+						<span class="item-note" ng-bind="dataInit.province_cn + dataInit.city_cn + dataInit.area_cn  || '点击设置'"></span>
 					</a>
 					<a href="" class="item" ng-click="type()">
 						单位性质
@@ -144,24 +150,43 @@
 			      		<p href="" class="item" style="text-align: center;">
 							更改头像
 						</p>
-						<a href="" class="item" ng-click="openCamera();">
+						<a href="" class="item" ng-click="openCamera(1);">
 							拍照
 						</a>
-						<a href="" class="item" ng-click="openImagePicker();">
+						<a href="" class="item" ng-click="openCamera(0);">
 							从相册中选择
 						</a>
 			  	</ion-popover-view>
 			</script>
 			<script id="city_cn.html" type="text/ng-template">
-				<!-- <div class="province" ng-if="!add.province" >
-					<div class="add-checkbox" ng-repeat="item in province.data" ng-click="getProvince($event,item.level,item.id)" ng-model="add.province" ng-value="item.id"><span>{{item.name}}</span></div>
+				<div class="province" ng-if="!add.province" style="height: 100%;width: 100%;overflow: scroll;padding: 10px 0;">
+					<div 	
+						class="add-checkbox" 
+						ng-repeat="item in province.data" 
+						ng-click="getProvince($index,item.level,item.id)" 
+						ng-model="add.province" ng-value="item.id">
+						<span>{{item.name}}</span>
+					</div>
 				</div>
-				<div class="city" ng-if="add.province">
-					<div class="add-checkbox" ng-repeat="item in city.data" ng-click="getCity($event,item.level,item.id)" ng-model="add.city" ng-value="item.id" ><span>{{item.name}}</span></div>
+				<div class="city" ng-if="!add.city || flag" style="height: 100%;width: 100%;overflow: scroll;padding: 10px 0;">
+					<div 
+						class="add-checkbox" 
+						ng-repeat="item in city.data" 
+						ng-click="getCity($index,item.level,item.id)" 
+						ng-model="add.city" ng-value="item.id" >
+						<span>{{item.name}}</span>
+					</div>
 				</div>
-				<div class="district" ng-if="add.city">
-					<div class="add-checkbox" ng-repeat="item in district.data" ng-click="getDistrict($event,item.level,item.id)" ng-model="add.district" ng-value="item.id" ><span>{{item.name}}</span></div>
-				</div> -->
+				<div class="district" ng-if="!flag" style="height: 100%;width: 100%;overflow: scroll;padding: 10px 0;">
+					<div 
+						class="add-checkbox" 
+						ng-repeat="item in district.data" 
+						ng-click="getDistrict($index,item.level,item.id)" 
+						ng-model="add.district" 
+						ng-value="item.id" >
+						<span>{{item.name}}</span>
+					</div>
+				</div>
 				
 			</script>
 </ion-view>

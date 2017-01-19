@@ -1,28 +1,43 @@
 angular.module('user-controllers', [])
 .controller('AccountCtrl', function($ionicHistory, $scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams) {
-	$data.userInfo().success(function(data) {
-		$scope.img = data.data.avatar;
-	})
+	$scope.getDetails = function(){
+		$data.userInfo().success(function(data) {
+			console.log(data);
+			$scope.img = data.data.avatar;
+		});
+		$data.vipInfoStatistics().success(function(data) {
+			console.log(data);
+			$scope.data = data;
+		});
+	};
+	$scope.$on('$ionicView.beforeEnter',function(){
+		$scope.getDetails();
+	});
 	$scope.jumpTo = function() {
 		$state.go('tab.management')
 	};
 	$scope.goSetting = function() {
 		$state.go('setting');
 	};
-	$data.vipInfoStatistics().success(function(data) {
-		console.log(data);
-		$scope.data = data;
-	});
+	//更新我的首页
+	$scope.doRefresh = function(){
+		$data.vipInfoStatistics()
+		.success(function(data) {
+			console.log(data);
+			$scope.data = data;
+		}).error(function(){
+			$data.loadingShow('更新失败');
+		}).finally(function() {
+        	$scope.$broadcast('scroll.refreshComplete');
+      	});   
+	}
 })
 
 .controller('ManagementCtrl', function($scope, $data, $rootScope, $state, $timeout, $ionicPopup) {
-	$scope.size = 5;
+	$scope.size = 6;
 	$scope.page = 1;
-	$data.userCtrl().success(function(details) {
-		$scope.items = details.data;
-	})
-	console.log(navigator);
-	//console.log(navigator);
+	$scope.noMore = true;
+	$scope.items = [];
 	$scope.loadMore = function() {
 		$scope.page++;
 		$timeout(function() {
@@ -31,13 +46,23 @@ angular.module('user-controllers', [])
 					page: $scope.page
 				})
 				.success(function(data) {
-					console.log($scope.items);
+					$scope.noMore = $scope.isNoMore(data);
 					Array.prototype.push.apply($scope.items, data.data);
+					console.log($scope.items);
 				}).finally(function() {
 					$scope.$broadcast('scroll.infiniteScrollComplete');
 				});
-		})
+		},100)
 
+	};
+	//是否还有数据加载（上拉）
+	$scope.isNoMore = function(d){
+		console.log(d);
+		if(d.data.length<$scope.size){
+			return false;
+		}else{
+			return true;
+		}
 	};
 	$scope.checkMember = function(uid, $index) {
 		console.log($index);
@@ -71,8 +96,6 @@ angular.module('user-controllers', [])
 
 .controller('PersonalPageCtrl', function($ionicPopup, $ionicHistory, $scope, $data, $rootScope, $state, $stateParams, ionicDatePicker, $filter) {
 	$scope.uid = $stateParams.uid;
-	$scope.editbutton = '编辑';
-	$scope.buttonIcon = 'img/icon/ico_60.png';
 	$scope.status = false;
 	$scope.details;
 
@@ -151,8 +174,6 @@ angular.module('user-controllers', [])
 		if ($scope.status) {
 			$scope.saveCountersign();
 		} else {
-			$scope.editbutton = '保存';
-			$scope.buttonIcon = 'img/icon/ico_59.png';
 			$scope.status = true;
 		}
 	};
@@ -178,15 +199,11 @@ angular.module('user-controllers', [])
 				type: 'button-positive',
 				onTap: function(res) {
 					$scope.submit();
-					$scope.editbutton = '编辑';
-					$scope.buttonIcon = 'img/icon/ico_60.png';
 					$scope.status = false;
 				}
 			}, {
 				text: '取消',
 				onTap: function(res) {
-					$scope.editbutton = '编辑';
-					$scope.buttonIcon = 'img/icon/ico_60.png';
 					$scope.status = false;
 				}
 			}]
@@ -214,6 +231,7 @@ angular.module('user-controllers', [])
                 return true;
             },
             buttonClicked: function(index) {
+            	console.log(index);
                 switch (index){
                     case 0:
                         $scope.openCamera
@@ -234,19 +252,31 @@ angular.module('user-controllers', [])
 	$scope.$on('$ionicView.beforeLeave', function() {
 		console.log('离开个人中心...');
 	});
-	$scope.openCamera = function() {
+	$scope.openCamera = function(type) {
 		document.addEventListener("deviceready", function() {
 			console.log(Camera);
 			var options = {
 				quality: 80,
+				//相片质量0-100
 				destinationType: Camera.DestinationType.DATA_URL,
-				sourceType: Camera.PictureSourceType.CAMERA,
+				//返回类型：DATA_URL= 0，返回作为 base64 編碼字串。 FILE_URI=1，返回影像档的 URI。NATIVE_URI=2，返回图像本机URI (例如，資產庫)
+				sourceType: type,
+				//从哪里选择图片：PHOTOLIBRARY=0，相机拍照CAMERA=1，SAVEDPHOTOALBUM=2。0和1其实都是本地图库
 				allowEdit: true,
+				//在选择之前允许修改截图
 				encodingType: Camera.EncodingType.JPEG,
+				//保存的图片格式： JPEG = 0, PNG = 1
 				targetWidth: 500,
+				//照片宽度
 				targetHeight: 500,
+				//照片高度
+				mediaType: 0,
+				//可选媒体类型：圖片=0，只允许选择图片將返回指定DestinationType的参数。 視頻格式=1，允许选择视频，最终返回 FILE_URI。ALLMEDIA= 2，允许所有媒体类型的选择。
+				cameraDirection: 0,
+				//前后摄像头类型：Back= 0,Front-facing = 1
 				popoverOptions: CameraPopoverOptions,
 				saveToPhotoAlbum: true,
+				//保存进手机相册
 				correctOrientation: true
 			};
 
@@ -386,7 +416,7 @@ angular.module('user-controllers', [])
 		})
 	};
 	$scope.email = function() {
-		var template = '<input type="text" ng-model="profile.email" get-focus><i ng-if="profile.email.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
+		var template = '<input type="email" ng-model="profile.email" get-focus><i ng-if="profile.email.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
 		$scope.tanchu('电子邮箱', template, '', function(e) {
 			if ($scope.profile.email == '') {
 				e.preventDefault();
@@ -403,43 +433,53 @@ angular.module('user-controllers', [])
 			}
 		})
 	};
+
+
 	$scope.loadAddress = function() {
 		$data.getCityList(0, 1).success(function(data) {
 			console.log(data);
 			$scope.province = data;
 		})
 	}
-	$scope.loadAddress();
-	$scope.city_cn = function() {
 		$scope.add = {};
-		$scope.getProvince = function($event, level, id) {
+	
+	$scope.city_cn = function() {
+		$scope.loadAddress();
+		$scope.getProvince = function($index, level, id) {
 			$scope.add.province = id;
-			$($event.currentTarget).addClass('add-checkbox-actived').siblings().removeClass('add-checkbox-actived');
+			$('.add-checkbox').eq($index).addClass('add-checkbox-actived').siblings().removeClass('add-checkbox-actived');
 			$data.getCityList($scope.add.province, 2).success(function(data) {
 				$scope.city = data;
 				console.log(data);
-			})
+			});
+
 		}
-		$scope.getCity = function($event, level, id) {
+		$scope.getCity = function($index, level, id) {
 			$scope.add.city = id;
-			$($event.currentTarget).addClass('add-checkbox-actived').siblings().removeClass('add-checkbox-actived');
+			$('.add-checkbox').eq($index).addClass('add-checkbox-actived').siblings().removeClass('add-checkbox-actived');
 			$data.getCityList($scope.add.city, 3).success(function(data) {
-				$scope.district = data;
-				console.log(data);
+				$scope.district = data
+				if(data.data.length == 0){
+					$scope.flag = true;
+				}else{
+					$scope.flag = false;
+				}
 			})
 		}
-		$scope.getDistrict = function($event, level, id) {
+		$scope.getDistrict = function($index, level, id) {
 			$scope.add.district = id;
-			$($event.currentTarget).addClass('add-checkbox-actived').siblings().removeClass('add-checkbox-actived');
+			$('.add-checkbox').eq($index).addClass('add-checkbox-actived').siblings().removeClass('add-checkbox-actived');
 		}
 		$scope.tanchu('所属地区', '', 'popup-city_cn', function(e) {
-			$data.profile({
-				province: 1,
-				city: 37,
-				district: 568
-			}).success(function(data) {
+			console.log($scope.add);
+			$data.profile($scope.add).success(function(data) {
 				//console.log(data);
 				$data.loadingShow(data.info);
+				if(data.status == '1'){
+					$scope.getDetails();
+					$scope.add = {};
+				};
+				
 			})
 		}, 'city_cn.html')
 	};
@@ -451,10 +491,8 @@ angular.module('user-controllers', [])
 			}).success(function(data) {
 				$data.loadingShow(data.info);
 				if (data.status == 1) {
-					$state.go('login');
-				}
-				if (data.status == 1) {
 					$scope.getDetails();
+					$state.go('login');
 				}
 			})
 		})
@@ -683,9 +721,8 @@ angular.module('user-controllers', [])
 					kw:$scope.newValue
 				})
 				.success(function(data) {
-					$timeout(function() {
-						Array.prototype.push.apply($scope.items, data.data);
-					})
+					console.log(data);
+					Array.prototype.push.apply($scope.items, data.data);
 				}).finally(function() {
 					$scope.$broadcast('scroll.infiniteScrollComplete');
 				});
@@ -693,15 +730,11 @@ angular.module('user-controllers', [])
 	};
 	$scope.arr = [];
 	$scope.status = false;
-	$scope.editbutton = '编辑';
-	$scope.buttonIcon = 'img/icon/ico_53.png';
 	$scope.edit = function() {
 		$ionicListDelegate.closeOptionButtons();
 		if ($scope.status) {
 			$scope.noPass();
 		} else {
-			$scope.editbutton = '退出编辑';
-			$scope.buttonIcon = 'img/icon/ico_59.png';
 			$scope.status = true;
 		}
 	}
@@ -715,15 +748,11 @@ angular.module('user-controllers', [])
 				type: 'button-positive',
 				onTap: function(res) {
 					$scope.submit();
-					$scope.editbutton = '编辑';
-					$scope.buttonIcon = 'img/icon/ico_60.png';
 					$scope.status = false;
 				}
 			}, {
 				text: '取消',
 				onTap: function(res) {
-					$scope.editbutton = '编辑';
-					$scope.buttonIcon = 'img/icon/ico_60.png';
 					$scope.status = false;
 				}
 			}]
@@ -838,15 +867,11 @@ angular.module('user-controllers', [])
 
 	$scope.arr = [];
 	$scope.status = false;
-	$scope.editbutton = '编辑';
-	$scope.buttonIcon = 'img/icon/ico_53.png';
 	$scope.edit = function() {
 		$ionicListDelegate.closeOptionButtons();
 		if ($scope.status) {
 			$scope.noPass();
 		} else {
-			$scope.editbutton = '退出编辑';
-			$scope.buttonIcon = 'img/icon/ico_59.png';
 			$scope.status = true;
 		}
 	}
@@ -860,15 +885,11 @@ angular.module('user-controllers', [])
 				type: 'button-positive',
 				onTap: function(res) {
 					$scope.submit();
-					$scope.editbutton = '编辑';
-					$scope.buttonIcon = 'img/icon/ico_60.png';
 					$scope.status = false;
 				}
 			}, {
 				text: '取消',
 				onTap: function(res) {
-					$scope.editbutton = '编辑';
-					$scope.buttonIcon = 'img/icon/ico_60.png';
 					$scope.status = false;
 				}
 			}]
@@ -958,15 +979,11 @@ angular.module('user-controllers', [])
 
 	$scope.arr = [];
 	$scope.status = false;
-	$scope.editbutton = '编辑';
-	$scope.buttonIcon = 'img/icon/ico_53.png';
 	$scope.edit = function() {
 		$ionicListDelegate.closeOptionButtons();
 		if ($scope.status) {
 			$scope.noPass();
 		} else {
-			$scope.editbutton = '退出编辑';
-			$scope.buttonIcon = 'img/icon/ico_59.png';
 			$scope.status = true;
 		}
 	}
@@ -980,15 +997,11 @@ angular.module('user-controllers', [])
 				type: 'button-positive',
 				onTap: function(res) {
 					$scope.submit();
-					$scope.editbutton = '编辑';
-					$scope.buttonIcon = 'img/icon/ico_60.png';
 					$scope.status = false;
 				}
 			}, {
 				text: '取消',
 				onTap: function(res) {
-					$scope.editbutton = '编辑';
-					$scope.buttonIcon = 'img/icon/ico_60.png';
 					$scope.status = false;
 				}
 			}]
@@ -1120,63 +1133,151 @@ angular.module('user-controllers', [])
 		 	
 })
 
-.controller('CardCaseCtrl', function($scope, $data, $state, $stateParams) {
+.controller('CardCaseCtrl', function($scope, $data, $state, $stateParams,$ionicSlideBoxDelegate,$timeout) {
 	$scope.toPersonalPage = function(uid) {
 		$state.go('tab.personal-page', {
 			uid: uid
 		});
 	};
+	$scope.$on('$ionicView.beforeEnter',function(){
+		$ionicSlideBoxDelegate.enableSlide(false);	 	
+	});
 
-	$data.mingPH({
-		type: 0
-	}).success(function(data) {
-		console.log('全部', data);
-		$scope.details_a = data.data;
-	});
-	$data.mingPH({
-		type: 3
-	}).success(function(data) {
-		console.log('临时名片盒', data);
-		$scope.details_b = data.data;
-	});
-	$data.mingPH({
-		type: 1
-	}).success(function(data) {
-		console.log('未整理名片盒', data);
-		$scope.details_c = data.data;
-	});
-	$data.mingPH({
-		type: 2
-	}).success(function(data) {
-		console.log('地方资源组', data);
-		$scope.details_d = data.data;
-	});
+
+	
+	// $data.mingPH({
+	// 	type: 3
+	// }).success(function(data) {
+	// 	console.log(data);
+	// 	$scope.details_b = data.data;
+	// });
+	// $data.mingPH({
+	// 	type: 1
+	// }).success(function(data) {
+	// 	console.log(data);
+	// 	$scope.details_c = data.data;
+	// });
+	// $data.mingPH({
+	// 	type: 2
+	// }).success(function(data) {
+	// 	console.log(data);
+	// 	$scope.details_d = data.data;
+	// });
 	$data.mingPH({
 		type: 4
 	}).success(function(data) {
-		console.log('地方部', data);
+		console.log(data);
 		$scope.details_e = data.data;
 	});
-	/*$scope.details_a = [];
-	$scope.size = 5;
-	$scope.page = 1;
-	$scope.loadMore = function(type) {
-		$scope.page++;
-		$timeout(function() {
-			$data.mingPH({
-				size: $scope.size,
-				page: $scope.page,
-				type: 0
-			}).success(function(data) {
-				console.log(data);
-				$timeout(function() {
-					Array.prototype.push.apply($scope.details, data.data);
-				})
-			}).finally(function() {
-				$scope.$broadcast('scroll.infiniteScrollComplete');
-			});
-		}, 1000)
-	};*/
+	$scope.details_a = [];
+	$scope.details_b = [];
+	$scope.details_c = [];
+	$scope.details_d = [];
+	$scope.details_e = [];
+	$scope.noMore_a = true;
+	$scope.noMore_b = true;
+	$scope.noMore_c = true;
+	$scope.noMore_d = true;
+	$scope.noMore_e = true;
+	$scope.size_a = 6;
+	$scope.page_a = 1;
+	$scope.loadMore_a = function() {
+		$scope.page_a++;
+		$data.mingPH({
+			size: $scope.size_a,
+			page: $scope.page_a,
+			type: 0
+		}).success(function(data) {
+			console.log(data);
+			$scope.noMore_a = $scope.isNoMore(data);
+			Array.prototype.push.apply($scope.details_a, data.data);
+		}).finally(function() {
+			$timeout(function(){
+				$scope.$broadcast('scroll.infiniteScrollComplete');	 	
+			},300)
+		});
+	};
+	//是否还有数据加载（上拉）
+	$scope.isNoMore = function(d){
+		console.log(d);
+		if(d.data.length<6){
+			return false;
+		}else{
+			return true;
+		}
+	};
+	$scope.size_b = 6;
+	$scope.page_b = 1;
+	$scope.loadMore_b = function() {
+		$scope.page_b++;
+		$data.mingPH({
+			size: $scope.size_b,
+			page: $scope.page_b,
+			type: 3
+		}).success(function(data) {
+			console.log(data);
+			$scope.noMore_b = $scope.isNoMore(data);
+			Array.prototype.push.apply($scope.details_b, data.data);
+		}).finally(function() {
+			$timeout(function(){
+				$scope.$broadcast('scroll.infiniteScrollComplete');	 	
+			},300)
+		});
+	};
+	$scope.size_c = 6;
+	$scope.page_c = 1;
+	$scope.loadMore_c = function() {
+		$scope.page_c++;
+		$data.mingPH({
+			size: $scope.size_c,
+			page: $scope.page_c,
+			type: 1
+		}).success(function(data) {
+			console.log(data);
+			$scope.noMore_c = $scope.isNoMore(data);
+			Array.prototype.push.apply($scope.details_c, data.data);
+		}).finally(function() {
+			$timeout(function(){
+				$scope.$broadcast('scroll.infiniteScrollComplete');	 	
+			},300)
+		});
+	};
+	$scope.size_d = 6;
+	$scope.page_d = 1;
+	$scope.loadMore_d = function() {
+		$scope.page_d++;
+		$data.mingPH({
+			size: $scope.size_d,
+			page: $scope.page_d,
+			type: 2
+		}).success(function(data) {
+			console.log(data);
+			$scope.noMore_d = $scope.isNoMore(data);
+			Array.prototype.push.apply($scope.details_d, data.data);
+		}).finally(function() {
+			$timeout(function(){
+				$scope.$broadcast('scroll.infiniteScrollComplete');	 	
+			},300)
+		});
+	};
+	$scope.size_e = 6;
+	$scope.page_e = 1;
+	$scope.loadMore_e = function() {
+		$scope.page_e++;
+		$data.mingPH({
+			size: $scope.size_e,
+			page: $scope.page_e,
+			type: 4
+		}).success(function(data) {
+			console.log(data);
+			$scope.noMore_e = $scope.isNoMore(data);
+			Array.prototype.push.apply($scope.details_e, data.data);
+		}).finally(function() {
+			$timeout(function(){
+				$scope.$broadcast('scroll.infiniteScrollComplete');	 	
+			},300)
+		});
+	};		
 })
 
 .controller('RevisePasswordCtrl', function($scope, $data, $state, $stateParams) {

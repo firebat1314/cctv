@@ -25,50 +25,163 @@
 			</div>
 		</div>
 		<ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
-		    <ion-slide>
-				<ion-scroll style="height:100%" delegate-handle="slide1Scroll"  has-bouncing="true">
-		            <ion-list>
-		    			<div class="card my-idcard" ng-repeat="item in details_a">
-		    			  	<div class="item item-avatar">
-			    			    <img ng-src="{{item.avatar}}">
-			    			    <h2 class="item-name"><span style="float:left;" ng-bind="item.name"></span><span style="float:right;color: #ed6d00;padding-right: 10px;" ng-bind="item.position">记者</span></h2>
-			    			    <div class="card-main-content">
-			    					<ion-item>
-			    					  	<div class="card-main-content-ul">
-			    					  		<ul class="card-main-content-ul">
-			    					  			<li>{{item.region}}</li>
-			    					  			<li style="background-image: url(img/icon/ico_7.png)">{{item.group_name}}</li>
-			    					  			<li style="background-image: url(img/icon/ico_11.png)">{{item.mobile}}</li>
-			    					  		</ul>
-			    					  		<div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
-			    					  	</div>
-			    					    <ion-option-button ng-click="toPersonalPage(item.user_id)">
-			    					    	<div class="btnbox">
-			    					    		<img src="img/icon/ico_17.png" alt="">
-			    					    		<div class="btn-txt">查看</div>
-			    					    	</div>
-			    					    </ion-option-button>
-			    					</ion-item>
-			    			    </div>
-		    			  	</div>
-		    			</div>
-		            </ion-list>
-		    		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
-				</ion-scroll>
-		    </ion-slide>
-		    <ion-slide>
-		    	
-		    </ion-slide>
-		    <ion-slide>
-		       	
-		    </ion-slide>
-			<ion-slide>
-		       	
-		    </ion-slide>
-		    <ion-slide>
-		       	
-		    </ion-slide>
-		</ion-slide-box>
+            <ion-slide>
+                <ion-scroll style="height:100%" delegate-handle="slide1Scroll"  has-bouncing="true">
+                    <ion-list>
+                        <div class="card my-idcard" ng-repeat="item in details_a">
+                            <div class="item item-avatar">
+                                <img ng-src="{{item.avatar}}">
+                                <h2 class="item-name"><span style="float:left;" ng-bind="item.name"></span><span style="float:right;color: #ed6d00;padding-right: 10px;" ng-bind="item.position">记者</span></h2>
+                                <div class="card-main-content">
+                                    <ion-item>
+                                        <div>
+                                            <ul class="card-main-content-ul">
+                                                <li ng-if="item.region">{{item.region}}</li>
+                                                <li style="background-image: url(img/icon/ico_7.png)">{{item.group_name}}</li>
+                                                <li style="background-image: url(img/icon/ico_11.png)">{{item.mobile}}</li>
+                                            </ul>
+                                            <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
+                                        </div>
+                                        <ion-option-button ng-click="toPersonalPage(item.user_id)">
+                                            <div class="btnbox">
+                                                <img src="img/icon/ico_17.png" alt="">
+                                                <div class="btn-txt">查看</div>
+                                            </div>
+                                        </ion-option-button>
+                                    </ion-item>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-list>
+                    <ion-infinite-scroll immediate-check="true"  ng-if="noMore_a" on-infinite="loadMore_a()" distance="1%"></ion-infinite-scroll>
+                </ion-scroll>
+            </ion-slide>
+            <ion-slide>
+                <ion-scroll style="height:100%" delegate-handle="slide1Scroll"  has-bouncing="true">
+                    <ion-list>
+                        <div class="card my-idcard" ng-repeat="item in details_b">
+                            <div class="item item-avatar">
+                                <img ng-src="{{item.avatar}}">
+                                <h2 class="item-name"><span style="float:left;" ng-bind="item.name"></span><span style="float:right;color: #ed6d00;padding-right: 10px;" ng-bind="item.position">记者</span></h2>
+                                <div class="card-main-content">
+                                    <ion-item>
+                                        <div>
+                                            <ul class="card-main-content-ul">
+                                                <li ng-if="item.region">{{item.region}}</li>
+                                                <li style="background-image: url(img/icon/ico_7.png)">{{item.group_name}}</li>
+                                                <li style="background-image: url(img/icon/ico_11.png)">{{item.mobile}}</li>
+                                            </ul>
+                                            <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
+                                        </div>
+                                        <ion-option-button ng-click="toPersonalPage(item.user_id)">
+                                            <div class="btnbox">
+                                                <img src="img/icon/ico_17.png" alt="">
+                                                <div class="btn-txt">查看</div>
+                                            </div>
+                                        </ion-option-button>
+                                    </ion-item>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-list>
+                    <ion-infinite-scroll immediate-check="true"  ng-if="noMore_b" on-infinite="loadMore_b()" distance="1%"></ion-infinite-scroll>
+                </ion-scroll>
+            </ion-slide>
+            <ion-slide>
+                <ion-scroll style="height:100%" delegate-handle="slide1Scroll"  has-bouncing="true">
+                    <ion-list>
+                        <div class="card my-idcard" ng-repeat="item in details_c">
+                            <div class="item item-avatar">
+                                <img ng-src="{{item.avatar}}">
+                                <h2 class="item-name"><span style="float:left;" ng-bind="item.name"></span><span style="float:right;color: #ed6d00;padding-right: 10px;" ng-bind="item.position">记者</span></h2>
+                                <div class="card-main-content">
+                                    <ion-item>
+                                        <div>
+                                            <ul class="card-main-content-ul">
+                                                <li ng-if="item.region">{{item.region}}</li>
+                                                <li style="background-image: url(img/icon/ico_7.png)">{{item.group_name}}</li>
+                                                <li style="background-image: url(img/icon/ico_11.png)">{{item.mobile}}</li>
+                                            </ul>
+                                            <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
+                                        </div>
+                                        <ion-option-button ng-click="toPersonalPage(item.user_id)">
+                                            <div class="btnbox">
+                                                <img src="img/icon/ico_17.png" alt="">
+                                                <div class="btn-txt">查看</div>
+                                            </div>
+                                        </ion-option-button>
+                                    </ion-item>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-list>
+                    <ion-infinite-scroll immediate-check="true"  ng-if="noMore_c" on-infinite="loadMore_c()" distance="1%"></ion-infinite-scroll>
+                </ion-scroll>
+            </ion-slide>
+            <ion-slide>
+                <ion-scroll style="height:100%" delegate-handle="slide1Scroll"  has-bouncing="true">
+                    <ion-list>
+                        <div class="card my-idcard" ng-repeat="item in details_d">
+                            <div class="item item-avatar">
+                                <img ng-src="{{item.avatar}}">
+                                <h2 class="item-name"><span style="float:left;" ng-bind="item.name"></span><span style="float:right;color: #ed6d00;padding-right: 10px;" ng-bind="item.position">记者</span></h2>
+                                <div class="card-main-content">
+                                    <ion-item>
+                                        <div>
+                                            <ul class="card-main-content-ul">
+                                                <li ng-if="item.region">{{item.region}}</li>
+                                                <li style="background-image: url(img/icon/ico_7.png)">{{item.group_name}}</li>
+                                                <li style="background-image: url(img/icon/ico_11.png)">{{item.mobile}}</li>
+                                            </ul>
+                                            <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
+                                        </div>
+                                        <ion-option-button ng-click="toPersonalPage(item.user_id)">
+                                            <div class="btnbox">
+                                                <img src="img/icon/ico_17.png" alt="">
+                                                <div class="btn-txt">查看</div>
+                                            </div>
+                                        </ion-option-button>
+                                    </ion-item>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-list>
+                    <ion-infinite-scroll immediate-check="true"  ng-if="noMore_d" on-infinite="loadMore_d()" distance="1%"></ion-infinite-scroll>
+                </ion-scroll>
+            </ion-slide>
+            <ion-slide>
+                <ion-scroll style="height:100%" delegate-handle="slide1Scroll"  has-bouncing="true">
+                    <ion-list>
+                        <div class="card my-idcard" ng-repeat="item in details_e">
+                            <div class="item item-avatar">
+                                <img ng-src="{{item.avatar}}">
+                                <h2 class="item-name"><span style="float:left;" ng-bind="item.name"></span><span style="float:right;color: #ed6d00;padding-right: 10px;" ng-bind="item.position">记者</span></h2>
+                                <div class="card-main-content">
+                                    <ion-item>
+                                        <div>
+                                            <ul class="card-main-content-ul">
+                                                <li ng-if="item.region" ng-if="item.region">{{item.region}}</li>
+                                                <li style="background-image: url(img/icon/ico_7.png)">{{item.group_name}}</li>
+                                                <li style="background-image: url(img/icon/ico_11.png)">{{item.mobile}}</li>
+                                            </ul>
+                                            <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
+                                        </div>
+                                        <ion-option-button ng-click="toPersonalPage(item.user_id)">
+                                            <div class="btnbox">
+                                                <img src="img/icon/ico_17.png" alt="">
+                                                <div class="btn-txt">查看</div>
+                                            </div>
+                                        </ion-option-button>
+                                    </ion-item>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-list>
+                    <!-- <ion-infinite-scroll immediate-check="true" ng-if="noMore_e"  on-infinite="loadMore_d()" distance="1%"></ion-infinite-scroll> -->
+                </ion-scroll>
+            </ion-slide>
+        </ion-slide-box>
 	</tab-slide-box>
+
 </ion-content>
 </ion-view>

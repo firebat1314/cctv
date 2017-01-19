@@ -29,6 +29,7 @@ angular.module('news-controllers',[])
     $timeout(function(){
       $data.getHomeData()
       .success(function(newItems) {
+        console.log(newItems);
         $scope.Items = newItems;
       })
       .error(function() {

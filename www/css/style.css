@@ -256,12 +256,11 @@
 	padding-bottom: 0px;
 }
 .my-idcard .card-main-content-ul{
+	height: 60px;
 	position: relative;
-	height: 100%;
 	display: -ms-flexbox;
 	display: flex;
-	-ms-flex-line-pack:distribute;
-	    align-content:space-around;
+	justify-content: space-around;
 	-ms-flex-flow: column;
 	    flex-flow: column;
 }

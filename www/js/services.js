@@ -65,6 +65,7 @@ angular.module('starter.services', [])
       getCityList: function(parent, type) {
         return $http({
           method: 'get',
+          cache:false,
           url: ip + '/ManageApp/Public/public_getRegion?parent=' + parent + '&type=' + type,
           timeout: 5000
         })
@@ -163,12 +164,12 @@ angular.module('starter.services', [])
       //19、所有串联单
       allChuanld:function(data){
         return $http({
-          method: 'POST',
+          method: 'GET',
           url: ip + '/ManageApp/Chuanld/index',
           headers: {
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
-          data: data
+          params: data
         })
       },
       //20、收件箱

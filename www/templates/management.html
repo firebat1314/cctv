@@ -1,4 +1,15 @@
 <ion-view  view-title="北京电视台" style="background-color: #fafafa;">
+<style>
+    .audit{
+        position: absolute;
+        left: 22px;
+        top: 70px;
+    }
+    .audit span{
+        font-size: 12px;
+        color: #e6e6e6;
+    }
+</style>
   	<ion-header-bar align-title="center">
   		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
   	  	<h1 class="title">用户管理</h1>
@@ -11,9 +22,11 @@
     			    <h2 class="item-name">
                         <span style="float:left;">
                             {{item.name}}
-                            <span ng-if="item.check=='0'" style="font-size: 12px;color: #ff8651;margin-left: 10px">未审核</span>
-                            <span ng-if="item.check=='1'" style="font-size: 12px;color: #e6e6e6;">已审核</span>
                         </span>
+                        <div class="audit">
+                            <span ng-if="item.check=='0'" style="color: #ff8651;">未审核</span>
+                            <span ng-if="item.check=='1'">已审核</span>
+                        </div>
                         <span style="float:right;color: #ed6d00;padding-right: 10px;" ng-bind="item.position">记者</span>
                     </h2>
     			    <div class="card-main-content">
@@ -43,6 +56,6 @@
 			  	</div>
 			</div>
         </ion-list>
-		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+		<ion-infinite-scroll immediate-check="true" ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
 	</ion-content>
 </ion-view>

@@ -167,12 +167,18 @@
       }
     </style>
     <ion-header-bar align-title="center">
-    <button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
-    <h1 class="title">用户管理</h1>
-        <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">
-          {{editbutton}}  
-          <img ng-src="{{buttonIcon}}" width="22" style="vertical-align: text-bottom;" alt="">
-        </a>
+      <button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+      <h1 class="title">用户管理</h1>
+      <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">
+        <span ng-if="status">
+          <span>不通过或取消</span>
+                <img src="img/icon/ico_59.png" width="22" style="vertical-align: text-bottom;" alt="">
+        </span>
+        <span ng-if="!status">
+          <span>编辑</span>
+                <img src="img/icon/ico_53.png" width="22" style="vertical-align: text-bottom;" alt="">
+        </span>
+      </a>
     </ion-header-bar>
     <ion-content overflow-scroll="flase" has-bouncing="true">
         <div class="pp-container" style="">

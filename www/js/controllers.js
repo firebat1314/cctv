@@ -44,10 +44,9 @@ angular.module('starter.controllers', ['user-controllers','news-controllers'])
         $data.loadingShow("手机号用户名或密码不能为空");
         return;
       };
-      $scope.status = true;
+      $scope.status = true;//按钮提交状态
       $timeout(function(){
          $data.login($scope.user).success(function(data, status, headers, config) {
-           console.log(data);
            $data.loadingShow(data.info);
            if (data.status == 1) {
              $data.storeData('userInfo', data);
@@ -60,7 +59,7 @@ angular.module('starter.controllers', ['user-controllers','news-controllers'])
          }).error(function(data) {
            $data.loadingShow("网络连接错误");
          })
-      },500)
+      },100)
       
     };
   })
