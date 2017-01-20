@@ -54,11 +54,6 @@
 			margin-top: 20%;
 			color: #fff;
 		}
-		#login-enter .spinner svg {
-		  stroke: #fff;
-		  fill: #fff;
-		  vertical-align: middle;
-		}
 		.forget-password{
 			text-align: center;
 			color:#333;
@@ -86,7 +81,7 @@
 				<i ng-if="user.password.length>0" id="Passwords" class="ion ion-close-circled Octopus" ng-click="deletePasswords()"></i>
 				<p class="triangle"></p>
 			</div>
-			<button class="button button-block button-assertive" id="login-enter" ng-disabled="status" ng-click="verification()">
+			<button class="button button-block button-assertive btn-loadding" id="login-enter" ng-disabled="status" ng-click="verification()">
 				<span ng-if="!status">登　录</span>
 				<ion-spinner icon="bubbles" ng-if="status"></ion-spinner>
 			</button>

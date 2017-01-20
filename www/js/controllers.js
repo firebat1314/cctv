@@ -44,22 +44,21 @@ angular.module('starter.controllers', ['user-controllers','news-controllers'])
         $data.loadingShow("手机号用户名或密码不能为空");
         return;
       };
-      $scope.status = true;//按钮提交状态
+      $scope.status = true;//按钮提交状态 true为禁用
       $timeout(function(){
          $data.login($scope.user).success(function(data, status, headers, config) {
            $data.loadingShow(data.info);
+           $scope.status = false;//按钮提交状态
            if (data.status == 1) {
              $data.storeData('userInfo', data);
              $data.storeData('isLogin', 'yes');
              $data.storeData('username', $scope.user.username);
              $state.go('tab.news');
-           }else{
-             $scope.status = false;
            }
          }).error(function(data) {
            $data.loadingShow("网络连接错误");
          })
-      },100)
+      },300)
       
     };
   })

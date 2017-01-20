@@ -87,15 +87,15 @@
       		  		</ion-scroll>
       		  	</div>
       		  	<label class="item item-input item-stacked-label app-content">
-      		    	<span class="input-label">划题说明</span>
+      		    	<span class="input-label">报题说明</span>
       		    	<textarea ng-model="user.note" placeholder="" rows="7"></textarea>
       		  	</label>
       		  	<div class="item item-input item-stacked-label app-note">
-      		    	<span class="input-label">划题和不通过：</span>
+      		    	<span class="input-label">报题和不通过：</span>
       		    	<div >
 	      		    	<label class="radio" style="margin-right:10px;">
 	      		    		<div class="radiobox" ng-class="{true:'active',false:''}[user.status==1]"><i class="ion-checkmark-round" ></i></div>
-	      		    	  	<input type="radio" name="status" value="1" ng-model="user.status" ng-init="status=1" style="display: none">划题
+	      		    	  	<input type="radio" name="status" value="1" ng-model="user.status" ng-init="status=1" style="display: none">报题
 	      		    	</label>
 	      		    	<label class="radio">
 	      		    		<div class="radiobox" ng-class="{true:'active',false:''}[user.status==2]"><i class="ion-checkmark-round" ></i></div>
@@ -106,8 +106,9 @@
       		</div>
         </div>
         <div class="padding approximations-btn" >
-        	<button class="button button-block right-btn" ng-click="submit()">
-        		确定
+        	<button class="button button-block right-btn btn-loadding" ng-disabled="btnStatus" ng-click="submit()">
+        		<span ng-if="!btnStatus">确　定</span>
+				<ion-spinner icon="bubbles" ng-if="btnStatus"></ion-spinner>
         	</button>
         </div>
 	</ion-content>

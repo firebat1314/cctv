@@ -12,7 +12,12 @@
 .bar .title{
 	color: #fff;
 }
-
+/* 按钮状态 */
+.btn-loadding .spinner svg {
+	stroke: #fff;
+	fill: #fff;
+	vertical-align: middle;
+}
 .card{
 	position: relative;
 }

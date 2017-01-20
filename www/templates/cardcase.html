@@ -42,7 +42,7 @@
                                             </ul>
                                             <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
                                         </div>
-                                        <ion-option-button ng-click="toPersonalPage(item.user_id)">
+                                        <ion-option-button ng-click="toPersonalPage(item.user_id,item.add_id)">
                                             <div class="btnbox">
                                                 <img src="img/icon/ico_17.png" alt="">
                                                 <div class="btn-txt">查看</div>
@@ -73,7 +73,7 @@
                                             </ul>
                                             <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
                                         </div>
-                                        <ion-option-button ng-click="toPersonalPage(item.user_id)">
+                                        <ion-option-button ng-click="toPersonalPage(item.user_id,item.add_id)">
                                             <div class="btnbox">
                                                 <img src="img/icon/ico_17.png" alt="">
                                                 <div class="btn-txt">查看</div>
@@ -104,7 +104,7 @@
                                             </ul>
                                             <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
                                         </div>
-                                        <ion-option-button ng-click="toPersonalPage(item.user_id)">
+                                        <ion-option-button ng-click="toPersonalPage(item.user_id,item.add_id)">
                                             <div class="btnbox">
                                                 <img src="img/icon/ico_17.png" alt="">
                                                 <div class="btn-txt">查看</div>
@@ -135,7 +135,7 @@
                                             </ul>
                                             <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
                                         </div>
-                                        <ion-option-button ng-click="toPersonalPage(item.user_id)">
+                                        <ion-option-button ng-click="toPersonalPage(item.user_id,item.add_id)">
                                             <div class="btnbox">
                                                 <img src="img/icon/ico_17.png" alt="">
                                                 <div class="btn-txt">查看</div>
@@ -166,7 +166,7 @@
                                             </ul>
                                             <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
                                         </div>
-                                        <ion-option-button ng-click="toPersonalPage(item.user_id)">
+                                        <ion-option-button ng-click="toPersonalPage(item.user_id,item.add_id)">
                                             <div class="btnbox">
                                                 <img src="img/icon/ico_17.png" alt="">
                                                 <div class="btn-txt">查看</div>
@@ -177,7 +177,7 @@
                             </div>
                         </div>
                     </ion-list>
-                    <!-- <ion-infinite-scroll immediate-check="true" ng-if="noMore_e"  on-infinite="loadMore_d()" distance="1%"></ion-infinite-scroll> -->
+                    <ion-infinite-scroll immediate-check="true" ng-if="noMore_e"  on-infinite="loadMore_e()" distance="1%"></ion-infinite-scroll>
                 </ion-scroll>
             </ion-slide>
         </ion-slide-box>

@@ -82,11 +82,12 @@
 	      		  	</div>
 	      		</div>
 	        </div>
-	        <div class="padding" >
-	        	<button class="button button-block right-btn" ng-click="submit()">
-	        		确定
-	        	</button>
-	        </div>
+            <div class="padding" >
+            	<button class="button button-block right-btn btn-loadding" ng-disabled="btnStatus" ng-click="submit()">
+            		<span ng-if="!btnStatus">确　定</span>
+    				<ion-spinner icon="bubbles" ng-if="btnStatus"></ion-spinner>
+            	</button>
+            </div>
         </div>
 	</ion-content>
 </ion-view>

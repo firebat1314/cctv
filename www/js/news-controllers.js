@@ -1,30 +1,32 @@
 angular.module('news-controllers',[])
 
-.controller('NewsCtrl', function($ionicHistory,$scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition) {
-  $scope.goBack = function(){
-         $ionicHistory.goBack();
-  }
-  $scope.mySwiper = new Swiper('.swiper-container', {
-    autoplay: 2000,
-    loop: true,
-  });
+.controller('NewsCtrl', function($ionicHistory,$scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition,$ionicSlideBoxDelegate) {
+  if ($data.storeData('homedata')) {
+    $scope.Items = $data.storeData('homedata');
+  };
   $scope.addClass = function(e, name) {
     $(e.target).addClass('selected').siblings().removeClass('selected');
     $ionicScrollDelegate.scrollTo(0, $ionicPosition.offset($(name)).top-50, true)
   };
-  if ($data.storeData('homedata')) {
-    $scope.Items = $data.storeData('homedata');
-  }
+
   $data.getHomeData().success(function(data) {
     console.log(data);
     $scope.Items = data;
     $data.storeData('homedata', data)
   });
+  $data.getBanner().success(function(data){
+    console.log(data);
+    $scope.bannerList = data.data;  
+    $ionicSlideBoxDelegate.update();
+  });
   $scope.goNewDetailPage = function(catid) {
-    $state.go('tab.new-detail', {
-      chatId: catid
-    })
-  }
+    if(catid != undefined){
+      $state.go('tab.new-detail', {
+        chatId: catid
+      })
+    }
+  };
+
   $scope.doRefresh = function() {
     $timeout(function(){
       $data.getHomeData()

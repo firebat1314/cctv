@@ -1,5 +1,16 @@
 <ion-view view-title="北京电视台--1983"> 
 	<style type="text/css">
+		.bannerSwipe{
+			 padding: 3px;
+			 background-color: #fff;
+			 border-radius: 2px;
+			 margin-top: 20px;
+			 height: 200px;
+		}
+		.bannerSwipe img{
+			height: 100%;
+			width: 100%;
+		}
 		.header-item{
 			color: #fff;
 		}
@@ -82,16 +93,12 @@
 		        <div class="swiper-slide"><img src="./img/banner.jpg" alt="" width="100%" height="100%"></div>
 		    </div>
 		</div> -->
- 		<div style="padding: 2px;background-color: #fff;border-radius: 2px;margin-top: 20px;">
-			<ion-slide-box on-slide-changed="slideHasChanged($index)" auto-play="true" does-continue="true" slide-interval="3000">
-				<ion-slide>
-					<div><img src="./img/banner_07.jpg" alt="" width="100%" height="100%"></div>
-				</ion-slide>
-				<ion-slide>
-					<div><img src="./img/banner_07.jpg" alt="" width="100%" height="100%"></div>
-				</ion-slide>
-				<ion-slide>
-					<div><img src="./img/banner_07.jpg" alt="" width="100%" height="100%"></div>
+ 		<div class="bannerSwipe">
+			<ion-slide-box auto-play="true" does-continue="true" slide-interval="3000" style="height: 100%">
+				<ion-slide ng-repeat="item in bannerList" style="height: 100%" >
+					<div  style="height: 100%">
+							<img ng-src="{{item.pic}}" alt="{{item.title}}" ng-click="goNewDetailPage(item.aid)">
+					</div>
 				</ion-slide>
 			</ion-slide-box>
 		</div>

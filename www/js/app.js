@@ -8,7 +8,6 @@ angular.module('starter', [ 'ionic',
                             'ngCordova',
                             'ionic-native-transitions',
                             'ionic-datepicker',
-                            'ionic-citypicker',
                             'tabSlideBox',
                             "ngSanitize",
                             "com.2fdevs.videogular",
@@ -33,9 +32,9 @@ angular.module('starter', [ 'ionic',
       StatusBar.styleDefault();
     }
   });
-   $rootScope.goBack = function(){
+  $rootScope.goBack = function(){
          $rootScope.$ionicGoBack();
-  }
+  };
   $ionicPlatform.registerBackButtonAction(function(e) {
     var current_state_name = $state.current.name;
     if (current_state_name == 'tab.account' || current_state_name == 'start-page' || current_state_name == 'tab.news' || current_state_name == 'tab' || current_state_name == 'login') {
@@ -213,7 +212,7 @@ angular.module('starter', [ 'ionic',
   })
 
   .state('tab.personal-page',{
-    url:'/account/management/:uid',
+    url:'/account/management/:uid/:cardid',
     views: {
       'tab-account': {
         templateUrl: 'templates/personal-page.html',
@@ -253,7 +252,7 @@ angular.module('starter', [ 'ionic',
   })
 
   .state('baoti',{
-    url:'/account/allnews/baoti/:id',
+    url:'/account/allnews/baoti/:id/:index',
     templateUrl:'templates/baoti.html',
     controller: 'BaotiCtrl'
   })

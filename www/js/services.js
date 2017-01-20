@@ -81,15 +81,28 @@ angular.module('starter.services', [])
           }
         })
       },
-
+      //广告图
+      getBanner:function(data){
+         return $http({
+          method: 'GET',
+          url: ip + '/ManageApp/Index/ads',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          }
+        })
+      },
       //新闻详情
       getNewsDetails: function(data) {
         return $http({
           method: 'GET',
-          url: ip + '/ManageApp/Index/view?id=' + data,
+          url: ip + '/ManageApp/Index/view',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          params:{
+            id: data
           }
         })
       },
@@ -293,14 +306,25 @@ angular.module('starter.services', [])
         })
       },
       //34、 查看名片盒
-      mingPHG:function(data){
+      viewMPH:function(data){
         return $http({
           method: 'GET',
-          url: ip + '/ManageApp/User/mingPHG',
+          url: ip + '/ManageApp/User/viewMPH',
           headers: {
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           params: data
+        })
+      },
+      //编辑名片盒
+      editMPH:function(data){
+        return $http({
+          method: 'POST',
+          url: ip + '/ManageApp/User/editMPH',
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
+          data: data
         })
       },
       //35、 名片盒组
@@ -382,14 +406,16 @@ angular.module('starter.services', [])
         })
       },
       //40、 （1）串联单操作（约稿和不通过）
-      ChuanldStatus:function(type,params,data){
+      ChuanldStatus:function(type,id,data){
         return $http({
           method: type,
           url: ip + '/ManageApp/Chuanld/status',
           headers: {
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
-          params: params,
+          params: {
+            id:id
+          },
           data:data
         })
       },
@@ -596,7 +622,6 @@ angular.module('starter.services', [])
           return (key && angular.fromJson($window.localStorage[key])) || null;
         }
       },
-
       //删除某个储存
       remove: function(key) {
         $window.localStorage.removeItem(key);
@@ -604,6 +629,14 @@ angular.module('starter.services', [])
       //清空
       clear: function() {
         $window.localStorage.clear();
+      },
+      isNoMore:function(d,size){
+        //是否还有数据加载（上拉）
+        if(d.data.length<size){
+          return false;
+        }else{
+          return true;
+        }
       }
     }
   });

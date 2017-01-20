@@ -45,7 +45,7 @@
 					<p>{{item.dateline}}</p>
 					<!-- <p style="background: url(img/icon/ico_56.png) right center no-repeat;-webkit-background-size: auto 80%;background-size: auto 80%;"> -->
 					<p>
-						状态:  	<span style="color: #ff8651" ng-if="item.is_read=='1'">已阅</span>
+						状态:  	<span style="color: #b6b6b6" ng-if="item.is_read=='1'">已阅</span>
 								<span style="color: #ff8651" ng-if="item.is_read=='0'">未阅</span>
 					</p>
 					<div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
@@ -55,7 +55,7 @@
 							<div class="btn-txt">查看</div>
 						</div>
 					</ion-option-button>
-					<ion-option-button ng-click="toBaoti(item.id)">
+					<ion-option-button ng-click="toBaoti(item.id,$index)">
 						<div class="btnbox">
 							<img src="img/icon/ico_63.png" alt="">
 							<div class="btn-txt" >报题</div>
@@ -64,7 +64,7 @@
 				</ion-item>
 			</div>
 		</ion-list>
-		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+		<ion-infinite-scroll immediate-check=""  ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
 
 	</ion-content>
 </ion-view>

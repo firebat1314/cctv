@@ -72,8 +72,9 @@
       		</div>
         </div>
         <div class="padding approximations-btn" >
-        	<button class="button button-block right-btn" ng-click="submit()">
-        		确定
+        	<button class="button button-block right-btn btn-loadding" ng-disabled="btnStatus" ng-click="submit()">
+        		<span ng-if="!btnStatus">确　定</span>
+				<ion-spinner icon="bubbles" ng-if="btnStatus"></ion-spinner>
         	</button>
         	<button class="button button-block cancel-btn" ng-click="goBack()">
         	  	取消

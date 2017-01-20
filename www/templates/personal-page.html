@@ -171,7 +171,7 @@
       <h1 class="title">用户管理</h1>
       <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">
         <span ng-if="status">
-          <span>不通过或取消</span>
+          <span>保存或取消</span>
                 <img src="img/icon/ico_59.png" width="22" style="vertical-align: text-bottom;" alt="">
         </span>
         <span ng-if="!status">
@@ -297,13 +297,23 @@
                         </button>
                       </li>
                       <li class="fore"  style="background: url(img/icon/ico_62.png) 95% center no-repeat;" style="overflow: hidden;"  >
-                          <label class="item-select">
+                          <label class="item-select" ng-if="!cardid">
                               <div class="input-label ">
                                   所属组
                               </div>
                               <select ng-model="user.groupid">
                                   <option ng-repeat="item in usergroups" value="{{item.groupid}}">
                                     {{item.grouptitle}}
+                                  </option>
+                              </select>
+                          </label>
+                          <label class="item-select" ng-if="cardid">
+                              <div class="input-label ">
+                                  所属组
+                              </div>
+                              <select ng-model="user.groupid">
+                                  <option ng-repeat="item in cardgroups" value="{{item.group_id}}">
+                                    {{item.group_name}}
                                   </option>
                               </select>
                           </label>

@@ -75,7 +75,7 @@
       		<div class="list padding">
       		  	<label class="item item-input item-stacked-label app-mankind">
 	      		    <span class="input-label">收件人</span>
-	      		    <input type="text" get-Focus ng-model="details.name" placeholder="{{details.name}}">
+	      		    <input type="text" get-Focus ng-value="details.name" disabled placeholder="{{details.name}}">
       		  	</label>
       		  	<label class="item item-input item-stacked-label app-title">
 	      		    <span class="input-label">标题</span>
@@ -101,8 +101,9 @@
       		</div>
         </div>
         <div class="padding approximations-btn" >
-        	<button class="button button-block right-btn" ng-click="submit()">
-        		确定
+        	<button class="button button-block right-btn btn-loadding" ng-disabled="btnStatus" ng-click="submit()">
+        		<span ng-if="!btnStatus">确　定</span>
+				<ion-spinner icon="bubbles" ng-if="btnStatus"></ion-spinner>
         	</button>
         	<button class="button button-block cancel-btn" ng-click="goBack()">
         	  	取消
