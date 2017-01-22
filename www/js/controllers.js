@@ -1,18 +1,19 @@
 angular.module('starter.controllers', ['user-controllers','news-controllers'])
   .controller('StartCtrl', function($scope, $data, $rootScope, $timeout, $state) {
-      if ($data.storeData('isLogin') == 'yes') {
-        console.log('初始化...');
-        $state.go('tab.news')
-      };
       $scope.goLogin = function() {
         $state.go('login')
       };
       $rootScope.goRegister = function() {
         $state.go('register')
       }
-   
   })
   .controller('LoginCtrl', function($scope, $rootScope, $state, $data, $ionicLoading, $timeout) {
+    $scope.$on('$ionicView.beforeEnter',function(){
+      if ($data.storeData('isLogin') == 'yes') {
+        console.log('登录状态：'+$data.storeData('isLogin'));
+        $state.go('tab.news')
+      };
+    })
     $scope.init = function() {
       $scope.LoseFocus = function() {
         $("#Contents").hide();
@@ -46,7 +47,7 @@ angular.module('starter.controllers', ['user-controllers','news-controllers'])
       };
       $scope.status = true;//按钮提交状态 true为禁用
       $timeout(function(){
-         $data.login($scope.user).success(function(data, status, headers, config) {
+         $data.login($scope.user).success(function(data, status, headers, config,$ionicLoading) {
            $data.loadingShow(data.info);
            $scope.status = false;//按钮提交状态
            if (data.status == 1) {
@@ -59,8 +60,12 @@ angular.module('starter.controllers', ['user-controllers','news-controllers'])
            $data.loadingShow("网络连接错误");
          })
       },300)
-      
     };
+    $scope.findPassword = function(){
+      $data.findPassword().success(function(data){
+        alert(data.info);
+      })     
+    }
   })
 
 .controller('RegisterCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout) {

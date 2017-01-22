@@ -1,5 +1,5 @@
 {
-  "name": "cctv",
+  "name": "cctvadmin",
   "app_id": "",
   "gulpStartupTasks": [
     "sass",

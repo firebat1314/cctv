@@ -1,0 +1,49 @@
+<ion-view  hide-tabs="true">
+	<style>
+		.inbox-head{
+			border-bottom: 1px solid #d9d9d9;
+		}
+		.inbox-head .tab-item{
+			border-right: 1px solid #d9d9d9;
+			font-size: 16px;
+			background: url(img/icon/ico_72.png) 46px 11px no-repeat;
+			-webkit-background-size: 20px;
+			background-size: 20px;
+		}
+		.inbox-head .tab-item.activated{
+			background-image: url(img/icon/ico_73.png);
+		}
+		.inbox-head .tab-item:last-child{
+			border:none;
+			background-image: url(img/icon/ico_74.png);
+			-ms-background-position-y: 15px;
+			background-position-y: 15px;
+		}
+		.inbox-head .tab-item:last-child.activated{
+			background-image: url(img/icon/ico_75.png);
+		}
+		.inbox-head .tab-item img{
+			width: 20px;
+			vertical-align: text-bottom;
+		}
+	</style>
+	<ion-header-bar align-title="center">
+		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+		<h1 class="title">收件箱</h1>
+	</ion-header-bar>
+	<div class="tabs tabs-top inbox-head tab-nav">
+		<a class="tab-item" ng-click="xitongMsg()" click-xit-msg>
+					  	系统消息
+		</a>
+		<a class="tab-item" ng-click="yuegaoMsg()">
+					  	约稿消息
+		</a>
+	</div>
+
+	<ion-content overflow-scroll="false" has-bouncing="true" class="" >
+		<!-- <h3 ng-if="showError" style="color: #b6b6b6;display:block;margin-top:200px;text-align: center;">服务器出错！！！</h3> -->
+	</ion-content>
+	<ion-content overflow-scroll="false" has-bouncing="true" class="">
+		<!-- <h3 ng-if="showError" style="color: #b6b6b6;display:block;margin-top:200px;text-align: center;">服务器出错！！！</h3> -->
+	</ion-content>
+</ion-view>

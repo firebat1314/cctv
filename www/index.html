@@ -7,10 +7,9 @@
     <link rel="manifest" href="manifest.json">
     <script>
         document.addEventListener("deviceready", onDeviceReady, false);  
-        
-        
         function onDeviceReady() {  
-          navigator.splashscreen.hide();  
+          navigator.splashscreen.hide();
+          // window.plugins.orientationLock.lock("portrait")
         }
       /*if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('service-worker.js')

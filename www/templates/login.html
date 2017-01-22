@@ -2,7 +2,7 @@
 	<style>
 		#landinghead{
 			margin: 0 auto;
-			padding-top: 30%;
+			padding-top: 120px;
 		}
 		#landinghead h2{
 			text-align: center;
@@ -15,7 +15,7 @@
 		}
 		#myform{
 			margin: 0 auto;
-			margin-top: 20%;
+			margin-top: 100px;
 			width:80%;
 		}
 		#login-username,#login-password{
@@ -42,7 +42,8 @@
 		.user-img,.word-img{
 			display: inline-block;
 			vertical-align: middle;
-			margin-top: 7px;
+			margin-top: 8px;
+			margin-left: 8px;
 		}
 		#Contents,#Passwords{
 			color: #b6b6b6;
@@ -65,13 +66,15 @@
 		.btn-register{
 		}
 	</style>
+	<ion-content overflow-scroll="false" has-bouncing="true" class="padding inbox">
+
 		<div id="landinghead">
 			<h2>中国电视协作网<p>National News Network</p></h2>
 		</div>
 		<form id="myform">
 			<div class="" style="margin-bottom: 20px;overflow: hidden;position: relative;">
 				<img class="user-img" src="./img/images/icon_03.png" width="25" height="25" alt="">
-				<input type="text" autofocus ng-model="user.username" ng-blur="LoseFocus()" ng-focus="ObtainFocus()" id="login-username" placeholder="用户名">
+				<input type="text" get-focus autofocus ng-model="user.username" ng-blur="LoseFocus()" ng-focus="ObtainFocus()" id="login-username" placeholder="用户名">
 				<i ng-if="user.username.length>0" id="Contents" class="ion ion-close-circled Octopus" ng-click="deletesContents()"></i>
 				<p class="triangle"></p>
 			</div>
@@ -85,7 +88,7 @@
 				<span ng-if="!status">登　录</span>
 				<ion-spinner icon="bubbles" ng-if="status"></ion-spinner>
 			</button>
-			<p class="forget-password">
+			<p class="forget-password" ng-click="findPassword()">
 				忘记密码 <i class="ion-ios-help-outline" data-pack="ios" data-tags="question, information, ?"></i>
 			</p>
 			<!-- <p class="btn-register-box">
@@ -94,5 +97,6 @@
 				</button>
 			</p> -->
 		</form>
+	</ion-content>
 </ion-view>
 

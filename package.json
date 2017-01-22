@@ -1,5 +1,5 @@
 {
-  "name": "cctv",
+  "name": "cctvadmin",
   "version": "1.1.1",
   "description": "cctv: An Ionic project",
   "dependencies": {

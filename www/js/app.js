@@ -16,10 +16,7 @@ angular.module('starter', [ 'ionic',
                             "com.2fdevs.videogular.plugins.poster"
                           ])
 
-.run(function($ionicPlatform, $ionicPopup, $state, $data,$rootScope,$ionicHistory) {
-
- 
-
+.run(function($ionicPlatform, $ionicPopup, $state, $data,$rootScope,$ionicHistory,$cordovaKeyboard,$timeout) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -31,33 +28,42 @@ angular.module('starter', [ 'ionic',
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-  });
-  $rootScope.goBack = function(){
-         $rootScope.$ionicGoBack();
-  };
-  $ionicPlatform.registerBackButtonAction(function(e) {
-    var current_state_name = $state.current.name;
-    if (current_state_name == 'tab.account' || current_state_name == 'start-page' || current_state_name == 'tab.news' || current_state_name == 'tab' || current_state_name == 'login') {
-      $ionicPopup.confirm({
-        title: '退出应用',
-        template: '您确定要退出吗?',
-        buttons: [{
-          text: '取消'
-        }, {
-          text: '<b>确定</b>',
-          type: 'button-positive',
-          onTap: function(event) {
-            //ionic.Platform.exitApp();
-            navigator.app.exitApp();
-          }
-        }]
-      });
+
+    $rootScope.goBack = function(){
+      $rootScope.$ionicGoBack();
+    };
+    //硬件按钮返回注册及退出提示及键盘优先关闭
+    $ionicPlatform.registerBackButtonAction(function(e) {
+      var current_state_name = $state.current.name;
+      if (current_state_name == 'tab.account' || current_state_name == 'start-page' || current_state_name == 'tab.news' || current_state_name == 'tab' || current_state_name == 'login') {
+        $ionicPopup.confirm({
+          title: '退出应用',
+          template: '您确定要退出吗?',
+          buttons: [{
+            text: '取消'
+          }, {
+            text: '<b>确定</b>',
+            type: 'button-positive',
+            onTap: function(event) {
+              ionic.Platform.exitApp();
+              //navigator.app.exitApp();
+            }
+          }]
+        });
+      }else if ($ionicHistory.backView()) {
+          $timeout(function(){
+            console.log($cordovaKeyboard.isVisible());
+            if ($cordovaKeyboard.isVisible()) {
+                $cordovaKeyboard.close();
+            } else {
+                $rootScope.$ionicGoBack();
+            }
+          },1000)
+      }
       e.preventDefault();
       return false;
-    } else {
-      navigator.app.backHistory();
-    }
-  }, 101);
+    }, 101);
+  });
 })
 
 .config(function($httpProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider ,$ionicNativeTransitionsProvider,ionicDatePickerProvider) {
@@ -85,7 +91,7 @@ angular.module('starter', [ 'ionic',
       fixedPixelsTop: 0, // the number of pixels of your fixed header, default 0 (iOS and Android)
       fixedPixelsBottom: 0, // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android)
       triggerTransitionEvent: '$ionicView.afterEnter', // internal ionic-native-transitions option
-      backInOppositeDirection: false// Takes over default back transition and state back transition to use the opposite direction transition to go back
+      backInOppositeDirection: true// Takes over default back transition and state back transition to use the opposite direction transition to go back
   });
   $ionicNativeTransitionsProvider.setDefaultTransition({
     type: 'slide',
@@ -95,6 +101,7 @@ angular.module('starter', [ 'ionic',
     type: 'slide',
     direction: 'right'
   });
+  //日期选择器默认配置
   var datePickerObj = {
     inputDate: new Date(),
     titleLabel: 'Select a Date',
@@ -114,24 +121,59 @@ angular.module('starter', [ 'ionic',
   };
   ionicDatePickerProvider.configDatePicker(datePickerObj);
 
-  $httpProvider.interceptors.push('AuthInterceptor');
+  $httpProvider.interceptors.push(function($rootScope, $q, $location) {
+    return {
+      request: function(config) {
+        config.headers = config.headers || {};
+        if(window.localStorage.userInfo.token){
+          config.headers.Authorization = 'Basic ' + btoa(window.localStorage.userInfo.data.token + ':');
+        }
+        return config;
+      },
+      requestError: function(err) {
 
-  $urlRouterProvider.otherwise('/start-page');
+        return $q.reject(err);
+      },
+      response: function(res) {
+
+        return res;
+      },
+      responseError: function(err) {
+        if (-1 === err.status) {
+          // 远程服务器无响应
+
+        } else if (500 === err.status) {
+          // 处理各类自定义错误
+        } else if (501 === err.status) {
+          // ...
+        } else if (err.status == 401 || err.status == 403) {
+          $location.path('/login');
+
+        }
+        return $q.reject(err);
+      }
+    };
+  });
+
+  $urlRouterProvider.otherwise('/login');
   $stateProvider
 
-  .state('start-page', {
+/*  .state('start-page', {
     url: '/start-page',
     templateUrl: 'templates/start-page.html',
     controller: 'StartCtrl',
     nativeTransitions: {
         type: "fade"
     }
-  })
+  })*/
 
   .state('login', {
     url: '/login',
     templateUrl: 'templates/login.html',
-    controller: 'LoginCtrl'
+    controller: 'LoginCtrl',
+    nativeTransitions: {
+        type: "fade"
+    }
   })
 
   .state('register', {
@@ -341,6 +383,16 @@ angular.module('starter', [ 'ionic',
       'tab-account': {
         templateUrl: 'templates/inbox.html',
         controller: 'InboxCtrl'
+      }
+    }
+  })
+
+  .state('tab.inbox-content',{
+    url:'/account/inbox/inbox-content/:id',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/inbox-content.html',
+        controller: 'InboxContentCtrl'
       }
     }
   })

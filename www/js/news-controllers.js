@@ -1,23 +1,17 @@
 angular.module('news-controllers',[])
 
 .controller('NewsCtrl', function($ionicHistory,$scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition,$ionicSlideBoxDelegate) {
-  if ($data.storeData('homedata')) {
-    $scope.Items = $data.storeData('homedata');
-  };
   $scope.addClass = function(e, name) {
     $(e.target).addClass('selected').siblings().removeClass('selected');
     $ionicScrollDelegate.scrollTo(0, $ionicPosition.offset($(name)).top-50, true)
   };
-
-  $data.getHomeData().success(function(data) {
-    console.log(data);
-    $scope.Items = data;
-    $data.storeData('homedata', data)
-  });
-  $data.getBanner().success(function(data){
-    console.log(data);
-    $scope.bannerList = data.data;  
-    $ionicSlideBoxDelegate.update();
+  $scope.$on('$ionicView.beforeEnter',function(){
+    $data.getBanner().success(function(data){
+      console.log(data);
+      $scope.bannerList = data.data;  
+      $ionicSlideBoxDelegate.update();
+       $ionicSlideBoxDelegate.$getByHandle("slideboximgs").loop(true);
+    });     
   });
   $scope.goNewDetailPage = function(catid) {
     if(catid != undefined){
@@ -26,7 +20,6 @@ angular.module('news-controllers',[])
       })
     }
   };
-
   $scope.doRefresh = function() {
     $timeout(function(){
       $data.getHomeData()
@@ -42,6 +35,7 @@ angular.module('news-controllers',[])
       });     
     },100)
   };
+  $scope.doRefresh();
 })
 
 .controller('NewDetailCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition, $ionicHistory) {

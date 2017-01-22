@@ -1,10 +1,9 @@
 angular.module('starter.services', [])
-  .factory('AuthInterceptor', function($rootScope, $q, $location) {
+  /*.factory('AuthInterceptor', function($rootScope, $q, $location) {
     return {
       request: function(config) {
-        /*if($localstorage.userInfo.data.token){
-          config.headers['Authorization'] = 'Basic ' + btoa(storeData('userInfo').data.token + ':');
-        }*/
+       
+        config.headers = config.headers || {};
         return config;
       },
       requestError: function(err) {
@@ -24,13 +23,13 @@ angular.module('starter.services', [])
         } else if (501 === err.status) {
           // ...
         } else if (err.status == 401 || err.status == 403) {
-          $location.path('/start-page');
+          $location.path('/login');
 
         }
         return $q.reject(err);
       }
     };
-  })
+  })*/
   .service('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
     var ip = 'http://cctvadmin.ivtime.net';
     //http://cctvnnn.ivtime.net/ManageApp/Login/index
@@ -87,7 +86,6 @@ angular.module('starter.services', [])
           method: 'GET',
           url: ip + '/ManageApp/Index/ads',
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           }
         })
@@ -97,10 +95,7 @@ angular.module('starter.services', [])
         return $http({
           method: 'GET',
           url: ip + '/ManageApp/Index/view',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-          },
+          
           params:{
             id: data
           }
@@ -112,7 +107,6 @@ angular.module('starter.services', [])
           method: 'POST',
           url: ip + '/ManageApp/User/editPwd',
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
           },
           data: data,

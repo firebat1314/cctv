@@ -61,7 +61,7 @@ angular.module('user-controllers', [])
 	$scope.checkMember = function(uid, $index) {
 		// console.log($index);
 		$ionicPopup.confirm({
-			title: '审核',
+			title: '提示信息',
 			template: '是否审核通过？',
 			scope: $scope,
 			buttons: [{
@@ -226,7 +226,7 @@ angular.module('user-controllers', [])
 	};
 	$scope.saveCountersign = function() {
 		$ionicPopup.confirm({
-			title: '退出编辑',
+			title: '提示信息',
 			template: '是否保存？',
 			scope: $scope,
 			buttons: [{
@@ -590,12 +590,13 @@ angular.module('user-controllers', [])
 .controller('SettingCtrl', function($ionicHistory, $scope, $data, $state, $rootScope, $ionicPopup) {
 	$scope.showCacheDialog = function() {
 		$ionicPopup.confirm({
-			title: '确认退出登录?',
-			template: '',
+			title: '提示信息',
+			template: '确认退出登录?',
 			buttons: [{
 				text: '<b>确定</b>',
 				type: 'button-positive',
 				onTap: function(event) {
+					$data.storeData('isLogin','no')
 					$state.go('login');
 				}
 			}, {
@@ -779,7 +780,7 @@ angular.module('user-controllers', [])
 	}
 	$scope.noPass = function() {
 		$ionicPopup.confirm({
-			title: '确认操作',
+			title: '提示信息',
 			template: '是否保存？',
 			scope: $scope,
 			buttons: [{
@@ -923,7 +924,7 @@ angular.module('user-controllers', [])
 	}
 	$scope.noPass = function() {
 		$ionicPopup.confirm({
-			title: '确认操作',
+			title: '提示信息',
 			template: '是否保存？',
 			scope: $scope,
 			buttons: [{
@@ -1037,8 +1038,8 @@ angular.module('user-controllers', [])
 	}
 	$scope.noPass = function() {
 		$ionicPopup.confirm({
-			title: '不通过',
-			template: '是否保存？',
+			title: '提示信息',
+			template: '所选不通过？',
 			scope: $scope,
 			buttons: [{
 				text: '<b>确定</b>',
@@ -1355,8 +1356,14 @@ angular.module('user-controllers', [])
 
 .controller('InboxCtrl', function($scope, $data, $state, $stateParams, $ionicPopup, $timeout) {
 	$data.getMessage().success(function(data) {
-		// console.log(data);
+		console.log(data);
 		$scope.sysMesg = data.data;
+	});
+	$data.getMessage({
+		type:3
+	}).success(function(data) {
+		console.log(data);
+		$scope.pactMesg = data.data;
 	});
 	$scope.size = 10;
 	$scope.page = 1;
@@ -1368,8 +1375,9 @@ angular.module('user-controllers', [])
 				size: $scope.size,
 				page: $scope.page
 			}).success(function(data) {
-				// console.log(data);
+				console.log(data);
 				$scope.noMore = $data.isNoMore(data,$scope.size);
+				// console.log($scope.noMore);
 				Array.prototype.push.apply($scope.sysMesg, data.data);
 			}).finally(function() {
 				$scope.$broadcast('scroll.infiniteScrollComplete');
@@ -1379,8 +1387,8 @@ angular.module('user-controllers', [])
 
 	$scope.deleteMsg = function($index, id) {
 		$ionicPopup.confirm({
-			title: '确认删除',
-			template: ' ',
+			title: '提示信息',
+			template: '确认删除',
 			scope: $scope,
 			buttons: [{
 				text: '<b>确定</b>',
@@ -1417,9 +1425,8 @@ angular.module('user-controllers', [])
 			$scope.selectedId.splice(idx, 1);
 			$scope.selectedIndex.splice(idx, 1);
 		}
-		console.log($scope.selectedId.length);
 		// console.log($scope.selectedId);
-		console.log($scope.selectedIndex);
+		// console.log($scope.selectedIndex);
 	};
 	var render = function() {
 		angular.forEach($scope.selectedIndex, function(data, index, array) {
@@ -1427,12 +1434,11 @@ angular.module('user-controllers', [])
 			$scope.sysMesg.splice(data, 1);
 		})
 	};
-
 	$scope.delMessages = function() {
 		if ($scope.selectedId.length != 0) {
 			$ionicPopup.confirm({
-				title: '确认删除',
-				template: ' ',
+				title: '提示信息',
+				template: '确认删除？',
 				scope: $scope,
 				buttons: [{
 					text: '<b>确定</b>',
@@ -1452,7 +1458,7 @@ angular.module('user-controllers', [])
 				}]
 			})
 		} else {
-			$data.loadingShow('请选择');
+			$data.loadingShow('请选择消息');
 		}
 	};
 	$scope.selectAll = false;
@@ -1474,4 +1480,33 @@ angular.module('user-controllers', [])
 	$scope.cancel = function() {
 		$scope.showCheckbox = false;
 	}
+	$scope.toInboxContent = function(id){
+		$state.go('tab.inbox-content',{
+			id:id
+		})
+	}
+
+
+
+})
+
+.controller('InboxContentCtrl',function($scope, $data, $state, $stateParams, $ionicPopup, $timeout){
+	$scope.id = $stateParams.id;
+	$data.getMessageInfo({
+		id:$scope.id
+	}).success(function(data){
+		if(data.status == 0){
+
+		}
+		console.log(data);
+	}).error(function(){
+		$scope.showError = true;
+	});
+
+	$scope.xitongMsg = function(){
+			 	
+	};
+	$scope.yuegaoMsg = function(){
+	};
+
 })

@@ -94,7 +94,7 @@
 		    </div>
 		</div> -->
  		<div class="bannerSwipe">
-			<ion-slide-box auto-play="true" does-continue="true" slide-interval="3000" style="height: 100%">
+			<ion-slide-box  does-continue="true" auto-play="true" slide-interval="3000" style="height: 100%" delegate-handle="slideboximgs">
 				<ion-slide ng-repeat="item in bannerList" style="height: 100%" >
 					<div  style="height: 100%">
 							<img ng-src="{{item.pic}}" alt="{{item.title}}" ng-click="goNewDetailPage(item.aid)">

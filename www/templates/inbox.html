@@ -1,19 +1,20 @@
 <ion-view style="background-color: #ffffff;">
 <style>
-	.bar-subheader{
+	.inbox-head.bar-subheader{
 		display: flex;
 		padding: 0;
 		border-bottom: 1px solid #d9d9d9;
 	}
-	.bar-subheader .button-dark{
+	.inbox-head.bar-subheader .button-dark{
 		width: 100%;
 		height: 100%;
 		padding: 0;
 		border: 0;
 		font-weight: 700;
 	}
-	.bar-subheader .button-dark img{
+	.inbox-head.bar-subheader .button-dark img{
 		width: 20px;
+		vertical-align: text-bottom;
 	}
 	.inbox .item-complex{
 		background-color: #ffffff;
@@ -31,8 +32,8 @@
 	}
 	.inbox .item-complex .item-content .content-title{
 		background: url(img/icon/ico_76.png) 95% center no-repeat;
-		-webkit-background-size: 10px;
-		background-size: 10px;
+		-webkit-background-size: 7px;
+		background-size: 7px;
 		padding-right: 30px;
 		white-space: pre-wrap;
 		-webkit-box-flex: 1;-ms-flex-positive: 1;flex-grow: 1;
@@ -67,7 +68,7 @@
 			<img src="img/icon/ico_71.png" width="22" style="vertical-align: text-bottom;" alt="">
 		</a>
 	</ion-header-bar>
-	<div class="bar bar-subheader">
+	<div class="bar bar-subheader inbox-head">
 	  	<div style="flex: 1;border-right: 1px solid #d9d9d9">
 	  		<button class="button button-clear button-dark">
 	  			<img src="img/icon/ico_72.png" alt="">
@@ -85,7 +86,7 @@
 	<ion-content overflow-scroll="false" has-bouncing="true" class="has-subheader padding inbox" ng-class="{true:'has-footer',false:''}[showCheckbox]" >
 		<div style="overflow: hidden;">
 	        <ion-list can-swipe="true">
-	        	<ion-item ng-repeat="item in sysMesg" class="item-remove-animate" ng-click="">
+	        	<ion-item ng-repeat="item in sysMesg" class="item-remove-animate" ng-click="toInboxContent(item.msg_id)">
 	        		<label class="mycheckbox" ng-if="showCheckbox">
 						<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[item.state]" ></i>
 						<input type="checkbox" ng-value="item.msg_id" ng-model="item.state" ng-init="item.state=false" ng-click="updateSelection($event,tag.id,$index)" style="display: none">
@@ -106,7 +107,7 @@
 	        	</ion-item>
 	        </ion-list>
 	    </div>
-		<ion-infinite-scroll immediate-check="" on-infinite="loadMore()" ng-if="!moreDataCanBeLoaded" distance="1%"></ion-infinite-scroll>
+		<ion-infinite-scroll ng-if="noMore" immediate-check="" on-infinite="loadMore()" ng-if="!moreDataCanBeLoaded" distance="1%"></ion-infinite-scroll>
 	</ion-content>
 	<div class="bar bar-footer pull-right" ng-if="showCheckbox" style="bottom: 49px;">
 		<label class="mycheckbox" style="margin-left: 7px;">

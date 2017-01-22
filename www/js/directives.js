@@ -20,8 +20,12 @@ angular.module('starter.directives', [])
     return {
         restrict: "A",
         link: function(scope, elem, attrs) {
+            var clicked = true;
             $(elem).click(function() {
-                $(this).select();
+                if (clicked) {
+                    $(this).select();
+                    clicked = false;
+                }
             });
         }
     }
@@ -66,4 +70,13 @@ angular.module('starter.directives', [])
             });
         }
     }
-});
+})
+
+.directive('clickXitMsg',function(){
+    return {
+        restrict: "A",
+        link:function(scope,elem,attrs){
+            $(elem).addClass('activated')
+        }
+    }         
+})
