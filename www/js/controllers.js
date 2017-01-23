@@ -9,10 +9,7 @@ angular.module('starter.controllers', ['user-controllers','news-controllers'])
   })
   .controller('LoginCtrl', function($scope, $rootScope, $state, $data, $ionicLoading, $timeout) {
     $scope.$on('$ionicView.beforeEnter',function(){
-      if ($data.storeData('isLogin') == 'yes') {
-        console.log('登录状态：'+$data.storeData('isLogin'));
-        $state.go('tab.news')
-      };
+      
     })
     $scope.init = function() {
       $scope.LoseFocus = function() {
@@ -58,6 +55,7 @@ angular.module('starter.controllers', ['user-controllers','news-controllers'])
            }
          }).error(function(data) {
            $data.loadingShow("网络连接错误");
+           $scope.status = false;//按钮提交状态
          })
       },300)
     };

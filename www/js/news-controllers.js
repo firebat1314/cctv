@@ -1,18 +1,13 @@
 angular.module('news-controllers',[])
 
 .controller('NewsCtrl', function($ionicHistory,$scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition,$ionicSlideBoxDelegate) {
-  $scope.addClass = function(e, name) {
-    $(e.target).addClass('selected').siblings().removeClass('selected');
-    $ionicScrollDelegate.scrollTo(0, $ionicPosition.offset($(name)).top-50, true)
-  };
-  $scope.$on('$ionicView.beforeEnter',function(){
-    $data.getBanner().success(function(data){
-      console.log(data);
-      $scope.bannerList = data.data;  
-      $ionicSlideBoxDelegate.update();
-       $ionicSlideBoxDelegate.$getByHandle("slideboximgs").loop(true);
-    });     
-  });
+
+  $data.getBanner().success(function(data){
+    console.log(data);
+    $scope.bannerList = data.data;  
+    $ionicSlideBoxDelegate.update();
+     $ionicSlideBoxDelegate.$getByHandle("slideboximgs").loop(true);
+  });     
   $scope.goNewDetailPage = function(catid) {
     if(catid != undefined){
       $state.go('tab.new-detail', {
@@ -25,10 +20,14 @@ angular.module('news-controllers',[])
       $data.getHomeData()
       .success(function(newItems) {
         console.log(newItems);
-        $scope.Items = newItems;
+        if(newItems.status == '1'){
+          $scope.Items = newItems;
+          $data.storeData('homeData',newItems);
+        }
       })
       .error(function() {
-        $data.loadingShow('刷新失败');
+        $data.loadingShow('更新失败');
+        $scope.Items = $data.storeData('homeData');
       })
       .finally(function() {
         $scope.$broadcast('scroll.refreshComplete');
@@ -36,6 +35,13 @@ angular.module('news-controllers',[])
     },100)
   };
   $scope.doRefresh();
+
+  $scope.pageStatus = function(index){
+      $ionicSlideBoxDelegate.$getByHandle('importance').slide(index);
+  }
+  $scope.slideHasChanged = function($index){
+      $('.button-list-wrap').children().eq($index).addClass('selected').siblings().removeClass('selected');
+  }
 })
 
 .controller('NewDetailCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition, $ionicHistory) {

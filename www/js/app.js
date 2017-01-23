@@ -51,14 +51,12 @@ angular.module('starter', [ 'ionic',
           }]
         });
       }else if ($ionicHistory.backView()) {
-          $timeout(function(){
-            console.log($cordovaKeyboard.isVisible());
-            if ($cordovaKeyboard.isVisible()) {
-                $cordovaKeyboard.close();
-            } else {
-                $rootScope.$ionicGoBack();
-            }
-          },1000)
+        //console.log($cordovaKeyboard.isVisible());
+        if ($cordovaKeyboard.isVisible()) {
+            $cordovaKeyboard.close();
+        } else {
+            $rootScope.$ionicGoBack();
+        }
       }
       e.preventDefault();
       return false;
@@ -125,7 +123,7 @@ angular.module('starter', [ 'ionic',
     return {
       request: function(config) {
         config.headers = config.headers || {};
-        if(window.localStorage.userInfo.token){
+        if(window.localStorage.userInfo && window.localStorage.userInfo.token){
           config.headers.Authorization = 'Basic ' + btoa(window.localStorage.userInfo.data.token + ':');
         }
         return config;
@@ -378,7 +376,7 @@ angular.module('starter', [ 'ionic',
   })
 
   .state('tab.inbox',{
-    url:'/account/inbox',
+    url:'/account/inbox/:index',
     views: {
       'tab-account': {
         templateUrl: 'templates/inbox.html',

@@ -72,11 +72,3 @@ angular.module('starter.directives', [])
     }
 })
 
-.directive('clickXitMsg',function(){
-    return {
-        restrict: "A",
-        link:function(scope,elem,attrs){
-            $(elem).addClass('activated')
-        }
-    }         
-})

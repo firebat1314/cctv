@@ -95,7 +95,9 @@ angular.module('starter.services', [])
         return $http({
           method: 'GET',
           url: ip + '/ManageApp/Index/view',
-          
+          headers: {
+            'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
+          },
           params:{
             id: data
           }

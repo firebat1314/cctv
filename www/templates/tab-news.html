@@ -1,27 +1,28 @@
 <ion-view view-title="北京电视台--1983"> 
 	<style type="text/css">
-		.bannerSwipe{
+		.homepage .bannerSwipe{
 			 padding: 3px;
 			 background-color: #fff;
 			 border-radius: 2px;
 			 margin-top: 20px;
 			 height: 200px;
+			 margin: 10px;
 		}
-		.bannerSwipe img{
+		.homepage .bannerSwipe img{
 			height: 100%;
 			width: 100%;
 		}
-		.header-item{
+		.homepage .header-item{
 			color: #fff;
 		}
-		.ion-ios-search{
+		.homepage .ion-ios-search{
 			font-size: 30px;
 		}
 		
-		.card{
+		.homepage .card{
 			position: relative;
 		}
-		.title-img{
+		.homepage .title-img{
 			width: 65px;
 			height: 18px;
 			background: #fe4342;
@@ -36,16 +37,17 @@
 			top: 10px;
 			left: 10px;
 		}
-		.button-clear.button-clear{
+		.homepage .button-clear.button-clear{
 			color: #fff;
 		}
-		.button-list-wrap.button-list-wrap{
+		.homepage .button-list-wrap.button-list-wrap{
 			text-align: center;
+			padding: 12px 0;
 		}
-		.button.button-clear.selected{
+		.homepage .button.button-clear.selected{
 			position: relative;
 		}
-		.button.button-clear.selected:after{
+		.homepage .button.button-clear.selected:after{
 			position: absolute;
 			content: '';
 			display: block;
@@ -57,16 +59,15 @@
 			background: #fff;
 			margin-left: -5px;
 		}
-		.boulticon{
+		.homepage .boulticon{
 			margin-top: 3px;
 		}
-		.boulticon .subdued{
+		.homepage .boulticon .subdued{
 			color: #9e9e9e;
 			font-size: 12px
 		}
-	    .swiper-wrapper .swiper-slide{
+	    .homepage .swiper-wrapper .swiper-slide{
 	   		text-align: center;
-
 	    }
 	</style>
 	<ion-header-bar>
@@ -74,7 +75,7 @@
 	    <!-- <button class="button button-clear" ><i class="ion-ios-search"></i></button> -->
 	</ion-header-bar>
 	
- 	<ion-content  class="padding" overflow-scroll="false" has-bouncing="true"  style="background: #fafafa url(./img/bg.png) no-repeat center top;background-size: 100%;">
+ 	<ion-content  class="homepage" overflow-scroll="false" has-bouncing="true"  style="background: #fafafa url(./img/bg.png) no-repeat center top;background-size: 100%;">
  		<ion-refresher
 		    pulling-text="下拉刷新..."
 		    spinner="bubbles"
@@ -82,9 +83,9 @@
 		    on-refresh="doRefresh()">
 		</ion-refresher>
  		<div class="button-list-wrap" >
-	 		<a class="button button-clear selected" ng-click="addClass($event,'#importance')"  delegate-handle="small">重要通知</a>
-	 		<a class="button button-clear" ng-click="addClass($event,'#card-second')">策划约稿</a>
-	 		<a class="button button-clear" ng-click="addClass($event,'#card-third')">业务交流</a>
+	 		<a class="button button-clear selected" ng-click="pageStatus(0)">重要通知</a>
+	 		<a class="button button-clear" ng-click="pageStatus(1)">策划约稿</a>
+	 		<a class="button button-clear" ng-click="pageStatus(2)">业务交流</a>
  		</div>
 		<!-- <div class="swiper-container">
 		    <div class="swiper-wrapper">
@@ -102,53 +103,61 @@
 				</ion-slide>
 			</ion-slide-box>
 		</div>
- 		<div class="card" id="importance" >
- 			<div class="title-img">
- 				重要通知
- 			</div>
- 		  	<div class="item item-text-wrap">
-	 		  	<div class="list list-inset">
-	 		  	    <a class="item" ng-repeat="item in Items.data.zhongytz"  ng-click="goNewDetailPage({{item.aid}})" >
-						{{item.title}}
-						<p class="boulticon">
-							<span class="subdued">{{item.postdate}}</span>
-							<i class="ion-ios-arrow-thin-right" style="float: right;font-size: 30px;"></i>
-						</p>
-	 		  	    </a>
-	 		  	</div>
- 		  	</div>
- 		</div>
- 		<div class="card" id="card-second">
- 			<div class="title-img" style="background: #f36143;box-shadow:0 6px 10px 2px #fdd2c6">
- 				策划约稿
- 			</div>
-			<div class="item item-text-wrap">
-				<div class="list list-inset">
-				  	<a class="item" ng-repeat="item in Items.data.cehyg"  ng-click="goNewDetailPage({{item.aid}})" >
-					{{item.title}}
-						<p class="boulticon">
-							<span class="subdued">{{item.postdate}}</span>
-							<i class="ion-ios-arrow-thin-right" style="float: right;font-size: 30px;"></i>
-						</p>
-					</a>
-				</div>
-			</div>
- 		</div>
- 		<div class="card" id="card-third">
- 			<div class="title-img" style="background-color: #429afe;box-shadow:0 6px 10px 2px #dddbe5;">
- 				业务交流
- 			</div>
-			<div class="item item-text-wrap">
-				<div class="list list-inset">
-					<a class="item" ng-repeat="item in Items.data.yewjl"  ng-click="goNewDetailPage({{item.aid}})" >
-					  {{item.title}}
-					  	<p class="boulticon">
-					  		<span class="subdued">{{item.postdate}}</span>
-	 		  	      		<i class="ion-ios-arrow-thin-right" style="float: right;font-size: 30px;" ></i>
-						</p>
-					</a>
-				</div>
-			</div>
- 		</div>
+		<ion-slide-box on-slide-changed="slideHasChanged($index)" show-pager="false"  delegate-handle="importance">
+			<ion-slide>
+		 		<div class="card" >
+		 			<div class="title-img">
+		 				重要通知
+		 			</div>
+		 		  	<div class="item item-text-wrap">
+			 		  	<div class="list list-inset">
+			 		  	    <a class="item" ng-repeat="item in Items.data.zhongytz"  ng-click="goNewDetailPage({{item.aid}})" >
+								{{item.title}}
+								<p class="boulticon">
+									<span class="subdued">{{item.postdate}}</span>
+									<i class="ion-ios-arrow-thin-right" style="float: right;font-size: 30px;"></i>
+								</p>
+			 		  	    </a>
+			 		  	</div>
+		 		  	</div>
+		 		</div>
+			</ion-slide>
+			<ion-slide>
+				<div class="card" id="">
+		 			<div class="title-img" style="background: #f36143;box-shadow:0 6px 10px 2px #fdd2c6">
+		 				策划约稿
+		 			</div>
+					<div class="item item-text-wrap">
+						<div class="list list-inset">
+						  	<a class="item" ng-repeat="item in Items.data.cehyg"  ng-click="goNewDetailPage({{item.aid}})" >
+							{{item.title}}
+								<p class="boulticon">
+									<span class="subdued">{{item.postdate}}</span>
+									<i class="ion-ios-arrow-thin-right" style="float: right;font-size: 30px;"></i>
+								</p>
+							</a>
+						</div>
+					</div>
+		 		</div>
+			</ion-slide>
+			<ion-slide>
+				<div class="card" id="">
+		 			<div class="title-img" style="background-color: #429afe;box-shadow:0 6px 10px 2px #dddbe5;">
+		 				业务交流
+		 			</div>
+					<div class="item item-text-wrap">
+						<div class="list list-inset">
+							<a class="item" ng-repeat="item in Items.data.yewjl"  ng-click="goNewDetailPage({{item.aid}})" >
+							  {{item.title}}
+							  	<p class="boulticon">
+							  		<span class="subdued">{{item.postdate}}</span>
+			 		  	      		<i class="ion-ios-arrow-thin-right" style="float: right;font-size: 30px;" ></i>
+								</p>
+							</a>
+						</div>
+					</div>
+		 		</div>
+			</ion-slide>
+		</ion-slide-box>
   	</ion-content>
 </ion-view>

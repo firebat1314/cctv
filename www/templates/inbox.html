@@ -1,31 +1,53 @@
 <ion-view style="background-color: #ffffff;">
 <style>
-	.inbox-head.bar-subheader{
-		display: flex;
-		padding: 0;
-		border-bottom: 1px solid #d9d9d9;
-	}
-	.inbox-head.bar-subheader .button-dark{
-		width: 100%;
-		height: 100%;
-		padding: 0;
-		border: 0;
-		font-weight: 700;
-	}
-	.inbox-head.bar-subheader .button-dark img{
-		width: 20px;
-		vertical-align: text-bottom;
-	}
+	 .inbox-head{
+	 	border-bottom: 1px solid #d9d9d9;
+	 }
+	 .inbox.has-subheader{
+	 	top: 93px;
+	 }
+	 .inbox-head .tab-item{
+	 	border-right: 1px solid #d9d9d9;
+	 	font-size: 16px;
+	 	background: url(img/icon/ico_72.png) 46px 11px no-repeat;
+	 	-webkit-background-size: 20px;
+	 	background-size: 20px;
+	 }
+	 .inbox-head .tab-item:last-child{
+	 	border:none;
+	 	background-image: url(img/icon/ico_74.png);
+	 	-ms-background-position-y: 15px;
+	 	background-position-y: 15px;
+	 }		
+	 .inbox-head .tab-item.activated{
+	 	background-image: url(img/icon/ico_73.png);
+	 	color: #ef473a;
+	 }
+	 .inbox-head .tab-item:last-child.activated{
+	 	background-image: url(img/icon/ico_75.png);
+	 	color: #ef473a;
+	 }
+	 .inbox-head .tab-item.selected{
+	 	background-image: url(img/icon/ico_73.png);
+	 	color: #ef473a;
+	 }		
+	 .inbox-head .tab-item:last-child.selected{
+	 	background-image: url(img/icon/ico_75.png);
+	 	color: #ef473a;
+	 }
+	 .inbox-head .tab-item img{
+	 	width: 20px;
+	 	vertical-align: text-bottom;
+	 }
 	.inbox .item-complex{
 		background-color: #ffffff;
-		margin: -2px;
 		height: 90px;
 		max-height: 90px;
 	}
 	.inbox .item-complex .item-content{
 		display: -webkit-box;display: -ms-flexbox;display: flex;
 		height: 100%;
-		padding: 10px 5px;
+		padding: 10px 15px;
 	}
 	.inbox .item-complex .item-content p{
 		margin-bottom: 10px;
@@ -68,51 +90,70 @@
 			<img src="img/icon/ico_71.png" width="22" style="vertical-align: text-bottom;" alt="">
 		</a>
 	</ion-header-bar>
-	<div class="bar bar-subheader inbox-head">
-	  	<div style="flex: 1;border-right: 1px solid #d9d9d9">
-	  		<button class="button button-clear button-dark">
-	  			<img src="img/icon/ico_72.png" alt="">
-	  		  	系统消息
-	  		</button>
-	  	</div>
-	  	<div style="flex: 1;">
-	  		<button class="button button-clear button-dark">
-	  			<img src="img/icon/ico_74.png" alt="">
-	  		  	约稿消息
-	  		</button>
-	  	</div>
+	<div class="tabs tabs-top inbox-head tab-nav" style="line-height: 60px;">
+		<a class="tab-item selected" ng-click="pageStatus(0)">
+					  	系统消息
+		</a>
+		<a class="tab-item" ng-click="pageStatus(1)">
+					  	约稿消息
+		</a>
 	</div>
-
-	<ion-content overflow-scroll="false" has-bouncing="true" class="has-subheader padding inbox" ng-class="{true:'has-footer',false:''}[showCheckbox]" >
-		<div style="overflow: hidden;">
-	        <ion-list can-swipe="true">
-	        	<ion-item ng-repeat="item in sysMesg" class="item-remove-animate" ng-click="toInboxContent(item.msg_id)">
-	        		<label class="mycheckbox" ng-if="showCheckbox">
-						<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[item.state]" ></i>
-						<input type="checkbox" ng-value="item.msg_id" ng-model="item.state" ng-init="item.state=false" ng-click="updateSelection($event,tag.id,$index)" style="display: none">
-					</label>
-					<div class="content-btm">
-						<p>
-							<span style="float: left;" ng-if="item.from_name!=''">{{item.from_name}}</span>
-							<span style="color: #ff3636;" ng-if="item.from_name==''">匿名</span>
-							<span style="float: right;color: #ff3636;">{{item.dateline}}</span>
-						</p>
-			            <div class="content-title"><span>{{item.title}}</span></div>
-					</div>
-		        	<ion-option-button ng-click="deleteMsg($index,item.msg_id)">
-						<div class="btnbox">
-							<img src="img/icon/ico_66.png" alt="">
+	<ion-content overflow-scroll="false" has-bouncing="true" class="has-subheader inbox" ng-class="{true:'has-footer',false:''}[showCheckbox]" >
+		<ion-slide-box on-slide-changed="slideHasChanged($index)"  show-pager="false"  delegate-handle="importance">
+			<ion-slide>
+ 		        <ion-list can-swipe="true">
+ 		        	<ion-item ng-repeat="item in sysMesg" class="item-remove-animate">
+ 		        		<label class="mycheckbox" ng-if="showCheckbox">
+ 							<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[item.state]" ></i>
+ 							<input type="checkbox" ng-value="item.msg_id" ng-model="item.state" ng-init="item.state=false" ng-click="updateSelection($event,tag.id,$index)" style="display: none">
+ 						</label>
+ 						<div class="content-btm"  ng-click="toInboxContent(item.msg_id)">
+ 							<p>
+ 								<span style="float: left;" ng-if="item.from_name!=''">{{item.from_name}}</span>
+ 								<span style="color: #ff3636;" ng-if="item.from_name==''">匿名</span>
+ 								<span style="float: right;color: #ff3636;">{{item.dateline}}</span>
+ 							</p>
+ 				            <div class="content-title"><span>{{item.title}}</span></div>
+ 						</div>
+ 			        	<ion-option-button ng-click="deleteMsg($index,item.msg_id,sysMesg)">
+ 							<div class="btnbox">
+ 								<img src="img/icon/ico_66.png" alt="">
+ 							</div>
+ 			        	</ion-option-button>
+ 		        	</ion-item>
+ 		        </ion-list>
+	 			<ion-infinite-scroll ng-if="noMore" immediate-check="" on-infinite="loadMore()" ng-if="!moreDataCanBeLoaded" distance="1%"></ion-infinite-scroll>
+			</ion-slide>
+			<ion-slide>
+		        <ion-list can-swipe="true">
+		        	<ion-item ng-repeat="item in pactMesg" class="item-remove-animate">
+		        		<label class="mycheckbox" ng-if="showCheckbox">
+							<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[item.state]" ></i>
+							<input type="checkbox" ng-value="item.msg_id" ng-model="item.state" ng-init="item.state=false" ng-click="updateSelection($event,tag.id,$index)" style="display: none">
+						</label>
+						<div class="content-btm"  ng-click="toInboxContent(item.msg_id)">
+							<p>
+								<span style="float: left;" ng-if="item.from_name!=''">{{item.from_name}}</span>
+								<span style="color: #ff3636;" ng-if="item.from_name==''">匿名</span>
+								<span style="float: right;color: #ff3636;">{{item.dateline}}</span>
+							</p>
+				            <div class="content-title"><span>{{item.title}}</span></div>
 						</div>
-		        	</ion-option-button>
-	        	</ion-item>
-	        </ion-list>
-	    </div>
-		<ion-infinite-scroll ng-if="noMore" immediate-check="" on-infinite="loadMore()" ng-if="!moreDataCanBeLoaded" distance="1%"></ion-infinite-scroll>
+			        	<ion-option-button ng-click="deleteMsg($index,item.msg_id,pactMesg)">
+							<div class="btnbox">
+								<img src="img/icon/ico_66.png" alt="">
+							</div>
+			        	</ion-option-button>
+		        	</ion-item>
+		        </ion-list>
+				<ion-infinite-scroll ng-if="noMore" immediate-check="" on-infinite="loadMore()" ng-if="!moreDataCanBeLoaded" distance="1%"></ion-infinite-scroll>
+			</ion-slide>
+		</ion-slide-box>
 	</ion-content>
 	<div class="bar bar-footer pull-right" ng-if="showCheckbox" style="bottom: 49px;">
 		<label class="mycheckbox" style="margin-left: 7px;">
 			<i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[selectAll]" ></i>
-			<input type="checkbox" ng-model="selectAll"  ng-click="all(selectAll)"  style="display: none">
+			<input type="checkbox" ng-model="selectAll"  ng-change="selectAllChange(selectAll)"  style="display: none">
 			<span ng-hide="selectAll">全选</span>
 			<span ng-show="selectAll">取消全选</span>
 		</label>

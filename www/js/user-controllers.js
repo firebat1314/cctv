@@ -483,6 +483,7 @@ angular.module('user-controllers', [])
 		$scope.add = {};
 		$scope.getProvince = function($index, level, id) {
 			$scope.add.province = id;
+			$scope.city = '';
 			$('.add-checkbox').eq($index).addClass('add-checkbox-actived').siblings().removeClass('add-checkbox-actived');
 			$data.getCityList($scope.add.province, 2).success(function(data) {
 				$scope.city = data;
@@ -492,6 +493,7 @@ angular.module('user-controllers', [])
 		}
 		$scope.getCity = function($index, level, id) {
 			$scope.add.city = id;
+			$scope.district = '';
 			$('.add-checkbox').eq($index).addClass('add-checkbox-actived').siblings().removeClass('add-checkbox-actived');
 			$data.getCityList($scope.add.city, 3).success(function(data) {
 				$scope.district = data
@@ -588,6 +590,27 @@ angular.module('user-controllers', [])
 })
 
 .controller('SettingCtrl', function($ionicHistory, $scope, $data, $state, $rootScope, $ionicPopup) {
+	$scope.clearCache = function(){
+		$ionicPopup.confirm({
+			title: '提示信息',
+			template: '清空缓存?',
+			buttons: [{
+				text: '<b>确定</b>',
+				type: 'button-positive',
+				onTap: function(event) {
+					var data = $data.storeData('userInfo');
+					var name = $data.storeData('username');
+					$data.clear();
+					$data.storeData("isLogin", "yes");
+					$data.storeData("userInfo", data);
+					$data.storeData("username", name);
+					$scope.bytesToSize();
+				}
+			}, {
+				text: '取消'
+			}]
+		})
+	}
 	$scope.showCacheDialog = function() {
 		$ionicPopup.confirm({
 			title: '提示信息',
@@ -603,6 +626,43 @@ angular.module('user-controllers', [])
 				text: '取消'
 			}]
 		})
+	};
+	/*计算缓存大小*/
+	$scope.sizeof = function () {
+	    var total = 0,
+	        charCode,
+	        str,
+	        i,
+	        len;
+	    str = JSON.stringify(localStorage.valueOf());
+	    for (i = 0, len = str.length; i < len; i++) {
+	        charCode = str.charCodeAt(i);
+	        if (charCode <= 0x007f) {
+	            total += 1;
+	        } else if (charCode <= 0x07ff) {
+	            total += 2;
+	        } else if (charCode <= 0xffff) {
+	            total += 3;
+	        } else {
+	            total += 4;
+	        }
+	    }
+	    return total;
+	};
+	$scope.bytesToSize = function (bytes) {
+	    bytes = $scope.sizeof();
+	    console.log(bytes);
+	    if (bytes === 0) return '0 B';
+
+	    var k = 1024;
+
+	    sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+	    i = Math.floor(Math.log(bytes) / Math.log(k));
+	    if (i == 0) {
+	        return "0KB";
+	    }
+	    return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
 	};
 })
 
@@ -1354,38 +1414,55 @@ angular.module('user-controllers', [])
 	}
 })
 
-.controller('InboxCtrl', function($scope, $data, $state, $stateParams, $ionicPopup, $timeout) {
+.controller('InboxCtrl', function($scope, $data, $state, $stateParams, $ionicPopup, $timeout, $ionicSlideBoxDelegate,$ionicLoading) {
+	$scope.msgIndexInit = $stateParams.index;
+	$timeout(function(){
+		$ionicSlideBoxDelegate.$getByHandle('importance').slide($scope.msgIndexInit);
+	},400)
+
+	$scope.$on('$ionicView.beforeEnter',function(){
+		$ionicSlideBoxDelegate.enableSlide(false);
+	});
+	// $scope.loadingShow = function () {
+ //        $ionicLoading.show({
+ //            content: 'Loading',
+ //            animation: 'fade-in',
+ //            showBackdrop: false,
+ //            maxWidth: 200,
+ //            showDelay: 0
+ //        });
+ //    };
+ //    $scope.loadingShow();
 	$data.getMessage().success(function(data) {
 		console.log(data);
 		$scope.sysMesg = data.data;
 	});
-	$data.getMessage({
-		type:3
-	}).success(function(data) {
+	$data.getMessage({type:3}).success(function(data) {
 		console.log(data);
 		$scope.pactMesg = data.data;
 	});
+
 	$scope.size = 10;
 	$scope.page = 1;
 	$scope.noMore = true;
 	$scope.loadMore = function(type) {
 		$scope.page++;
-		$timeout(function() {
-			$data.getMessage({
-				size: $scope.size,
-				page: $scope.page
-			}).success(function(data) {
-				console.log(data);
-				$scope.noMore = $data.isNoMore(data,$scope.size);
-				// console.log($scope.noMore);
-				Array.prototype.push.apply($scope.sysMesg, data.data);
-			}).finally(function() {
+		$data.getMessage({
+			size: $scope.size,
+			page: $scope.page
+		}).success(function(data) {
+			console.log(data);
+			$scope.noMore = $data.isNoMore(data,$scope.size);
+			// console.log($scope.noMore);
+			Array.prototype.push.apply($scope.sysMesg, data.data);
+		}).finally(function() {
+			$timeout(function() {
 				$scope.$broadcast('scroll.infiniteScrollComplete');
-			});
-		}, 100)
+			}, 200)
+		});
 	};
 
-	$scope.deleteMsg = function($index, id) {
+	$scope.deleteMsg = function($index, id,items) {
 		$ionicPopup.confirm({
 			title: '提示信息',
 			template: '确认删除',
@@ -1399,7 +1476,7 @@ angular.module('user-controllers', [])
 					}).success(function(data) {
 						$data.loadingShow(data.info);
 						if (data.status == '1') {
-							$scope.sysMesg.splice($index, 1);
+							items.splice($index, 1);
 						}
 					})
 				}
@@ -1408,13 +1485,14 @@ angular.module('user-controllers', [])
 			}]
 		})
 	};
-	$scope.selectedId = [];
-	$scope.selectedIndex = [];
+
+	$scope.selectedId = [];//复选框id
+	$scope.selectedIndex = [];//复选框下标数组
 	$scope.updateSelection = function($event, id, $index) {
 		var checkbox = $event.target;
 		var status = checkbox.checked;
 		updateSelected(status, checkbox.value, $index);
-	}
+	};
 	var updateSelected = function(status, id, index) {
 		if (status && $scope.selectedId.indexOf(id) == -1) {
 			$scope.selectedId.push(id);
@@ -1425,16 +1503,21 @@ angular.module('user-controllers', [])
 			$scope.selectedId.splice(idx, 1);
 			$scope.selectedIndex.splice(idx, 1);
 		}
-		// console.log($scope.selectedId);
-		// console.log($scope.selectedIndex);
+		if($scope.selectedId.length == $scope.sysMesg.length){
+			$scope.selectAll = true;
+		}else{
+			$scope.selectAll = false;
+		}
+		console.log($scope.selectedId);
+		console.log($scope.selectedIndex);
 	};
-	var render = function() {
+	var render = function() {//批量删除 更新页面视图，但不更新数据
 		angular.forEach($scope.selectedIndex, function(data, index, array) {
-			console.log(data,index,array);
+			// console.log(data,index,array);
 			$scope.sysMesg.splice(data, 1);
 		})
 	};
-	$scope.delMessages = function() {
+	$scope.delMessages = function() {//批量删除 更新视图以及数据
 		if ($scope.selectedId.length != 0) {
 			$ionicPopup.confirm({
 				title: '提示信息',
@@ -1461,52 +1544,58 @@ angular.module('user-controllers', [])
 			$data.loadingShow('请选择消息');
 		}
 	};
-	$scope.selectAll = false;
-	$scope.all = function(m) {
+	$scope.selectAll = false;//全选按钮
+	$scope.selectAllChange = function(checked) {
 		var id;
 		for (var i = 0; i < $scope.sysMesg.length; i++) {
 			id = $scope.sysMesg[i].msg_id;
-			if (m && $scope.selectedId.indexOf(id) == -1) {
+			if (checked && $scope.selectedId.indexOf(id) == -1) {
 				$scope.sysMesg[i].state = true;
 				$scope.selectedId.push(id);
 			}
-			if (!m && $scope.selectedId.indexOf(id) != -1) {
+			if (!checked && $scope.selectedId.indexOf(id) != -1) {
 				$scope.sysMesg[i].state = false;
 				$scope.selectedId.splice($scope.selectedId.indexOf(id), 1);
 			}
 		}
-		// console.log($scope.selectedId);
 	};
-	$scope.cancel = function() {
+	$scope.cancel = function() {//关闭编辑视图
 		$scope.showCheckbox = false;
-	}
-	$scope.toInboxContent = function(id){
+	};
+	$scope.toInboxContent = function(id){//查看消息内容
 		$state.go('tab.inbox-content',{
 			id:id
 		})
-	}
-
+	};
+	$scope.pageStatus = function(index){
+	    $ionicSlideBoxDelegate.$getByHandle('importance').slide(index);
+	};
+	$scope.slideHasChanged = function($index){
+	    $('.inbox-head').children().eq($index).addClass('selected').siblings().removeClass('selected');
+	};
 
 
 })
 
-.controller('InboxContentCtrl',function($scope, $data, $state, $stateParams, $ionicPopup, $timeout){
+.controller('InboxContentCtrl',function($scope, $data, $state, $stateParams, $ionicPopup, $timeout,$ionicSlideBoxDelegate){
 	$scope.id = $stateParams.id;
 	$data.getMessageInfo({
 		id:$scope.id
-	}).success(function(data){
+	}).success(function(data,status){
 		if(data.status == 0){
 
 		}
 		console.log(data);
-	}).error(function(){
+	}).error(function(data,status){
+		$scope.html = data;
+		$scope.status = status;
 		$scope.showError = true;
 	});
 
-	$scope.xitongMsg = function(){
-			 	
-	};
-	$scope.yuegaoMsg = function(){
-	};
-
+	$scope.pageStatus = function(index){
+	    $ionicSlideBoxDelegate.$getByHandle('importance').slide(index);
+	}
+	$scope.slideHasChanged = function($index){
+	    $('.inbox-head').children().eq($index).addClass('selected').siblings().removeClass('selected');
+	}
 })
