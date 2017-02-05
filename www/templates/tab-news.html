@@ -1,4 +1,4 @@
-<ion-view view-title="北京电视台--1983"> 
+<ion-view view-title="北京电视台"> 
 	<style type="text/css">
 		.homepage .bannerSwipe{
 			 padding: 3px;
@@ -18,7 +18,6 @@
 		.homepage .ion-ios-search{
 			font-size: 30px;
 		}
-		
 		.homepage .card{
 			position: relative;
 		}
@@ -66,16 +65,13 @@
 			color: #9e9e9e;
 			font-size: 12px
 		}
-	    .homepage .swiper-wrapper .swiper-slide{
-	   		text-align: center;
-	    }
 	</style>
 	<ion-header-bar>
 	  	<h1 class="title">北京电视台</h1>
-	    <!-- <button class="button button-clear" ><i class="ion-ios-search"></i></button> -->
+	    <button class="button button-clear" ><i class="ion-ios-search"></i></button>
 	</ion-header-bar>
 	
- 	<ion-content  class="homepage" overflow-scroll="false" has-bouncing="true"  style="background: #fafafa url(./img/bg.png) no-repeat center top;background-size: 100%;">
+ 	<ion-content  class="homepage" overflow-scroll="false" has-bouncing="true"  style="background: #fafafa url(./img/bg.png) no-repeat center top;background-size: 100%;" on-swipe-up="swipeUp()">
  		<ion-refresher
 		    pulling-text="下拉刷新..."
 		    spinner="bubbles"
@@ -147,7 +143,7 @@
 		 			</div>
 					<div class="item item-text-wrap">
 						<div class="list list-inset">
-							<a class="item" ng-repeat="item in Items.data.yewjl"  ng-click="goNewDetailPage({{item.aid}})" >
+							<a class="item" ng-repeat="item in Items.data.yewjl"  ng-click="goNewDetailPage(item.aid)" >
 							  {{item.title}}
 							  	<p class="boulticon">
 							  		<span class="subdued">{{item.postdate}}</span>
@@ -159,5 +155,27 @@
 		 		</div>
 			</ion-slide>
 		</ion-slide-box>
+	  	<!-- <script id="my-modal.html" type="text/ng-template">
+	  	  <ion-modal-view>
+	  	    <ion-header-bar>
+	  	      	<h1 class="title" ng-if="currentIndex == 0">重要通知</h1>
+	  	      	<h1 class="title" ng-if="currentIndex == 1">策划约稿</h1>
+	  	      	<h1 class="title" ng-if="currentIndex == 2">业务交流</h1>
+				<button class="button button-clear"  ng-click="closeModal()"><i class="icon ion-close-round"></i></button>
+	  	    </ion-header-bar>
+	  	    <ion-content>
+	 		  	<div class="list">
+	 		  	    <a class="item" collection-repeat="item in newsList"  ng-click="goNewDetailPage(item.aid)" style="padding: 5px;">
+						{{item.title}}
+						<p class="boulticon" style="margin-top: 10px;">
+							<span class="subdued">{{item.postdate}}</span>
+							<i class="ion-ios-arrow-thin-right" style="float: right;font-size: 30px;"></i>
+						</p>
+	 		  	    </a>
+	 		  	</div>
+	  	    </ion-content>
+	  	  </ion-modal-view>
+	  	</script> -->
   	</ion-content>
+
 </ion-view>

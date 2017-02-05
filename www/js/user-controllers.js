@@ -182,7 +182,6 @@ angular.module('user-controllers', [])
 			mondayFirst: false, //Optional
 			disableWeekdays: [], //Optional [0,6]
 			closeOnSelect: false, //Optional
-			templateType: 'popup' //Optional
 		};
 
 		ionicDatePicker.openDatePicker(ipObj1);
@@ -252,10 +251,8 @@ angular.module('user-controllers', [])
 	}).then(function(popover) {
 		$scope.popover = popover;
 	});
-
 	$scope.editImg = function($event) {
 		$scope.popover.show();
-
 		// $ionicActionSheet.show({
   //           buttons: [
   //             { text: '拍照' },
@@ -266,7 +263,7 @@ angular.module('user-controllers', [])
   //               return true;
   //           },
   //           buttonClicked: function(index) {
-            	console.log(index);
+  //          	console.log(index);
   //               switch (index){
   //                   case 0:
   //                       $scope.openCamera();
@@ -386,7 +383,7 @@ angular.module('user-controllers', [])
 	$scope.getDetails();
 	$scope.delText = function($event) {
 		$($event.target).siblings('input').val('');
-	}
+	};
 	$scope.tanchu = function(str, template, cssClass, fun, templateUrl) {
 		$ionicPopup.confirm({
 			title: str,
@@ -402,7 +399,7 @@ angular.module('user-controllers', [])
 				text: '取消'
 			}]
 		})
-	}
+	};
 	$scope.nickname = function() {
 		var value = $scope.dataInit.nickname;
 		var template = '<input type="text" ng-model="profile.nickname" get-focus><i ng-if="profile.nickname.length>0" class="ion ion-close-circled Octopus" id="foucus" ng-click="delText($event)" ></i>';
@@ -509,7 +506,6 @@ angular.module('user-controllers', [])
 			$('.add-checkbox').eq($index).addClass('add-checkbox-actived').siblings().removeClass('add-checkbox-actived');
 		}
 		$scope.tanchu('所属地区', '', 'popup-city_cn', function(e) {
-					
 			// console.log($scope.add);
 			$data.profile($scope.add).success(function(data) {
 				console.log(data);
@@ -517,7 +513,6 @@ angular.module('user-controllers', [])
 				if(data.status == '1'){
 					$scope.getDetails();
 				};
-				
 			})
 			$scope.add = null;
 		}, 'city_cn.html')
@@ -651,7 +646,7 @@ angular.module('user-controllers', [])
 	};
 	$scope.bytesToSize = function (bytes) {
 	    bytes = $scope.sizeof();
-	    console.log(bytes);
+	    // console.log(bytes);
 	    if (bytes === 0) return '0 B';
 
 	    var k = 1024;

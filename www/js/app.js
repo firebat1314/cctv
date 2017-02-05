@@ -28,7 +28,9 @@ angular.module('starter', [ 'ionic',
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-
+    if($data.storeData('isLogin') == 'yes'){
+      $state.go('tab.news');
+    };
     $rootScope.goBack = function(){
       $rootScope.$ionicGoBack();
     };
