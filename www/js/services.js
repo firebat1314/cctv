@@ -85,9 +85,7 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Index/lists',
-                    params: {
-                        catid: data
-                    },
+                    params: data,
                     headers: {
                         'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
                     }

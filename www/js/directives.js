@@ -76,10 +76,8 @@ angular.module('starter.directives', [])
         restrict:'A',
         link:function(scope,elem,attrs){
             $(elem).on('click','a',function(e){
-                console.log(this.href);
                  window.open(this.href, '_system', 'location=yes');
             })
         }
     }
 })
-

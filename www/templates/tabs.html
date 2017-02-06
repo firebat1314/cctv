@@ -1,63 +1,73 @@
- <style>
- .tab-item{
-  max-width: 200px;
- }
- #aboutmore{
-  position: absolute;
-  width:60px;
-  height: 60px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 5px #fff4f4 inset;
-  top: -20px;
- }
- #aboutmore a {
-  display: block;
-  width: 80%;
-  height: 80%;
-  border-radius: 50%;
-  background: #fe3434; 
-  position: absolute;
-  top: 0;right: 0;bottom: 0;left: 0;
-  margin: auto auto;
-  color: #fafafa;
-  font-size: 35px;
- }
- #tool-menu-wrap{
-  position: absolute;
-  left: 50%;
-  top: -10px;
-  margin-left: -25px;
-  background: #fff;
- }
- #tool-menu{
-  border-radius: 50%;
-  background: #ff0000;
-  height: 50px;
-  width: 50px;
-  min-width: 50px;
-  min-height: 50px;
-  color: #fff;
-  
- }
- #tool-menu .icon:before{
-  font-size:44px;
-  margin-top: 5px;
- }
- #tool-menu.button:after {
+<style>
+.tab-item {
+    max-width: 200px;
+    min-width: 200px;
+}
+
+#aboutmore {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #fff4f4 inset;
+    top: -20px
+}
+
+#aboutmore a {
+    display: block;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    background: #fe3434;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto auto;
+    color: #fafafa;
+    font-size: 35px
+}
+
+#tool-menu-wrap {
+    position: absolute;
+    left: 50%;
+    top: -10px;
+    margin-left: -25px;
+    background: #fff
+}
+
+#tool-menu {
+    border-radius: 50%;
+    background: #ff0000;
+    height: 50px;
+    width: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    color: #fff
+}
+
+#tool-menu .icon:before {
+    font-size: 44px;
+    margin-top: 5px
+}
+
+#tool-menu.button:after {
     border-radius: 50%;
     border: 1px solid #fff;
-    box-shadow: 0 0 3px #ffbb8c inset;
+    box-shadow: 0 0 3px #ffbb8c inset
 }
- </style>
-<ion-tabs class="tabs-light  tabs-icon-top tabs-color-active-assertive" ng-class="{'tabs-item-hide': $root.hideTabs}" style="background-color: #fff;" >
 
-  <ion-tab title="新闻" icon-off="ion-ios-paper-outline" icon-on="ion-ios-paper" href="#/tab/news">
+</style>
+<ion-tabs class="tabs-light  tabs-icon-top tabs-color-active-assertive"ng-class="{'tabs-item-hide': $root.hideTabs}"style="background-color: #fff;">
+
+<ion-tab title="新闻"icon-off="ion-ios-paper-outline"icon-on="ion-ios-paper"href="#/tab/news">
     <ion-nav-view name="tab-news"></ion-nav-view>
-  </ion-tab> 
-  
-  <ion-tab title="个人中心" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/account">
+</ion-tab> 
+
+<ion-tab title="个人中心"icon-off="ion-ios-person-outline"icon-on="ion-ios-person"href="#/tab/account">
     <ion-nav-view name="tab-account"></ion-nav-view>
-  </ion-tab>
+</ion-tab>
 
 </ion-tabs>

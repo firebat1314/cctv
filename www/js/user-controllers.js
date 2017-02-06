@@ -663,8 +663,7 @@ angular.module('user-controllers', [])
 
 .controller('AllNewsCtrl', function($scope, $data, $state, $rootScope,$timeout) {
 	$scope.details = [];
-	$scope.size = 10;
-	$scope.page = 1;
+
 	$scope.newValue;//搜索关键字
 	var deregister;
 	$scope.getDetails = function(searchs) {
@@ -690,6 +689,8 @@ angular.module('user-controllers', [])
 	$scope.$on('$ionicView.enter',function(){
 
 	});
+	$scope.size = 10;
+	$scope.page = 1;
 	$scope.loadMore = function() {
 		$scope.page++;
 		$data.allNews({
@@ -739,9 +740,8 @@ angular.module('user-controllers', [])
 			// console.log(data);
 			$scope.btnStatus = false;//按钮提交状态
 			$data.loadingShow(data.info);
-			$rootScope.$ionicGoBack();
-			
 			if (data.status == '1') {
+				$rootScope.$ionicGoBack();
 				$rootScope.$broadcast('is_read',{//发送已阅事件
 					index: $scope.index
 				});
@@ -1414,11 +1414,14 @@ angular.module('user-controllers', [])
 	$timeout(function(){
 		$ionicSlideBoxDelegate.$getByHandle('importance').slide($scope.msgIndexInit);
 	},400)
-
+	/*
+	**禁止选项卡滑动
+	*/
 	$scope.$on('$ionicView.beforeEnter',function(){
 		$ionicSlideBoxDelegate.enableSlide(false);
 	});
-	// $scope.loadingShow = function () {
+	/*加载动画*/
+ //   $scope.loadingShow = function () {
  //        $ionicLoading.show({
  //            content: 'Loading',
  //            animation: 'fade-in',
@@ -1429,34 +1432,87 @@ angular.module('user-controllers', [])
  //    };
  //    $scope.loadingShow();
 	$data.getMessage().success(function(data) {
-		console.log(data);
+		// console.log(data);
 		$scope.sysMesg = data.data;
 	});
 	$data.getMessage({type:3}).success(function(data) {
-		console.log(data);
+		// console.log(data);
 		$scope.pactMesg = data.data;
 	});
+	$scope.selectAll = false;//全选按钮
+	$scope.selectedId = [];//复选框id
+	$scope.selectedIndex = [];//复选框下标数组
+	/*全选遍历*/
+	$scope.selectAllChange = function(checked) {
+		var id;
+		for (var i = 0; i < $scope.pactMesg.length; i++) {
+			id = $scope.pactMesg[i].msg_id;
+			if (checked && $scope.selectedId.indexOf(id) == -1) {
+				$scope.pactMesg[i].state = true;
+				$scope.selectedId.push(id);
+			}
+			if (!checked && $scope.selectedId.indexOf(id) != -1) {
+				$scope.pactMesg[i].state = false;
+				$scope.selectedId.splice($scope.selectedId.indexOf(id), 1);
+			}
+		}
+		for (var i = 0; i < $scope.sysMesg.length; i++) {
+			id = $scope.sysMesg[i].msg_id;
+			if (checked && $scope.selectedId.indexOf(id) == -1) {
+				$scope.sysMesg[i].state = true;
+				$scope.selectedId.push(id);
+			}
+			if (!checked && $scope.selectedId.indexOf(id) != -1) {
+				$scope.sysMesg[i].state = false;
+				$scope.selectedId.splice($scope.selectedId.indexOf(id), 1);
+			}
+		}
+		console.log($scope.selectedId);
+	};
 
+
+	
+
+	$scope.cancel = function() {//关闭编辑视图
+		$scope.showCheckbox = false;
+	};
+	$scope.toInboxContent = function(id){//查看消息内容
+		$state.go('tab.inbox-content',{
+			id:id
+		})
+	};
+	$scope.pageStatus = function(index){
+	    $ionicSlideBoxDelegate.$getByHandle('importance').slide(index);
+	};
+	$scope.slideHasChanged = function($index){
+	    $('.inbox-head').children().eq($index).addClass('selected').siblings().removeClass('selected');
+	};
+
+
+})
+
+.controller('InboxPactCtrl',function($scope, $data, $state,$rootScope, $stateParams, $ionicPopup, $timeout, $ionicSlideBoxDelegate,$ionicLoading){
 	$scope.size = 10;
 	$scope.page = 1;
 	$scope.noMore = true;
-	$scope.loadMore = function(type) {
+	$scope.loadMore = function() {
 		$scope.page++;
 		$data.getMessage({
 			size: $scope.size,
-			page: $scope.page
+			page: $scope.page,
+			type:3
 		}).success(function(data) {
 			console.log(data);
 			$scope.noMore = $data.isNoMore(data,$scope.size);
 			// console.log($scope.noMore);
-			Array.prototype.push.apply($scope.sysMesg, data.data);
+				Array.prototype.push.apply($scope.pactMesg, data.data);
 		}).finally(function() {
 			$timeout(function() {
 				$scope.$broadcast('scroll.infiniteScrollComplete');
 			}, 200)
 		});
 	};
-
+	//消息删除确认框
 	$scope.deleteMsg = function($index, id,items) {
 		$ionicPopup.confirm({
 			title: '提示信息',
@@ -1481,13 +1537,14 @@ angular.module('user-controllers', [])
 		})
 	};
 
-	$scope.selectedId = [];//复选框id
-	$scope.selectedIndex = [];//复选框下标数组
+
+
 	$scope.updateSelection = function($event, id, $index) {
 		var checkbox = $event.target;
 		var status = checkbox.checked;
 		updateSelected(status, checkbox.value, $index);
 	};
+	/*单选*/
 	var updateSelected = function(status, id, index) {
 		if (status && $scope.selectedId.indexOf(id) == -1) {
 			$scope.selectedId.push(id);
@@ -1498,21 +1555,18 @@ angular.module('user-controllers', [])
 			$scope.selectedId.splice(idx, 1);
 			$scope.selectedIndex.splice(idx, 1);
 		}
-		if($scope.selectedId.length == $scope.sysMesg.length){
-			$scope.selectAll = true;
+		/*是否全部选中了*/
+		if($scope.selectedId.length == $scope.pactMesg.length){
+			$rootScope.selectAll = true;
 		}else{
-			$scope.selectAll = false;
+			$rootScope.selectAll = false;
 		}
 		console.log($scope.selectedId);
-		console.log($scope.selectedIndex);
 	};
-	var render = function() {//批量删除 更新页面视图，但不更新数据
-		angular.forEach($scope.selectedIndex, function(data, index, array) {
-			// console.log(data,index,array);
-			$scope.sysMesg.splice(data, 1);
-		})
-	};
-	$scope.delMessages = function() {//批量删除 更新视图以及数据
+	
+
+	//批量删除 更新视图以及数据
+	$scope.delMessages = function() {
 		if ($scope.selectedId.length != 0) {
 			$ionicPopup.confirm({
 				title: '提示信息',
@@ -1539,39 +1593,120 @@ angular.module('user-controllers', [])
 			$data.loadingShow('请选择消息');
 		}
 	};
-	$scope.selectAll = false;//全选按钮
-	$scope.selectAllChange = function(checked) {
-		var id;
-		for (var i = 0; i < $scope.sysMesg.length; i++) {
-			id = $scope.sysMesg[i].msg_id;
-			if (checked && $scope.selectedId.indexOf(id) == -1) {
-				$scope.sysMesg[i].state = true;
-				$scope.selectedId.push(id);
-			}
-			if (!checked && $scope.selectedId.indexOf(id) != -1) {
-				$scope.sysMesg[i].state = false;
-				$scope.selectedId.splice($scope.selectedId.indexOf(id), 1);
-			}
-		}
-	};
-	$scope.cancel = function() {//关闭编辑视图
-		$scope.showCheckbox = false;
-	};
-	$scope.toInboxContent = function(id){//查看消息内容
-		$state.go('tab.inbox-content',{
-			id:id
+	var render = function() {//批量删除 更新页面视图，但不更新数据
+		angular.forEach($scope.selectedIndex, function(data, index, array) {
+			// console.log(data,index,array);
+			$scope.pactMesg.splice(data, 1);
 		})
-	};
-	$scope.pageStatus = function(index){
-	    $ionicSlideBoxDelegate.$getByHandle('importance').slide(index);
-	};
-	$scope.slideHasChanged = function($index){
-	    $('.inbox-head').children().eq($index).addClass('selected').siblings().removeClass('selected');
 	};
 
 
 })
+.controller('InboxSysCtrl',function($scope,$rootScope, $data, $state, $stateParams, $ionicPopup, $timeout, $ionicSlideBoxDelegate,$ionicLoading){
+	$scope.size = 10;
+	$scope.page = 1;
+	$scope.noMore = true;
+	$scope.loadMore = function() {
+		$scope.page++;
+		$data.getMessage({
+			size: $scope.size,
+			page: $scope.page,
+		}).success(function(data) {
+			console.log(data);
+			$scope.noMore = $data.isNoMore(data,$scope.size);
+			// console.log($scope.noMore);
+				Array.prototype.push.apply($scope.sysMesg, data.data);
+		}).finally(function() {
+			$timeout(function() {
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+			}, 200)
+		});
+	};
+	//消息删除确认框
+	$scope.deleteMsg = function($index, id,items) {
+		$ionicPopup.confirm({
+			title: '提示信息',
+			template: '确认删除',
+			scope: $scope,
+			buttons: [{
+				text: '<b>确定</b>',
+				type: 'button-positive',
+				onTap: function(res) {
+					$data.delMessage({
+						id: id
+					}).success(function(data) {
+						$data.loadingShow(data.info);
+						if (data.status == '1') {
+							items.splice($index, 1);
+						}
+					})
+				}
+			}, {
+				text: '取消'
+			}]
+		})
+	};
+	$scope.updateSelection = function($event, id, $index) {
+		var checkbox = $event.target;
+		var status = checkbox.checked;
+		updateSelected(status, checkbox.value, $index);
+	};
+	/*单选*/
+	var updateSelected = function(status, id, index) {
+		if (status && $scope.selectedId.indexOf(id) == -1) {
+			$scope.selectedId.push(id);
+			$scope.selectedIndex.push(index);
+		}
+		if (!status && $scope.selectedId.indexOf(id) != -1) {
+			var idx = $scope.selectedId.indexOf(id);
+			$scope.selectedId.splice(idx, 1);
+			$scope.selectedIndex.splice(idx, 1);
+		}
+		/*是否全部选中了*/
+		if($scope.selectedId.length == $scope.sysMesg.length){
+			$rootScope.selectAll = true;
+		}else{
+			$rootScope.selectAll = false;
+		}
+		console.log($scope.selectedId);
+	};
+	
+	//批量删除 更新视图以及数据
+	$scope.delMessages = function() {
+		if ($scope.selectedId.length != 0) {
+			$ionicPopup.confirm({
+				title: '提示信息',
+				template: '确认删除？',
+				scope: $scope,
+				buttons: [{
+					text: '<b>确定</b>',
+					type: 'button-positive',
+					onTap: function(res) {
+						$data.delMessages({
+							ids: $scope.selectedId
+						}).success(function(data) {
+							$data.loadingShow(data.info);
+							if (data.status == '1') {
+								render();
+							}
+						})
+					}
+				}, {
+					text: '取消'
+				}]
+			})
+		} else {
+			$data.loadingShow('请选择消息');
+		}
+	};
+	var render = function() {//批量删除 更新页面视图，但不更新数据
+		angular.forEach($scope.selectedIndex, function(data, index, array) {
+			// console.log(data,index,array);
+			$scope.sysMesg.splice(data, 1);
+		})
+	};
 
+})
 .controller('InboxContentCtrl',function($scope, $data, $state, $stateParams, $ionicPopup, $timeout,$ionicSlideBoxDelegate){
 	$scope.id = $stateParams.id;
 	$data.getMessageInfo({
