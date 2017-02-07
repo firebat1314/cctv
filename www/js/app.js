@@ -121,39 +121,7 @@ angular.module('starter', ['ionic',
     };
     ionicDatePickerProvider.configDatePicker(datePickerObj);
 
-    $httpProvider.interceptors.push(function($rootScope, $q, $location) {
-        return {
-            request: function(config) {
-                config.headers = config.headers || {};
-                if (window.localStorage.userInfo && window.localStorage.userInfo.token) {
-                    config.headers.Authorization = 'Basic ' + btoa(window.localStorage.userInfo.data.token + ':');
-                }
-                return config;
-            },
-            requestError: function(err) {
-
-                return $q.reject(err);
-            },
-            response: function(res) {
-
-                return res;
-            },
-            responseError: function(err) {
-                if (-1 === err.status) {
-                    // 远程服务器无响应
-
-                } else if (500 === err.status) {
-                    // 处理各类自定义错误
-                } else if (501 === err.status) {
-                    // ...
-                } else if (err.status == 401 || err.status == 403) {
-                    $location.path('/login');
-
-                }
-                return $q.reject(err);
-            }
-        };
-    });
+    $httpProvider.interceptors.push('AuthInterceptor');
 
     $urlRouterProvider.otherwise('/login');
     $stateProvider

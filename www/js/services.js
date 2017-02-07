@@ -1,46 +1,37 @@
 angular.module('starter.services', [])
-    /*.factory('AuthInterceptor', function($rootScope, $q, $location) {
-      return {
-        request: function(config) {
-         
-          config.headers = config.headers || {};
-          return config;
-        },
-        requestError: function(err) {
+    .factory('AuthInterceptor', function($rootScope, $q, $location) {
+        return {
+            request: function(config) {
+                config.headers = config.headers || {};
+                if (localStorage.userInfo && angular.fromJson(localStorage.userInfo).data.token) {
+                    config.headers.Authorization = 'Basic ' + btoa(angular.fromJson(localStorage.userInfo).data.token + ':');
+                }
+                return config;
+            },
+            requestError: function(err) {
 
-          return $q.reject(err);
-        },
-        response: function(res) {
+                return $q.reject(err);
+            },
+            response: function(res) {
 
-          return res;
-        },
-        responseError: function(err) {
-          if (-1 === err.status) {
-            // 远程服务器无响应
-
-          } else if (500 === err.status) {
-            // 处理各类自定义错误
-          } else if (501 === err.status) {
-            // ...
-          } else if (err.status == 401 || err.status == 403) {
-            $location.path('/login');
-
-          }
-          return $q.reject(err);
-        }
-      };
-    })*/
-    .factory('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
-        var ip = 'http://cctvadmin.ivtime.net';
-        //http://cctvnnn.ivtime.net/ManageApp/Login/index
-        function storeData(key, data) {
-            if (data) {
-                return $window.localStorage[key] = angular.toJson(data);
-            } else {
-                return (key && angular.fromJson($window.localStorage[key])) || {};
+                return res;
+            },
+            responseError: function(err) {
+                if (-1 === err.status) {
+                    // 远程服务器无响应
+                } else if (500 === err.status) {
+                    // 处理各类自定义错误
+                } else if (501 === err.status) {
+                    // ...
+                } else if (err.status == 401 || err.status == 403) {
+                    $location.path('/login');
+                }
+                return $q.reject(err);
             }
         };
-
+    })
+    .factory('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
+        var ip = 'http://cctvadmin.ivtime.net';
         return {
             //登录请求
             login: function(data) {
@@ -76,9 +67,7 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Index/index',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    }
+                    headers: {}
                 })
             },
             getHomeDataList: function(data) {
@@ -86,9 +75,7 @@ angular.module('starter.services', [])
                     method: 'GET',
                     url: ip + '/ManageApp/Index/lists',
                     params: data,
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    }
+                    headers: {}
                 })
             },
             //广告图
@@ -96,9 +83,7 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Index/ads',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    }
+                    headers: {}
                 })
             },
             //新闻详情
@@ -106,9 +91,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Index/view',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: {
                         id: data
                     }
@@ -119,9 +101,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/User/editPwd',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data,
                     timeout: 5000
                 })
@@ -131,9 +110,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/User/avatar',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data
                 })
             },
@@ -142,9 +118,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/User/profile',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data
                 })
             },
@@ -153,9 +126,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/User/editMember',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data
                 })
             },
@@ -164,9 +134,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Baoti/index',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -175,9 +142,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Baoti/view',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -186,9 +150,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Chuanld/index',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -197,9 +158,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/User/getMessage',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -208,9 +166,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/User/getMessageInfo',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -219,9 +174,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/User/delMessage',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data
                 })
             },
@@ -230,9 +182,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/User/delMessage',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -241,9 +190,7 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Index/lists?catid=' + data,
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    }
+                    headers: {}
                 })
             },
             //28、 上传接口
@@ -251,9 +198,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/Public/upload',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -262,9 +206,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp /User/members',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -273,9 +214,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/User/viewMember',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -284,9 +222,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/User/userGroup',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -295,9 +230,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/User/checkMember',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data
                 })
             },
@@ -306,9 +238,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/User/mingPH',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -317,9 +246,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/User/viewMPH',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -328,9 +254,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/User/editMPH',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data
                 })
             },
@@ -339,9 +262,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/User/userGroup',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -350,9 +270,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Baoti/ybaoti',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -361,9 +278,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Huati/index',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -372,9 +286,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Bochu/index',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -383,9 +294,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Baoti/baoti',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -394,9 +302,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/Baoti/baoti',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data
                 })
             },
@@ -406,9 +311,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Baoti/yuesp',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -417,9 +319,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: type,
                     url: ip + '/ManageApp/Chuanld/status',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: {
                         id: id
                     },
@@ -431,9 +330,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/Chuanld/batchBTG',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data
                 })
             },
@@ -442,9 +338,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/Baoti/huati',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data
                 })
             },
@@ -452,9 +345,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'get',
                     url: ip + '/ManageApp/Baoti/huati',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -463,9 +353,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/Baoti/batchHT',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data
                 })
             },
@@ -474,9 +361,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/Huati/bochu',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data
                 })
             },
@@ -484,9 +368,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Huati/bochu',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -495,9 +376,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/Huati/down',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data
                 })
             },
@@ -506,9 +384,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/Huati/batchBC',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     data: data
                 })
             },
@@ -517,9 +392,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'get',
                     url: ip + '/ManageApp/Huati/pindao',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -528,9 +400,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Bochu/index',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data
                 })
             },
@@ -547,9 +416,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/User/userCount',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     timeout: 5000
                 })
             },
@@ -558,9 +424,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + "/ManageApp/User/info",
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     timeout: 5000,
                     parmas: data
                 })
@@ -570,9 +433,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/User/members',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     params: data,
                     timeout: 5000
                 })
@@ -582,9 +442,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/User/viewMember?uid=' + data,
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     timeout: 5000
                 })
             },
@@ -593,9 +450,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'get',
                     url: ip + '/ManageApp/Baoti/view',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     timeout: 5000
                 })
             },
@@ -605,9 +459,6 @@ angular.module('starter.services', [])
                     method: 'POST',
                     url: ip + '/ManageApp/Baoti/add',
                     data: data,
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(storeData('userInfo').data.token + ':')
-                    },
                     timeout: 5000
                 })
             },

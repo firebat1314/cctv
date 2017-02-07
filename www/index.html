@@ -8,13 +8,14 @@
     <script>
         document.addEventListener("deviceready", onDeviceReady, false);  
         function onDeviceReady() {  
-          navigator.splashscreen.hide();
+            /*设备准备就绪关闭启动界面*/
+            navigator.splashscreen.hide();
           // window.plugins.orientationLock.lock("portrait")
         }
       /*if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(() => console.log('service worker installed'))
-          .catch(err => console.log('Error', err));
+            navigator.serviceWorker.register('service-worker.js')
+                .then(() => console.log('service worker installed'))
+                .catch(err => console.log('Error', err));
       }*/
     </script>
     <link rel="stylesheet" type="text/css" href="css/ionic.app.css">

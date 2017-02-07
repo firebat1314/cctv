@@ -37,7 +37,7 @@ angular.module('user-controllers', [])
 	}
 })
 
-.controller('ManagementCtrl', function($scope, $data, $rootScope, $state, $timeout, $ionicPopup) {
+.controller('ManagementCtrl', function($scope, $data,$ionicScrollDelegate, $rootScope, $state, $timeout, $ionicPopup) {
 	$scope.size = 10;
 	$scope.page = 0;
 	$scope.noMore = true;
@@ -51,6 +51,7 @@ angular.module('user-controllers', [])
 			// console.log(data);
 			$scope.noMore = $data.isNoMore(data,$scope.size);
 			Array.prototype.push.apply($scope.items, data.data);
+			$ionicScrollDelegate.resize();
 			// console.log($scope.items);
 		}).finally(function() {
 			$timeout(function() {
@@ -702,7 +703,9 @@ angular.module('user-controllers', [])
 			$scope.noMore = $data.isNoMore(data,$scope.size);
 			Array.prototype.push.apply($scope.details, data.data);
 		}).finally(function() {
-			$scope.$broadcast('scroll.infiniteScrollComplete');
+			$timeout(function(){
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+			},300)
 		});
 	};
 	$scope.toParticulars = function(id) {
@@ -749,12 +752,13 @@ angular.module('user-controllers', [])
 		})
 	}	 	
 })
+
 .controller('NewsParticularsCtrl', function($scope, $rootScope, $data, $state, $stateParams, $ionicSlideBoxDelegate, $sce) {
 	$scope.id = $stateParams.id;
 	$data.newParticulars({
 		id: $scope.id
 	}).success(function(data) {
-		// console.log(data);
+		console.log(data);
 		$scope.details = data;
 		$scope.content = data.data.content.replace(/\r\n/g, "<br />　");
 		if (data.data.videos && data.data.videos[0]) {
@@ -766,26 +770,10 @@ angular.module('user-controllers', [])
 	};
 	$scope.config = {
 		sources: [{
-			src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4"),
+			src: $sce.trustAsResourceUrl($scope.video),
 			type: "video/mp4"
-		}, {
-			src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.webm"),
-			type: "video/webm"
-		}, {
-			src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.ogg"),
-			type: "video/ogg"
 		}],
-		tracks: [{
-			src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
-			kind: "subtitles",
-			srclang: "en",
-			label: "English",
-			default: ""
-		}],
-		theme: "lib/videogular-themes-default/videogular.css",
-		plugins: {
-			poster: "http://www.videogular.com/assets/images/videogular.png"
-		}
+		theme: "lib/videogular-themes-default/videogular.css"
 	};
 })
 
@@ -808,20 +796,18 @@ angular.module('user-controllers', [])
 	$scope.page = 1;
 	$scope.loadMore = function() {
 		$scope.page++;
-		$timeout(function() {
-			$data.allChuanld({
-					size: $scope.size,
-					page: $scope.page,
-					kw:$scope.newValue
-				})
-				.success(function(data) {
-					// console.log(data);
-					$scope.noMore = $data.isNoMore(data,$scope.size);
-					Array.prototype.push.apply($scope.items, data.data);
-				}).finally(function() {
-					$scope.$broadcast('scroll.infiniteScrollComplete');
-				});
-		}, 1000)
+		$data.allChuanld({
+				size: $scope.size,
+				page: $scope.page,
+				kw:$scope.newValue
+			})
+			.success(function(data) {
+				// console.log(data);
+				$scope.noMore = $data.isNoMore(data,$scope.size);
+				Array.prototype.push.apply($scope.items, data.data);
+			}).finally(function() {
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+			});
 	};
 	$scope.arr = [];
 	$scope.status = false;

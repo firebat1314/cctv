@@ -21,7 +21,7 @@ angular.module('news-controllers', [])
 	$scope.doRefresh = function() {
 		$data.getHomeData()
 			.success(function(newItems) {
-				console.log(newItems);
+				// console.log(newItems);
 				if (newItems.status == '1') {
 					$scope.items = newItems;
 					$data.storeData('homeData', newItems);
@@ -78,10 +78,11 @@ angular.module('news-controllers', [])
 		$scope.page ++;
 		$data.getHomeDataList({
 			catid:3,
+			kw:$scope.newValue,
 			size: $scope.size,
 			page: $scope.page
 		}).success(function(data){
-			console.log(data);
+			// console.log(data);
 			$scope.noMore = $data.isNoMore(data,$scope.size);
 			Array.prototype.push.apply($scope.items, data.data);
 		}).finally(function() {
@@ -137,7 +138,7 @@ angular.module('news-controllers', [])
 		})
 	};
 	$scope.getDetails('');
-
+	
 	$scope.size = 10;
 	$scope.page =1;
 	$scope.items = [];
@@ -145,10 +146,11 @@ angular.module('news-controllers', [])
 		$scope.page ++;
 		$data.getHomeDataList({
 			catid:37,
+			kw:$scope.newValue,
 			size: $scope.size,
 			page: $scope.page
 		}).success(function(data){
-			console.log(data);
+			// console.log(data);
 			$scope.noMore = $data.isNoMore(data,$scope.size);
 			Array.prototype.push.apply($scope.items, data.data);
 		}).finally(function() {
@@ -213,10 +215,11 @@ angular.module('news-controllers', [])
 		$scope.page ++;
 		$data.getHomeDataList({
 			catid:9,
+			kw:$scope.newValue,
 			size: $scope.size,
 			page: $scope.page
 		}).success(function(data){
-			console.log(data);
+			// console.log(data);
 			$scope.noMore = $data.isNoMore(data,$scope.size);
 			Array.prototype.push.apply($scope.items, data.data);
 		}).finally(function() {
