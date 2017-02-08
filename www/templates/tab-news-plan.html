@@ -1,23 +1,21 @@
-<ion-view view-title="重要通知">
+<ion-view view-title="策划约稿">
 
 	<ion-header-bar align-title="center">
   		<button class="button button-clear" ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
-  	  	<h1 class="title">重要通知</h1>
-	    <button class="button button-clear" ng-click="searchClick()"><i class="ion-ios-search"></i></button>
+  	  	<h1 class="title">策划约稿</h1>
+	    <!-- <button class="button button-clear" ng-click="searchClick()"><i class="ion-ios-search"></i></button> -->
   	</ion-header-bar>
-	<div class="item-input-inset" style="width: 100%;padding: 0 17px;top: 68px;">
-  	   	<label class="item-input-wrapper">
-  		    <input type="text" ng-model="searchs" ng-change="getDetails(searchs)" placeholder="标题关键字">
-  	   	</label>
-  	</div>
   	<ion-content class="homepage search-place" overflow-scroll="false" has-bouncing="true"  on-scroll="openSearch()">
-		<div class="card" id="">
- 			<div class="title-img" style="background: #f36143;box-shadow:0 6px 10px 2px #fdd2c6">
- 				策划约稿
- 			</div>
+  		<div class="card">
+  		    <label class="item item-input" style="padding: 0 0 0 16px">
+  		      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
+  		      <input type="text" ng-model="searchs" ng-change="getDetails(searchs)" placeholder="标题关键字">
+  		    </label>
+  		</div>
+		<div class="card">
 			<div class="item">
-				<div class="list list-inset">
-				  	<a class="item" ng-repeat="item in items"  ng-click="goNewDetailPage({{item.aid}})" >
+				<div class="list list-inset notitle">
+				  	<a class="item" ng-repeat="item in vm.items"  ng-click="goNewDetailPage({{item.aid}})" >
 					{{item.title}}
 						<p class="boulticon">
 							<span class="subdued">{{item.postdate}}</span>
@@ -27,6 +25,6 @@
 				</div>
 			</div>
  		</div>
-		<ion-infinite-scroll immediate-check="true"  ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+		<ion-infinite-scroll immediate-check="true"  ng-if="vm.moredata" on-infinite="vm.loadMore()" distance="1%"></ion-infinite-scroll>
   	</ion-content>
 </ion-view>

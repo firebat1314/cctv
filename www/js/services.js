@@ -1,4 +1,5 @@
 angular.module('starter.services', [])
+    /*http拦截器*/
     .factory('AuthInterceptor', function($rootScope, $q, $location) {
         return {
             request: function(config) {
@@ -30,6 +31,56 @@ angular.module('starter.services', [])
             }
         };
     })
+    /*.service('loadData', function($rootScope, $data, $timeout) {
+        this.moredata = true,
+        this.items = [],
+        this.keyValue = '',
+        this.catid = '',
+        this.pagination = {
+            size: 10,
+            page: 0
+        },
+        this.init = function(catid) {
+            var that = this;
+            that.catid = catid;
+        },
+        this.search = function(searchs) {
+            var that = this;
+            that.keyValue = searchs;
+            that.pagination.page = 1;
+            $data.getHomeDataList({
+                size: that.pagination.size,
+                page: that.pagination.page,
+                kw: that.keyValue,
+                catid: that.catid
+            }).success(function(data) {
+                console.log(data);
+                that.items = data.data;
+            })
+        },
+        this.doRefresh = function() {
+            $timeout(function() {
+                $rootScope.$broadcast('scroll.refreshComplete');
+            }, 1000);
+        },
+        this.loadMore = function() {
+            this.pagination.page += 1;
+            var that = this;
+            $data.getHomeDataList({
+                size: that.pagination.size,
+                page: that.pagination.page,
+                kw: that.keyValue,
+                catid: that.catid
+            }).success(function(data) {
+                console.log(data);
+                that.items = that.items.concat(data.data);
+                if (data.data.length < that.pagination.size) {
+                    that.moredata = false;
+                };
+                $rootScope.$broadcast('scroll.infiniteScrollComplete');
+            })
+        }
+    })*/
     .factory('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
         var ip = 'http://cctvadmin.ivtime.net';
         return {
@@ -37,7 +88,6 @@ angular.module('starter.services', [])
             login: function(data) {
                 return $http({
                     method: "POST",
-                    // url: "http://cctvad nnn.ivtime.net/App/Login/index",
                     url: ip + "/ManageApp/Login/index",
                     data: data,
                     timeout: 5000
@@ -67,7 +117,6 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + '/ManageApp/Index/index',
-                    headers: {}
                 })
             },
             getHomeDataList: function(data) {
@@ -75,8 +124,8 @@ angular.module('starter.services', [])
                     method: 'GET',
                     url: ip + '/ManageApp/Index/lists',
                     params: data,
-                    headers: {}
                 })
+
             },
             //广告图
             getBanner: function(data) {
@@ -497,4 +546,4 @@ angular.module('starter.services', [])
                 }
             }
         }
-    });
+    })
