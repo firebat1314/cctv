@@ -13,10 +13,11 @@ angular.module('starter', ['ionic',
     "com.2fdevs.videogular",
     "com.2fdevs.videogular.plugins.controls",
     "com.2fdevs.videogular.plugins.overlayplay",
-    "com.2fdevs.videogular.plugins.poster"
+    "com.2fdevs.videogular.plugins.poster",
+    "com.2fdevs.videogular.plugins.buffering"
 ])
 
-.run(function($ionicPlatform, $ionicPopup, $state, $data, $rootScope, $ionicHistory, $cordovaKeyboard, $timeout) {
+.run(function($ionicPlatform, $ionicPopup, $state, $data, $rootScope, $ionicHistory, $cordovaKeyboard, $timeout,$ionicLoading) {
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -29,7 +30,18 @@ angular.module('starter', ['ionic',
             StatusBar.styleDefault();
         }
         if ($data.storeData('isLogin') == 'yes') {
-            $state.go('tab.news');
+            /*加载动画*/
+            $ionicLoading.show({
+                content: 'Loading',
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0,
+                duration:1500
+            });
+            $timeout(function(){
+                $state.go('tab.news');
+            },1000)
         };
         $rootScope.goBack = function() {
             $rootScope.$ionicGoBack();
@@ -218,6 +230,7 @@ angular.module('starter', ['ionic',
 
     .state('tab.account', {
         url: '/account',
+        cache: true,
         nativeTransitions: {
             "type": "fade",
         },

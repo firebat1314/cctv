@@ -1,77 +1,79 @@
 angular.module('news-controllers', [])
 
-.controller('NewsCtrl', function($ionicHistory, $scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition, $ionicSlideBoxDelegate, $ionicModal) {
-		$scope.$on('$ionicView.afterEnter', function() {
-			$data.getBanner().success(function(data) {
-				// console.log(data);
-				$scope.bannerList = data.data;
-				if(data.status == '1'){
-					$data.storeData('homeData_bannerIMG', data.data);
-				}
-				$ionicSlideBoxDelegate.update();
-				$ionicSlideBoxDelegate.$getByHandle("slideboximgs").loop(true);
-			}).error(function(){
-				$scope.bannerList = $data.storeData('homeData_bannerIMG');
-			});
-		})
-		/*判断详情链接*/
-		$scope.goNewDetailPage = function(catid) {
-			if (catid != undefined) {
-				$state.go('tab.new-detail', {
-					chatId: catid
-				})
-			}
-		};
-		/*下拉刷新*/
-		$scope.doRefresh = function() {
-			$data.getHomeData()
-				.success(function(newItems) {
-					// console.log(newItems);
-					if (newItems.status == '1') {
-						$scope.items = newItems;
-						$data.storeData('homeData', newItems);
-					}
-				})
-				.error(function() {
-					$data.loadingShow('加载失败');
-					$scope.items = $data.storeData('homeData');
-				})
-				.finally(function() {
-					$timeout(function() {
-						$scope.$broadcast('scroll.refreshComplete');
-					}, 100)
-				});
-		};
-		$scope.doRefresh();
-		/*选项卡*/
-		$scope.pageStatus = function(index) {
-			$ionicSlideBoxDelegate.$getByHandle('importance').slide(index);
-		};
-		/*按钮状态*/
-		$scope.slideHasChanged = function($index) {
-			$('.button-list-wrap').children().eq($index).addClass('selected').siblings().removeClass('selected');
-		};
-		$scope.uploadMore = function() {
-			var currentIndex = $ionicSlideBoxDelegate.$getByHandle('importance').currentIndex();
-			switch (currentIndex) {
-				case 0:
-					$state.go('tab.news-importance');
-					break;
-				case 1:
-					$state.go('tab.news-plan');
-					break;
-				case 2:
-					$state.go('tab.news-interflow');
-			}
-		}
+.controller('NewsCtrl', function($ionicHistory, $scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams,$ionicPopup,$ionicBackdrop,$ionicPopover,$window,$ionicScrollDelegate,$ionicPosition, $ionicSlideBoxDelegate, $ionicModal) {
+	$scope.$on('$ionicView.afterEnter', function() {
+
 	})
-	/*重要通知*/
-	.controller('NewsImportanceCtrl', function($scope, $data, $state, $timeout, $stateParams, $ionicScrollDelegate) {
+	$data.getBanner().success(function(data) {
+		// console.log(data);
+		$scope.bannerList = data.data;
+		if (data.status == '1') {
+			$data.storeData('homeData_bannerIMG', data.data);
+		}
+	}).error(function() {
+		$scope.bannerList = $data.storeData('homeData_bannerIMG');
+	}).finally(function() {
+		$ionicSlideBoxDelegate.update();
+		$ionicSlideBoxDelegate.$getByHandle("slideboximgs").loop(true);
+	});
+	/*判断详情链接*/
+	$scope.goNewDetailPage = function(catid) {
+		if (catid != undefined) {
+			$state.go('tab.new-detail', {
+				chatId: catid
+			})
+		}
+	};
+	/*下拉刷新*/
+	$scope.doRefresh = function() {
+		$data.getHomeData()
+			.success(function(newItems) {
+				// console.log(newItems);
+				if (newItems.status == '1') {
+					$scope.items = newItems;
+					$data.storeData('homeData', newItems);
+				}
+			})
+			.error(function() {
+				$data.loadingShow('加载失败');
+				$scope.items = $data.storeData('homeData');
+			})
+			.finally(function() {
+				$timeout(function() {
+					$scope.$broadcast('scroll.refreshComplete');
+				}, 100)
+			});
+	};
+	$scope.doRefresh();
+	/*选项卡*/
+	$scope.pageStatus = function(index) {
+		$ionicSlideBoxDelegate.$getByHandle('importance').slide(index);
+	};
+	/*按钮状态*/
+	$scope.slideHasChanged = function($index) {
+		$('.button-list-wrap').children().eq($index).addClass('selected').siblings().removeClass('selected');
+	};
+	$scope.uploadMore = function() {
+		var currentIndex = $ionicSlideBoxDelegate.$getByHandle('importance').currentIndex();
+		switch (currentIndex) {
+			case 0:
+				$state.go('tab.news-importance');
+				break;
+			case 1:
+				$state.go('tab.news-plan');
+				break;
+			case 2:
+				$state.go('tab.news-interflow');
+		}
+	}
+})
+/*重要通知*/
+.controller('NewsImportanceCtrl', function($scope, $data, $state, $timeout, $stateParams, $ionicScrollDelegate) {
 		var vm = $scope.vm = {
 			moredata: true,
 			items: [],
-			keyValue:'',
-			catid:'',
+			keyValue: '',
+			catid: '',
 			pagination: {
 				size: 10,
 				page: 0
@@ -80,15 +82,15 @@ angular.module('news-controllers', [])
 				var that = this;
 				that.catid = catid;
 			},
-			search:function(searchs){
-				var that = this; 
+			search: function(searchs) {
+				var that = this;
 				that.keyValue = searchs;
 				that.pagination.page = 1;
 				$data.getHomeDataList({
 					size: that.pagination.size,
 					page: that.pagination.page,
-					kw:that.keyValue,
-					catid:that.catid
+					kw: that.keyValue,
+					catid: that.catid
 				}).success(function(data) {
 					console.log(data);
 					that.items = data.data;
@@ -105,8 +107,8 @@ angular.module('news-controllers', [])
 				$data.getHomeDataList({
 					size: that.pagination.size,
 					page: that.pagination.page,
-					kw:that.keyValue,
-					catid:that.catid
+					kw: that.keyValue,
+					catid: that.catid
 				}).success(function(data) {
 					console.log(data);
 					that.items = that.items.concat(data.data);
@@ -157,8 +159,8 @@ angular.module('news-controllers', [])
 		var vm = $scope.vm = {
 			moredata: true,
 			items: [],
-			keyValue:'',
-			catid:'',
+			keyValue: '',
+			catid: '',
 			pagination: {
 				size: 10,
 				page: 0
@@ -167,15 +169,15 @@ angular.module('news-controllers', [])
 				var that = this;
 				that.catid = catid;
 			},
-			search:function(searchs){
-				var that = this; 
+			search: function(searchs) {
+				var that = this;
 				that.keyValue = searchs;
 				that.pagination.page = 1;
 				$data.getHomeDataList({
 					size: that.pagination.size,
 					page: that.pagination.page,
-					kw:that.keyValue,
-					catid:that.catid
+					kw: that.keyValue,
+					catid: that.catid
 				}).success(function(data) {
 					console.log(data);
 					that.items = data.data;
@@ -193,8 +195,8 @@ angular.module('news-controllers', [])
 				$data.getHomeDataList({
 					size: that.pagination.size,
 					page: that.pagination.page,
-					kw:that.keyValue,
-					catid:that.catid
+					kw: that.keyValue,
+					catid: that.catid
 				}).success(function(data) {
 					console.log(data);
 					that.items = that.items.concat(data.data);
@@ -219,15 +221,15 @@ angular.module('news-controllers', [])
 				})
 			}
 		};
-		
+
 	})
 	/*业务交流*/
 	.controller('NewsInterflowCtrl', function($scope, $data, $state, $timeout, $stateParams, $ionicScrollDelegate) {
 		var vm = $scope.vm = {
 			moredata: true,
 			items: [],
-			keyValue:'',
-			catid:'',
+			keyValue: '',
+			catid: '',
 			pagination: {
 				size: 10,
 				page: 0
@@ -236,15 +238,15 @@ angular.module('news-controllers', [])
 				var that = this;
 				that.catid = catid;
 			},
-			search:function(searchs){
-				var that = this; 
+			search: function(searchs) {
+				var that = this;
 				that.keyValue = searchs;
 				that.pagination.page = 1;
 				$data.getHomeDataList({
 					size: that.pagination.size,
 					page: that.pagination.page,
-					kw:that.keyValue,
-					catid:that.catid
+					kw: that.keyValue,
+					catid: that.catid
 				}).success(function(data) {
 					console.log(data);
 					that.items = data.data;
@@ -261,8 +263,8 @@ angular.module('news-controllers', [])
 				$data.getHomeDataList({
 					size: that.pagination.size,
 					page: that.pagination.page,
-					kw:that.keyValue,
-					catid:that.catid
+					kw: that.keyValue,
+					catid: that.catid
 				}).success(function(data) {
 					console.log(data);
 					that.items = that.items.concat(data.data);
@@ -285,7 +287,7 @@ angular.module('news-controllers', [])
 				})
 			}
 		};
-		
+
 	})
 	/*新闻*/
 	.controller('NewDetailCtrl', function($scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition, $ionicHistory) {

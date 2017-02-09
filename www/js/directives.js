@@ -1,4 +1,5 @@
 angular.module('starter.directives', [])
+/*隐藏tabs栏*/
 .directive('hideTabs', function($rootScope) {
     return {
         restrict: 'A',
@@ -16,6 +17,7 @@ angular.module('starter.directives', [])
     };
 
 })
+/*文本选中*/
 .directive("getFocus", function() {
     return {
         restrict: "A",

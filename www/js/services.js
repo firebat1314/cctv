@@ -473,6 +473,15 @@ angular.module('starter.services', [])
                 return $http({
                     method: 'GET',
                     url: ip + "/ManageApp/User/info",
+                    cache: false,
+                    timeout: 5000,
+                    parmas: data
+                })
+            },
+            getAvatar:function(data){
+                return $http({
+                    method: 'GET',
+                    url: ip + "/ManageApp/Public/getAvatar",
                     timeout: 5000,
                     parmas: data
                 })
