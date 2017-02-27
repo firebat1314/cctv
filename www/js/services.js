@@ -478,7 +478,7 @@ angular.module('starter.services', [])
                     parmas: data
                 })
             },
-            getAvatar:function(data){
+            getAvatar: function(data) {
                 return $http({
                     method: 'GET',
                     url: ip + "/ManageApp/Public/getAvatar",
@@ -503,20 +503,20 @@ angular.module('starter.services', [])
                     timeout: 5000
                 })
             },
-            //报题详情
-            getTitleDetails: function(data) {
-                return $http({
-                    method: 'get',
-                    url: ip + '/ManageApp/Baoti/view',
-                    timeout: 5000
-                })
-            },
             //添加新闻
             addNews: function(data) {
                 return $http({
                     method: 'POST',
                     url: ip + '/ManageApp/Baoti/add',
                     data: data,
+                    timeout: 5000
+                })
+            },
+            history: function(data) {
+                return $http({
+                    method: 'GET',
+                    url: ip + '/ManageApp/Baoti/history',
+                    params: data,
                     timeout: 5000
                 })
             },

@@ -17,10 +17,11 @@ angular.module('starter', ['ionic',
     "com.2fdevs.videogular.plugins.buffering"
 ])
 
-.run(function($ionicPlatform, $ionicPopup, $state, $data, $rootScope, $ionicHistory, $cordovaKeyboard, $timeout,$ionicLoading) {
+.run(function($ionicPlatform, $ionicPopup, $state, $data, $rootScope, $ionicHistory, $cordovaKeyboard, $timeout, $ionicLoading, $cordovaDevice) {
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
+        $rootScope.appkey = $cordovaDevice.getDevice().uuid;
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             cordova.plugins.Keyboard.disableScroll(true);
@@ -37,11 +38,11 @@ angular.module('starter', ['ionic',
                 showBackdrop: true,
                 maxWidth: 200,
                 showDelay: 0,
-                duration:1500
+                duration: 1500
             });
-            $timeout(function(){
+            $timeout(function() {
                 $state.go('tab.news');
-            },1000)
+            }, 1000)
         };
         $rootScope.goBack = function() {
             $rootScope.$ionicGoBack();
@@ -65,7 +66,6 @@ angular.module('starter', ['ionic',
                     }]
                 });
             } else if ($ionicHistory.backView()) {
-                //console.log($cordovaKeyboard.isVisible());
                 if ($cordovaKeyboard.isVisible()) {
                     $cordovaKeyboard.close();
                 } else {
@@ -188,7 +188,7 @@ angular.module('starter', ['ionic',
         }
     })
 
-    .state('tab.news-importance',{
+    .state('tab.news-importance', {
         url: '/news/news-importance',
         views: {
             'tab-news': {
@@ -198,7 +198,7 @@ angular.module('starter', ['ionic',
         }
     })
 
-    .state('tab.news-plan',{
+    .state('tab.news-plan', {
         url: '/news/news-plan',
         views: {
             'tab-news': {
@@ -208,7 +208,7 @@ angular.module('starter', ['ionic',
         }
     })
 
-    .state('tab.news-interflow',{
+    .state('tab.news-interflow', {
         url: '/news/news-interflow',
         views: {
             'tab-news': {

@@ -1,90 +1,107 @@
 <ion-view hide-tabs="true">
-	<style>
-		.item-body p{
-			margin: 7px 0;
-		}
-	</style>
-	<ion-header-bar align-title="center">
-		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
-		<h1 class="title">新闻详情</h1>
-	</ion-header-bar>
-	<ion-content overflow-scroll="false" has-bouncing="false" >
-		<div>
-			<div class="card">
-				<div class="item item-avatar">
-				    <img ng-src="{{avatar}}">
-				    <h2 style="color: #ff8651;margin-bottom: 6px;">{{details.data.typetitle}}</h2>
-				    <p>{{details.data.dateline}}</p>
-				</div>
-			</div>
-			<div class="card padding">
-				<div class="item item-icon-right" style="color: #fe3434;padding-left: 8px;" >
-					视频
-					<i class="icon"><img src="img/icon/ico_57.png" height="20" alt=""></i>
-				</div>
-				<div class="item item-body" style="padding: 0 5px 5px;">
-					<h2 style="font-weight: 700;">约稿：{{details.data.tags}}</h2>
-				    <p>发布时间：{{details.data.dateline||'--'}}</p>
-				    <p>分类：{{details.data.typetitle||'--'}}</p>
-				    <p style="color: #ff8651;">发布单位：{{details.data.tv_name}}</p>
-				    <p ng-if="!details.data.videos">视屏：暂无</p>
-				    <div class="my-video"  ng-if="details.data.videos">
-	    		      	<div class="videogular-container">
-	    	      			<videogular vg-theme="config.theme">
-	    	      				<vg-media vg-src="config.sources"
-	    	      						  vg-tracks="config.tracks">
-	    	      				</vg-media>
+    <style>
+        .item-body p {
+            margin: 7px 0;
+        }
+        
+        .history>li {}
+    </style>
+    <ion-header-bar align-title="center">
+        <button class="button button-clear" ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+        <h1 class="title">新闻详情</h1>
+    </ion-header-bar>
+    <ion-content overflow-scroll="false" has-bouncing="false">
+        <div>
+            <div class="card">
+                <div class="item item-avatar">
+                    <img ng-src="{{avatar}}">
+                    <h2 style="color: #ff8651;margin-bottom: 6px;">{{details.data.typetitle}}</h2>
+                    <p>{{details.data.dateline}}</p>
+                </div>
+            </div>
+            <div class="card padding">
+                <div class="item item-icon-right" style="color: #fe3434;padding-left: 8px;">
+                    视频
+                    <i class="icon"><img src="img/icon/ico_57.png" height="20" alt=""></i>
+                </div>
+                <div class="item item-body" style="padding: 0 5px 5px;">
+                    <h2 style="font-weight: 700;">约稿：{{details.data.tags}}</h2>
+                    <p>发布时间：{{details.data.dateline||'--'}}</p>
+                    <p>分类：{{details.data.typetitle||'--'}}</p>
+                    <p style="color: #ff8651;">发布单位：{{details.data.tv_name}}</p>
+                    <p ng-if="!details.data.videos">视频：暂无</p>
+                    <div class="my-video" ng-if="details.data.videos" ng-repeat="video in videos">
+                        <div class="videogular-container">
+                            <videogular vg-theme="config.theme">
+                                <vg-media vg-src="config.sources" vg-tracks="config.tracks">
+                                </vg-media>
 
-	    	      				<vg-controls vg-autohide="true" vg-autohide-time="2000">
-	    	      					<vg-play-pause-button></vg-play-pause-button>
-	    	      					<vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
-	    	      					<vg-scrub-bar>
-	    	      						<vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-	    	      					</vg-scrub-bar>
-	    	      					<vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
-	    	      					<vg-volume>
-	    	      						<vg-mute-button></vg-mute-button>
-	    	      						<vg-volume-bar></vg-volume-bar>
-	    	      					</vg-volume>
-	    	      					<vg-fullscreen-button></vg-fullscreen-button>
-	    	      				</vg-controls>
-	    	      				
-	    	      				<vg-overlay-play></vg-overlay-play>
-	    	      				<vg-poster vg-url='config.plugins.poster'></vg-poster>
-	    	      			</videogular>
-	    	      		</div>
-			      	
-					    <p>文件大小：{{details.data.videos[0].size | videoSize}}M</p>
-					    <p>上传时间：{{details.data.videos[0].date || '--'}}</p>
-					    <p>上传速度：{{details.data.videos[0].files || '--'}}kb/s</p>
-					    <p>视频格式：{{details.data.videos[0].ext || '--'}}</p>
-				    </div>
-				</div>
-				<!-- <div style="text-align: center;padding-top: 4px;">
+                                <vg-controls vg-autohide="true" vg-autohide-time="2000">
+                                    <vg-play-pause-button></vg-play-pause-button>
+                                    <vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                                    <vg-scrub-bar>
+                                        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                                    </vg-scrub-bar>
+                                    <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+                                    <vg-volume>
+                                        <vg-mute-button></vg-mute-button>
+                                        <vg-volume-bar></vg-volume-bar>
+                                    </vg-volume>
+                                    <vg-fullscreen-button></vg-fullscreen-button>
+                                </vg-controls>
+
+                                <vg-overlay-play></vg-overlay-play>
+                                <vg-poster vg-url='config.plugins.poster'></vg-poster>
+                            </videogular>
+                        </div>
+
+                        <p>文件大小：{{details.data.videos[0].size | videoSize}}M</p>
+                        <p>上传时间：{{details.data.videos[0].date || '--'}}</p>
+                        <p>上传速度：{{details.data.videos[0].files || '--'}}kb/s</p>
+                        <p>视频格式：{{details.data.videos[0].ext || '--'}}</p>
+                    </div>
+                </div>
+                <!-- <div style="text-align: center;padding-top: 4px;">
 					<a class="button button-small button-icon icon ion-arrow-down-b" style="color: #9e9e9e;"></a>
 				</div> -->
-			</div>
-			<div class="card padding"  ng-if="details.data.pics">
-				<div class="item item-icon-right" style="color: #fe3434;padding-left: 8px;" >
-					图片
-					<i class="icon"><img src="img/icon/ico_58.png" height="20" alt=""></i>
-				</div>
-				<div class="item item-body" style="padding: 5px 5px;border:none;">
-				    <img class="" width="100%" ng-repeat="item in details.data.pics" ng-src="{{item.savepath}}" style="border-radius: 2px;">
-				</div>
-				<!-- <div style="text-align: center;padding-top: 4px;">
+            </div>
+            <div class="card padding" ng-if="details.data.pics">
+                <div class="item item-icon-right" style="color: #fe3434;padding-left: 8px;">
+                    图片
+                    <i class="icon"><img src="img/icon/ico_58.png" height="20" alt=""></i>
+                </div>
+                <div class="item item-body" style="padding: 5px 5px;border:none;">
+                    <img class="" width="100%" ng-repeat="item in details.data.pics" ng-src="{{item.savepath}}" style="border-radius: 2px;">
+                </div>
+                <!-- <div style="text-align: center;padding-top: 4px;">
 					<a class="button button-small button-icon icon ion-arrow-down-b" style="color: #9e9e9e;"></a>
 				</div> -->
-			</div>
-			<div class="card padding">
-				<div class="item item-icon-right" style="color: #ff8651;padding-left: 8px;" >
-					正文
-				</div>
-				<div class="item item-body" style="padding: 5px 5px;">
-					<h2 style="color: #3d3d3d;">{{details.data.title}}</h2>
-			      	<p style="color: #9e9e9e;padding: 10px;" ng-bind-html="content"></p>
-				</div>
-			</div>
-		</div>
-	</ion-content>
+            </div>
+            <div class="card padding">
+                <div class="item item-icon-right" style="color: #ff8651;padding-left: 8px;">
+                    正文
+                </div>
+                <div class="item item-body" style="padding: 5px 5px;">
+                    <h2 style="color: #3d3d3d;">{{details.data.title}}</h2>
+                    <p style="color: #9e9e9e;padding: 10px;" ng-bind-html="content"></p>
+                </div>
+            </div>
+            <div class="card padding">
+                <div class="item item-icon-right" style="color: #ff8651;padding-left: 8px;">
+                    查看人
+                </div>
+                <div class="item item-body" style="padding: 5px 5px;">
+                    <ul class="list history">
+                        <li class="item" ng-repeat="item in historyData">
+                            <span>{{item.name}}</span>
+                            <span class="item-note">
+								{{item.datetime}}
+							</span>
+                        </li>
+                    </ul>
+                    <p ng-if="historyData.length==0">暂无</p>
+                </div>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>
