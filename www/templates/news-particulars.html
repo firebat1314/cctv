@@ -1,10 +1,68 @@
 <ion-view hide-tabs="true">
     <style>
+        .cart {
+            min-height: 100px;
+        }
+        
         .item-body p {
             margin: 7px 0;
         }
         
-        .history>li {}
+        .history-list>li {
+            font-size: 12px;
+        }
+        
+        .history .title>div {
+            text-align: center;
+            display: inline-block;
+        }
+        
+        .history .user,
+        .history .date,
+        .history .add,
+        .history .tag {
+            overflow: hidden;
+            white-space: pre-wrap;
+            vertical-align: text-top;
+        }
+        
+        .history .user {
+            width: 25%;
+        }
+        
+        .history .date {
+            width: 30%;
+            text-align: center;
+        }
+        
+        .history .add {
+            width: 13%;
+            text-align: center;
+        }
+        
+        .history .tag {
+            width: 32%;
+            text-align: center;
+        }
+        
+        .history .title>div {
+            color: #ff8651;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        
+        .history-list>li span {
+            display: inline-block;
+        }
+        
+        .history-list>li span:last-child {
+            margin-right: 0px;
+        }
+        
+        .my-video {
+            margin-bottom: 10px;
+        }
     </style>
     <ion-header-bar align-title="center">
         <button class="button button-clear" ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
@@ -32,8 +90,8 @@
                     <p ng-if="!details.data.videos">视频：暂无</p>
                     <div class="my-video" ng-if="details.data.videos" ng-repeat="video in videos">
                         <div class="videogular-container">
-                            <videogular vg-theme="config.theme">
-                                <vg-media vg-src="config.sources" vg-tracks="config.tracks">
+                            <videogular vg-theme="video.config.theme">
+                                <vg-media vg-src="video.config.sources" vg-tracks="video.config.tracks">
                                 </vg-media>
 
                                 <vg-controls vg-autohide="true" vg-autohide-time="2000">
@@ -51,14 +109,14 @@
                                 </vg-controls>
 
                                 <vg-overlay-play></vg-overlay-play>
-                                <vg-poster vg-url='config.plugins.poster'></vg-poster>
+                                <vg-poster vg-url='video.config.plugins.poster'></vg-poster>
                             </videogular>
                         </div>
 
-                        <p>文件大小：{{details.data.videos[0].size | videoSize}}M</p>
-                        <p>上传时间：{{details.data.videos[0].date || '--'}}</p>
-                        <p>上传速度：{{details.data.videos[0].files || '--'}}kb/s</p>
-                        <p>视频格式：{{details.data.videos[0].ext || '--'}}</p>
+                        <p>文件大小：{{video.size | videoSize}}M</p>
+                        <p>上传时间：{{video.date || '--'}}</p>
+                        <p>上传速度：{{video.files || '--'}}kb/s</p>
+                        <p>视频格式：{{video.ext || '--'}}</p>
                     </div>
                 </div>
                 <!-- <div style="text-align: center;padding-top: 4px;">
@@ -81,22 +139,25 @@
                 <div class="item item-icon-right" style="color: #ff8651;padding-left: 8px;">
                     正文
                 </div>
-                <div class="item item-body" style="padding: 5px 5px;">
+                <div class="item item-body">
                     <h2 style="color: #3d3d3d;">{{details.data.title}}</h2>
                     <p style="color: #9e9e9e;padding: 10px;" ng-bind-html="content"></p>
                 </div>
             </div>
-            <div class="card padding">
-                <div class="item item-icon-right" style="color: #ff8651;padding-left: 8px;">
-                    查看人
-                </div>
-                <div class="item item-body" style="padding: 5px 5px;">
-                    <ul class="list history">
+            <div class="history padding">
+                <div ng-if="historyData.length">
+                    <ul class="list history-list">
+                        <div class="title item item-divider">
+                            <div class="user">查看人</div>
+                            <div class="date">日期</div>
+                            <div class="add">来源</div>
+                            <div class="tag">来源标识</div>
+                        </div>
                         <li class="item" ng-repeat="item in historyData">
-                            <span>{{item.name}}</span>
-                            <span class="item-note">
-								{{item.datetime}}
-							</span>
+                            <span class="user">{{item.name}}</span>
+                            <span class="date">{{item.datetime}}</span>
+                            <span class="add">{{item.source}}</span>
+                            <span class="tag">{{item.source_key}}</span>
                         </li>
                     </ul>
                     <p ng-if="historyData.length==0">暂无</p>

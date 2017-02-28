@@ -730,29 +730,32 @@ angular.module('user-controllers', [])
     }).success(function(data) {
         $scope.details = data;
         $scope.content = data.data.content.replace(/\r\n/g, "<br />　");
-        console.log(data)
         if (data.data.videos) {
             $scope.videos = data.data.videos;
+            angular.forEach($scope.videos, function(value) {
+                value.config = {
+                    sources: [{
+                        src: $sce.trustAsResourceUrl(value.app_savepath),
+                        type: "video/mp4"
+                    }],
+                    tracks: [{
+                        src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
+                        kind: "subtitles",
+                        srclang: "en",
+                        label: "English",
+                        default: ""
+                    }],
+                    theme: "lib/videogular-themes-default/videogular.css"
+                };
+            })
         }
-        $scope.config = {
-            sources: [{
-                src: $sce.trustAsResourceUrl($scope.video),
-                type: "video/mp4"
-            }],
-            tracks: [{
-                src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
-                kind: "subtitles",
-                srclang: "en",
-                label: "English",
-                default: ""
-            }],
-            theme: "lib/videogular-themes-default/videogular.css"
-        };
+
     })
     $scope.nextSlide = function() {
         $ionicSlideBoxDelegate.next();
     };
     $data.history({ id: $scope.id }).success(function(data) {
+        console.log(data)
         $scope.historyData = data.data;
     })
 })
