@@ -1,8 +1,8 @@
 <ion-view>
-	<ion-header-bar align-title="center">
-		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
-		<h1 class="title">已报题单</h1>
-		<!-- <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">
+    <ion-header-bar align-title="center">
+        <button class="button button-clear" ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+        <h1 class="title">已报题单</h1>
+        <!-- <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">
 			<span ng-if="status">
 				<span>不通过或取消</span>
           		<img src="img/icon/ico_59.png" width="22" style="vertical-align: text-bottom;" alt="">
@@ -12,47 +12,52 @@
           		<img src="img/icon/ico_53.png" width="22" style="vertical-align: text-bottom;" alt="">
 			</span>
         </a> -->
-	</ion-header-bar>
-	<ion-content overflow-scroll="false" has-bouncing="false" >
+    </ion-header-bar>
+    <ion-content overflow-scroll="false" has-bouncing="false">
         <ion-list>
-        	<div class="card">
-        	    <label class="item item-input" style="padding: 0 0 0 16px">
+            <div class="card">
+                <label class="item item-input" style="padding: 0 0 0 16px">
         	      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
         	      <input type="text" ng-model="searchs" ng-change="getDetails(searchs)" placeholder="标题关键字">
         	    </label>
-        	</div>
-			<div class="card report" ng-repeat="item in details">
-				<div class="mask" no-pass data-id="{{item.id}}" ng-if="status">
-					<div class="deletecard">
-						<i class="icon ion-ios-checkmark-empty"></i>
-					</div>
-				</div>
-				<div class="item item-body">
-					<h2 class="report-title">{{item.title}}</h2>
-				    <div>
-						<ion-item>
-							<div>
-								<div>报题时间：<span style="line-height: 24px;">{{item.baoti_date}}</span></div>
-								<div>发布单位：<span style="color: #ff8651;line-height: 24px;">{{item.tv_name}}</span></div>
-							</div>
-							<div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
-							<ion-option-button  ng-click="toHuati(item,2)">
-								<div class="btnbox">
-									<img src="img/icon/ico_66.png" alt="">
-									<div class="btn-txt">不通过</div>
-								</div>
-							</ion-option-button>
-							<ion-option-button ng-click="toHuati(item,1)" >
-								<div class="btnbox">
-									<img src="img/icon/ico_65.png" alt="">
-									<div class="btn-txt" >划题</div>
-								</div>
-							</ion-option-button>
-						</ion-item>
-				    </div>
-				</div>
-			</div>
+            </div>
+            <div class="card report" ng-repeat="item in details">
+                <div class="mask" no-pass data-id="{{item.id}}" ng-if="status">
+                    <div class="deletecard">
+                        <i class="icon ion-ios-checkmark-empty"></i>
+                    </div>
+                </div>
+                <div class="item item-body">
+                    <h2 class="report-title">{{item.title}}</h2>
+                    <div>
+                        <ion-item>
+                            <div>
+                                <div>报题时间：<span style="line-height: 24px;">{{item.baoti_date}}</span></div>
+                                <div>发布单位：<span style="color: #ff8651;line-height: 24px;">{{item.tv_name}}</span></div>
+                                <div>状态：
+                                    <span style="color: red;line-height: 24px;" ng-if="item.is_huati=='2'">未采纳</span>
+                                    <span style="color: green;line-height: 24px;" ng-if="item.is_huati=='1'">已划题</span>
+                                    <span style="color: #ff8651;line-height: 24px;" ng-if="item.is_huati=='0'">未阅</span>
+                                </div>
+                            </div>
+                            <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
+                            <ion-option-button ng-disabled="item.is_huati=='1'||item.is_huati=='2'" ng-click="toHuati(item,$index,2)">
+                                <div class="btnbox">
+                                    <img src="img/icon/ico_66.png" alt="">
+                                    <div class="btn-txt">不通过</div>
+                                </div>
+                            </ion-option-button>
+                            <ion-option-button ng-disabled="item.is_huati=='1'||item.is_huati=='2'" ng-click="toHuati(item,$index,1)">
+                                <div class="btnbox">
+                                    <img src="img/icon/ico_65.png" alt="">
+                                    <div class="btn-txt">划题</div>
+                                </div>
+                            </ion-option-button>
+                        </ion-item>
+                    </div>
+                </div>
+            </div>
         </ion-list>
-		<ion-infinite-scroll immediate-check="" ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
-	</ion-content>
+        <ion-infinite-scroll immediate-check="" ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+    </ion-content>
 </ion-view>

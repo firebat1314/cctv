@@ -321,13 +321,13 @@ angular.module('starter', ['ionic',
     })
 
     .state('approximations', {
-        url: '/account/allchuanlian/approximations/:id/:uid/:title',
+        url: '/account/allchuanlian/approximations/:id/:uid/:title/:index',
         templateUrl: 'templates/approximations.html',
         controller: 'ApproximationsCtrl'
     })
 
     .state('nopass', {
-        url: '/account/allchuanlian/nopass/:id/:title',
+        url: '/account/allchuanlian/nopass/:id/:title/:index',
         templateUrl: 'templates/nopass.html',
         controller: 'NopassCtrl'
     })
@@ -359,24 +359,32 @@ angular.module('starter', ['ionic',
     })
 
     .state('tab.rebroadcast', {
-        url: '/account/alreadysweep/rebroadcast/:id',
-        views: {
-            'tab-account': {
-                templateUrl: 'templates/add-rebroadcast.html',
-                controller: 'AddRebroadcastCtrl'
+            url: '/account/alreadysweep/rebroadcast/:id/:index',
+            views: {
+                'tab-account': {
+                    templateUrl: 'templates/add-rebroadcast.html',
+                    controller: 'AddRebroadcastCtrl'
+                }
             }
-        }
-    })
-
-    .state('tab.overplay', {
-        url: '/account/overplay',
-        views: {
-            'tab-account': {
-                templateUrl: 'templates/overplay.html',
-                controller: 'OverPlayCtrl'
+        })
+        .state('tab.DontBroadcast', {
+            url: '/account/alreadysweep/DontBroadcast/:id/:index',
+            views: {
+                'tab-account': {
+                    templateUrl: 'templates/DontBroadcast.html',
+                    controller: 'DontBroadcastCtrl'
+                }
             }
-        }
-    })
+        })
+        .state('tab.overplay', {
+            url: '/account/overplay',
+            views: {
+                'tab-account': {
+                    templateUrl: 'templates/overplay.html',
+                    controller: 'OverPlayCtrl'
+                }
+            }
+        })
 
     .state('tab.cardcase', {
         url: '/account/cardcase',

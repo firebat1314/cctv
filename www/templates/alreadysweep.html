@@ -1,8 +1,8 @@
 <ion-view>
-	<ion-header-bar align-title="center">
-		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
-		<h1 class="title">已划题单</h1>
-		<!-- <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">
+    <ion-header-bar align-title="center">
+        <button class="button button-clear" ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+        <h1 class="title">已划题单</h1>
+        <!-- <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">
 			<span ng-if="status">
 				<span>不通过或取消</span>
           		<img src="img/icon/ico_59.png" width="22" style="vertical-align: text-bottom;" alt="">
@@ -12,48 +12,52 @@
           		<img src="img/icon/ico_53.png" width="22" style="vertical-align: text-bottom;" alt="">
 			</span>
         </a> -->
-	</ion-header-bar>
-	<ion-content overflow-scroll="false" has-bouncing="false" >
+    </ion-header-bar>
+    <ion-content overflow-scroll="false" has-bouncing="false">
         <ion-list>
-        	<div class="card">
-        	    <label class="item item-input" style="padding: 0 0 0 16px">
+            <div class="card">
+                <label class="item item-input" style="padding: 0 0 0 16px">
         	      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
         	      <input type="text" ng-model="searchs" ng-change="getDetails(searchs)" placeholder="标题关键字">
         	    </label>
-        	</div>
-			<div class="card report" ng-repeat="item in details">
-				<div class="mask" no-pass data-id="{{item.id}}" ng-if="status">
-					<div class="deletecard">
-						<i class="icon ion-ios-checkmark-empty"></i>
-						<!-- <input type="chcekbox" ng-value="item.id" style="display: none;" > -->
-					</div>
-				</div>
-				<div class="item item-body">
-					<h2 class="report-title">{{item.title}}</h2>
-				    <div>
-						<ion-item>
-							<div>
-								<div style="line-height: 24px;">划题时间：<span style="color: #a6a6a6;">{{item.huati_date}}</span></div>
-								<div style="line-height: 24px;">发布单位：<span style="color: #ff8651;">{{item.tv_name}}</span></div>
-							</div>
-							<div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
-							<ion-option-button  ng-click="toAddReb(item)">
-								<div class="btnbox">
-									<img src="img/icon/ico_69.png" height="20" alt="">
-									<div class="btn-txt">添加重播</div>
-								</div>
-							</ion-option-button>
-							<!-- <ion-option-button ng-click="down(item.id)" >
-								<div class="btnbox">
-									<img src="img/icon/ico_68.png" height="20" alt="">
-									<div class="btn-txt">下载</div>
-								</div>
-							</ion-option-button> -->
-						</ion-item>
-				    </div>
-				</div>
-			</div>
+            </div>
+            <div class="card report" ng-repeat="item in details">
+                <div class="mask" no-pass data-id="{{item.id}}" ng-if="status">
+                    <div class="deletecard">
+                        <i class="icon ion-ios-checkmark-empty"></i>
+                        <!-- <input type="chcekbox" ng-value="item.id" style="display: none;" > -->
+                    </div>
+                </div>
+                <div class="item item-body">
+                    <h2 class="report-title">{{item.title}}</h2>
+                    <div>
+                        <ion-item>
+                            <div>
+                                <div style="line-height: 24px;">划题时间：<span style="color: #a6a6a6;">{{item.huati_date}}</span></div>
+                                <div style="line-height: 24px;">发布单位：<span style="color: #ff8651;">{{item.tv_name}}</span></div>
+                                <div style="line-height: 24px;" ng-if="item.is_bochu=='0'">状态：<span style="color: #ff8651;">未阅</span></div>
+                                <div style="line-height: 24px;" ng-if="item.is_bochu=='1'">状态：<span style="color: green;">已播出</span></div>
+                                <div style="line-height: 24px;" ng-if="item.is_bochu=='2'">状态：<span style="color: a6a6a6;">已阅</span></div>
+                            </div>
+                            <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
+                            <ion-option-button ng-disabled="item.is_bochu!='0'" ng-click="toDontBroadcast(item,$index)">
+                                <div class="btnbox">
+                                    <img src="img/icon/ico_64.png" height="20" alt="">
+                                    <div class="btn-txt">不播出</div>
+                                </div>
+                            </ion-option-button>
+                            <ion-option-button ng-click="toAddReb(item,$index)">
+                                <div class="btnbox">
+                                    <img src="img/icon/ico_69.png" height="20" alt="">
+                                    <div class="btn-txt" ng-if="item.is_bochu=='0'||item.is_bochu=='2'">添加播出</div>
+                                    <div class="btn-txt" ng-if="item.is_bochu=='1'">添加重播</div>
+                                </div>
+                            </ion-option-button>
+                        </ion-item>
+                    </div>
+                </div>
+            </div>
         </ion-list>
-		<ion-infinite-scroll immediate-check=""  ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
-	</ion-content>
+        <ion-infinite-scroll immediate-check="" ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+    </ion-content>
 </ion-view>

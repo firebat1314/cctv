@@ -1,7 +1,7 @@
 <ion-view>
-	<ion-header-bar align-title="center">
-		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
-		<h1 class="title">所有串联单</h1>
+    <ion-header-bar align-title="center">
+        <button class="button button-clear" ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+        <h1 class="title">所有串联单</h1>
         <!-- <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">
 			<span ng-if="status">
 				<span>不通过或取消</span>
@@ -12,50 +12,59 @@
           		<img src="img/icon/ico_53.png" width="22" style="vertical-align: text-bottom;" alt="">
 			</span>
         </a> -->
-	</ion-header-bar>
-	<ion-content overflow-scroll="false" has-bouncing="false" >
+    </ion-header-bar>
+    <ion-content overflow-scroll="false" has-bouncing="false">
         <ion-list>
-        	<div class="card">
-        	    <label class="item item-input" style="padding: 0 0 0 16px">
+            <div class="card">
+                <label class="item item-input" style="padding: 0 0 0 16px">
         	      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
         	      <input type="text" ng-model="searchs" ng-change="getDetails(searchs)" placeholder="标题关键字">
         	    </label>
-        	</div>
-			<div class="card report" ng-repeat="item in items">
-				<div class="mask" no-pass data-id="{{item.id}}" ng-if="status">
-					<div class="deletecard">
-						<i class="icon ion-ios-checkmark-empty"></i>
-						<!-- <input type="chcekbox" ng-value="item.id" style="display: none;" > -->
-					</div>
-				</div>
-				<div class="item item-body">
-					<h2 style="margin: 0;">{{item.title}}</h2>
-					<p style="margin: 8px 0 5px;">播出时间：{{item.bochu_time}}</p>
-					<p style="border-bottom: 1px solid #e6e6e6;margin: 0 0 5px;padding-bottom: 5px;">发表时间：{{item.post_time}}</p>
-				    <div>
-						<ion-item>
-						  	<div>
-						  		<div>播出栏目：<span style="color: #ff8651;">{{item.lanmu}}</span></div>
-						  		<div>发布单位：<span style="color: #ff8651;">{{item.tv_name}}</span></div>
-						  	</div>
-						  	<div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
-						    <ion-option-button  ng-click="toNopass(item)">
-						    	<div class="btnbox">
-						    		<img src="img/icon/ico_64.png" alt="">
-						    		<div class="btn-txt">不通过</div>
-						    	</div>
-						    </ion-option-button>
-						    <ion-option-button ng-click="toApproximations(item)" >
-						    	<div class="btnbox">
-						    		<img src="img/icon/ico_63.png" alt="">
-						    		<div class="btn-txt" >约稿</div>
-						    	</div>
-						    </ion-option-button>
-						</ion-item>
-				    </div>
-				</div>
-			</div>
+            </div>
+            <div class="card report" ng-repeat="item in items">
+                <div class="mask" no-pass data-id="{{item.id}}" ng-if="status">
+                    <div class="deletecard">
+                        <i class="icon ion-ios-checkmark-empty"></i>
+                        <!-- <input type="chcekbox" ng-value="item.id" style="display: none;" > -->
+                    </div>
+                </div>
+                <div class="item item-body">
+                    <h2 style="margin: 0;">{{item.title}}</h2>
+                    <p style="margin: 8px 0 5px;">播出时间：{{item.bochu_time}}</p>
+                    <p style="border-bottom: 1px solid #e6e6e6;margin: 0 0 5px;padding-bottom: 5px;">发表时间：{{item.post_time}}</p>
+                    <div>
+                        <ion-item>
+                            <div>
+                                <div style="font-size: 90%;">播出栏目：<span style="color: #ff8651;">{{item.lanmu}}</span></div>
+                                <div style="font-size: 90%;">发布单位：<span style="color: #ff8651;">{{item.tv_name}}</span></div>
+                                <div style="font-size: 90%;">状态：
+                                    <!--ng-if="item.is_baoti=='1'||item.is_baoti=='2'"-->
+                                    <span style="color: #ff8651;" ng-if="item.is_baoti=='0'">未阅</span>
+                                    <span style="color: #e6e6e6;" ng-if="item.is_baoti=='1'">已约稿</span>
+                                    <span style="color: red;" ng-if="item.is_baoti=='2'">未通过</span>
+                                </div>
+                            </div>
+                            <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
+                            <ion-option-button ng-if="item.is_baoti=='0'||item.is_baoti=='2'" ng-disabled="item.is_baoti=='2'||item.is_baoti=='1'" ng-click="toNopass(item,$index)">
+                                <div class="btnbox">
+                                    <img src="img/icon/ico_64.png" alt="">
+                                    <div class="btn-txt" ng-if="item.is_baoti=='0'">不通过</div>
+                                    <div class="btn-txt" ng-if="item.is_baoti=='2'">未通过</div>
+                                </div>
+                            </ion-option-button>
+
+                            <ion-option-button ng-disabled="item.is_baoti=='1'||item.is_baoti=='2'" ng-if="item.is_baoti!='2'" ng-click="toApproximations(item,$index)">
+                                <div class="btnbox">
+                                    <img src="img/icon/ico_63.png" alt="">
+                                    <div class="btn-txt" ng-if="item.is_baoti=='0'">约稿</div>
+                                    <div class="btn-txt" ng-if="item.is_baoti=='1'">已约稿</div>
+                                </div>
+                            </ion-option-button>
+                        </ion-item>
+                    </div>
+                </div>
+            </div>
         </ion-list>
-		<ion-infinite-scroll immediate-check="true"  ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
-	</ion-content>
+        <ion-infinite-scroll immediate-check="true" ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+    </ion-content>
 </ion-view>

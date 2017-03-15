@@ -1,70 +1,73 @@
 <ion-view>
-	<style>
-		.allnews .item-content{
-			padding-bottom: 10px;
-			display: -webkit-box;
-			display: -ms-flexbox;
-			display: flex;
-			-webkit-box-orient: vertical;
-			-webkit-box-direction: normal;
-			-ms-flex-direction: column;
-				flex-direction: column;
-			-webkit-box-pack: space-around;
-			-ms-flex-pack: space-around;
-				justify-content: space-around;
-		}
-		.allnews .indicator{
-			color: #fff;
-			text-align: center;
-			height: 100%;
-			width: 1px;
-			position: absolute;
-			right: 0;
-			top: 0;
-			font-size: 18px;
-			box-shadow: 0 0px 11px #ff8651;
-			background-color: #fff;
-		}
-	</style>
-	<ion-header-bar align-title="center">
-		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
-		<h1 class="title">所有新闻</h1>
-	</ion-header-bar>
-	<ion-content overflow-scroll="false" has-bouncing="false" >
-		<ion-list class="allnews">
-			<div class="card" style="margin: 10px;">
-			    <label class="item item-input" style="padding: 0 0 0 16px">
+    <style>
+        .allnews .item-content {
+            padding-bottom: 10px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-pack: space-around;
+            -ms-flex-pack: space-around;
+            justify-content: space-around;
+        }
+        
+        .allnews .indicator {
+            color: #fff;
+            text-align: center;
+            height: 100%;
+            width: 1px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 18px;
+            box-shadow: 0 0px 11px #ff8651;
+            background-color: #fff;
+        }
+    </style>
+    <ion-header-bar align-title="center">
+        <button class="button button-clear" ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+        <h1 class="title">所有新闻</h1>
+    </ion-header-bar>
+    <ion-content overflow-scroll="false" has-bouncing="false">
+        <ion-list class="allnews">
+            <div class="card" style="margin: 10px;">
+                <label class="item item-input" style="padding: 0 0 0 16px">
 			      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
         	      <input type="text" ng-model="searchs" ng-change="getDetails(searchs)" placeholder="标题关键字">
 			    </label>
-			</div>
-			<div class="card" ng-repeat="item in details" ng-click="toParticulars(item.id)">
-			    <ion-item class="item item-thumbnail-left" >
-					<img ng-src="{{item.img}}">
-					<h2>{{item.title}}</h2>
-					<p>{{item.dateline}}</p>
-					<!-- <p style="background: url(img/icon/ico_56.png) right center no-repeat;-webkit-background-size: auto 80%;background-size: auto 80%;"> -->
-					<p>
-						状态:  	<span style="color: #b6b6b6" ng-if="item.is_read=='1'">已阅</span>
-								<span style="color: #ff8651" ng-if="item.is_read=='0'">未阅</span>
-					</p>
-					<div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
-					<ion-option-button ng-click="toParticulars(item.id)">
-						<div class="btnbox">
-							<img src="img/icon/ico_64.png" alt="">
-							<div class="btn-txt">查看</div>
-						</div>
-					</ion-option-button>
-					<ion-option-button ng-click="toBaoti(item.id,$index)">
-						<div class="btnbox">
-							<img src="img/icon/ico_63.png" alt="">
-							<div class="btn-txt" >报题</div>
-						</div>
-					</ion-option-button>
-				</ion-item>
-			</div>
-		</ion-list>
-		<ion-infinite-scroll immediate-check=""  ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+            </div>
+            <div class="card" ng-repeat="item in details">
+                <ion-item class="item" ng-class=" { 'item-thumbnail-left':item.img} ">
+                    <img ng-src="{{item.img}}">
+                    <h2>{{item.title}}</h2>
+                    <p>{{item.dateline}}</p>
+                    <!-- <p style="background: url(img/icon/ico_56.png) right center no-repeat;-webkit-background-size: auto 80%;background-size: auto 80%;"> -->
+                    <p>
+                        状态:
+                        <span style="color: green" ng-if="item.is_read=='1'&&item.is_baoti=='1'">已报题</span>
+                        <span style="color: red" ng-if="item.is_read=='1'&&item.is_baoti=='2'">未通过</span>
+                        <span style="color: #ff8651" ng-if="item.is_read=='0'">未阅</span>
+                    </p>
+                    <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
+                    <ion-option-button ng-click="toParticulars(item.id)">
+                        <div class="btnbox">
+                            <img src="img/icon/ico_64.png" alt="">
+                            <div class="btn-txt">查看</div>
+                        </div>
+                    </ion-option-button>
+                    <ion-option-button ng-click="toBaoti(item.id,$index)" ng-disabled="item.is_baoti=='1'||item.is_baoti=='2'">
+                        <div class="btnbox">
+                            <img src="img/icon/ico_63.png" alt="">
+                            <div class="btn-txt">报题</div>
+                        </div>
+                    </ion-option-button>
+                </ion-item>
+            </div>
+        </ion-list>
+        <ion-infinite-scroll immediate-check="" ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
 
-	</ion-content>
+    </ion-content>
 </ion-view>
