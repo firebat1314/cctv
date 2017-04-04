@@ -2,14 +2,16 @@ angular.module('user-controllers', [])
     .controller('AccountCtrl', function($ionicHistory, $scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams) {
         $scope.getDetails = function() {
             $data.userInfo().success(function(data) {
-                $scope.img = data.data.avatar + Math.random();
+                console.log(data)
+                $scope.img = data.data.avatar + Math.random() || data.data.avatar;
             });
             $data.vipInfoStatistics().success(function(data) {
                 $scope.data = data;
             });
         };
-        $scope.$on('$ionicView.beforeEnter', function() {
+        $scope.$on('$ionicView.afterEnter', function() {
             //进入之前
+            $scope.getDetails();
         });
         $scope.getDetails();
         $rootScope.$on('img', function(event, data) {
