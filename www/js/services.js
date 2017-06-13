@@ -82,7 +82,8 @@ angular.module('starter.services', [])
         }
     })*/
     .factory('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
-        var ip = 'http://cctvadmin.ivtime.net';
+        var ip = 'http://cctvadmin.ivtime.net'; //测试
+        // var ip = 'http://appadmin.cctvnnn.cn';//正式
         return {
             //登录请求
             login: function(data) {

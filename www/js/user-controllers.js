@@ -1,5 +1,5 @@
 angular.module('user-controllers', [])
-    .controller('AccountCtrl', function($ionicHistory, $scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $stateParams) {
+    .controller('AccountCtrl', function($ionicHistory, $scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover) {
         $scope.getDetails = function() {
             $data.userInfo().success(function(data) {
                 $scope.img = data.data.avatar + Math.random();
