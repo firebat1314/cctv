@@ -1,9 +1,9 @@
-<ion-view  hide-tabs="true">
-	<ion-header-bar align-title="center">
-		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
-		<h1 class="title">收件内容</h1>
-	</ion-header-bar>
-	<ion-content overflow-scroll="false" has-bouncing="true" class="has-subheader">
-			<h3 ng-if="showError" style="color: #b6b6b6;display:block;margin-top:200px;text-align: center;">服务器出错！！！{{status}}</h3>
-	</ion-content>
+<ion-view hide-tabs="true">
+    <ion-header-bar align-title="center">
+        <button class="button button-clear" ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+        <h1 class="title">收件内容</h1>
+    </ion-header-bar>
+    <ion-content overflow-scroll="false" has-bouncing="true" class="has-subheader">
+        <h3 ng-if="showError" style="color: #b6b6b6;display:block;margin-top:200px;text-align: center;">{{status}}</h3>
+    </ion-content>
 </ion-view>

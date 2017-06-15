@@ -1,70 +1,151 @@
-<ion-view>
-	<style>
-		.allnews .item-content{
-			padding-bottom: 10px;
-			display: -webkit-box;
-			display: -ms-flexbox;
-			display: flex;
-			-webkit-box-orient: vertical;
-			-webkit-box-direction: normal;
-			-ms-flex-direction: column;
-				flex-direction: column;
-			-webkit-box-pack: space-around;
-			-ms-flex-pack: space-around;
-				justify-content: space-around;
-		}
-		.allnews .indicator{
-			color: #fff;
-			text-align: center;
-			height: 100%;
-			width: 1px;
-			position: absolute;
-			right: 0;
-			top: 0;
-			font-size: 18px;
-			box-shadow: 0 0px 11px #ff8651;
-			background-color: #fff;
-		}
-	</style>
-	<ion-header-bar align-title="center">
-		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
-		<h1 class="title">所有新闻</h1>
-	</ion-header-bar>
-	<ion-content overflow-scroll="false" has-bouncing="false" >
-		<ion-list class="allnews">
-			<div class="card" style="margin: 10px;">
-			    <label class="item item-input" style="padding: 0 0 0 16px">
-			      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
-        	      <input type="text" ng-model="searchs" ng-change="getDetails(searchs)" placeholder="标题关键字">
-			    </label>
-			</div>
-			<div class="card" ng-repeat="item in details" ng-click="toParticulars(item.id)">
-			    <ion-item class="item item-thumbnail-left" >
-					<img ng-src="{{item.img}}">
-					<h2>{{item.title}}</h2>
-					<p>{{item.dateline}}</p>
-					<!-- <p style="background: url(img/icon/ico_56.png) right center no-repeat;-webkit-background-size: auto 80%;background-size: auto 80%;"> -->
-					<p>
-						状态:  	<span style="color: #b6b6b6" ng-if="item.is_read=='1'">已阅</span>
-								<span style="color: #ff8651" ng-if="item.is_read=='0'">未阅</span>
-					</p>
-					<div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
-					<ion-option-button ng-click="toParticulars(item.id)">
-						<div class="btnbox">
-							<img src="img/icon/ico_64.png" alt="">
-							<div class="btn-txt">查看</div>
-						</div>
-					</ion-option-button>
-					<ion-option-button ng-click="toBaoti(item.id,$index)">
-						<div class="btnbox">
-							<img src="img/icon/ico_63.png" alt="">
-							<div class="btn-txt" >报题</div>
-						</div>
-					</ion-option-button>
-				</ion-item>
-			</div>
-		</ion-list>
-		<ion-infinite-scroll immediate-check=""  ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+<style>
+    .allnews .item-content {
+        padding-bottom: 10px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-pack: space-around;
+        -ms-flex-pack: space-around;
+        justify-content: space-around;
+    }
+    
+    .allnews .indicator {
+        color: #fff;
+        text-align: center;
+        height: 100%;
+        width: 1px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: 18px;
+        box-shadow: 0 0px 11px #ff8651;
+        background-color: #fff;
+    }
+    
+    .allnews .opencearch {
+        color: #fff;
+    }
+    
+    .no-data {
+        color: #aaa;
+        text-align: center;
+    }
+</style>
+<ion-view class="allnews">
 
-	</ion-content>
+    <ion-header-bar align-title="center">
+        <button class="button button-clear" ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+        <h1 class="title">所有新闻</h1>
+        <button class="button button-clear opencearch" ng-click="allnewsSearch.show();">高级搜索</button>
+    </ion-header-bar>
+    <ion-content overflow-scroll="false" has-bouncing="false">
+        <ion-list>
+            <div class="card" style="margin: 10px;">
+                <label class="item item-input" style="padding: 0 0 0 16px">
+			      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
+        	      <input type="text" ng-model="filterParams.kw" ng-change="getList();" placeholder="标题关键字">
+			    </label>
+            </div>
+            <div class="no-data" ng-if="details.length==0">抱歉，没有查询到相关内容</div>
+            <div class="card" ng-repeat="item in details" ng-click="toParticulars(item.id)">
+                <ion-item class="item item-thumbnail-left">
+                    <img ng-src="{{item.img}}">
+                    <h2>{{item.title}}</h2>
+                    <p>{{item.dateline}}</p>
+                    <!-- <p style="background: url(img/icon/ico_56.png) right center no-repeat;-webkit-background-size: auto 80%;background-size: auto 80%;"> -->
+                    <p>
+                        状态: <span style="color: #b6b6b6" ng-if="item.is_read=='1'">已阅</span>
+                        <span style="color: #ff8651" ng-if="item.is_read=='0'">未阅</span>
+                    </p>
+                    <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
+                    <ion-option-button ng-click="toParticulars(item.id)">
+                        <div class="btnbox">
+                            <img src="img/icon/ico_64.png" alt="">
+                            <div class="btn-txt">查看</div>
+                        </div>
+                    </ion-option-button>
+                    <ion-option-button ng-click="toBaoti(item.id,$index)">
+                        <div class="btnbox">
+                            <img src="img/icon/ico_63.png" alt="">
+                            <div class="btn-txt">报题</div>
+                        </div>
+                    </ion-option-button>
+                </ion-item>
+            </div>
+        </ion-list>
+        <ion-infinite-scroll immediate-check="" ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+
+    </ion-content>
+
 </ion-view>
+
+<script id="my-modal-allnews-search.html" type="text/ng-template">
+    <style>
+        .item .item-note {
+            position: absolute;
+            right: 36px;
+            color: #333;
+        }
+    </style>
+    <ion-modal-view>
+        <ion-header-bar>
+            <button class="button button-clear" ng-click="allnewsSearch.hide()"><i class="icon ion-android-close"></i></button>
+            <h1 class="title">搜索条件</h1>
+        </ion-header-bar>
+        <ion-content>
+            <div class="list">
+                <label class="item item-input item-select" ng-click="datapicker1()">
+                    <div class="input-label">开始时间</div>
+                    <span class="item-note">{{filterParams.sdate}}</span>
+                </label>
+                <label class="item item-input item-select" ng-click="datapicker2()">
+                    <div class="input-label">结束时间</div>
+                    <span class="item-note">{{filterParams.edate}}</span>
+                </label>
+                <label class="item item-input item-select">
+                    <div class="input-label">报题状态</div>
+                    <select ng-model="filterParams.status">
+                        <option value="1">已报题</option>
+                        <option value="2">未通过</option>
+                        <option value="3">未阅</option>
+                    </select>
+                </label>
+                <label class="item item-input item-select">
+                    <div class="input-label">片区</div>
+                    <select ng-model="filterParams.areas">
+                        <option value="东">东</option>
+                        <option value="中">中</option>
+                        <option value="西">西</option>
+                    </select>
+                </label>
+                <label class="item item-input item-select">
+                    <div class="input-label">单位性质</div>
+                    <select ng-model="filterParams.tvtype">
+                        <option value="1">非电视台</option>
+                        <option value="2">电视台</option>
+                        <option value="3">记者站</option>
+                    </select>
+                </label>
+                <label class="item item-input item-select">
+                    <div class="input-label">片区</div>
+                    <select ng-model="filterParams.source">
+                        <option value="pc">pc</option>
+                        <option value="app">app</option>
+                    </select>
+                </label>
+                <label class="item item-input">
+                    <div class="input-label">关键词</div>
+                    <input type="text" ng-model="filterParams.kw" placeholder="请输入关键词">
+                </label>
+            </div>
+            <div class="padding-horizontal">
+                <button class="button button-block button-assertive" ng-click="modalSearch()">搜索</button>
+                <button class="button button-block button-assertive" ng-click="clearParams()">清空表单</button>
+            </div>
+        </ion-content>
+    </ion-modal-view>
+</script>

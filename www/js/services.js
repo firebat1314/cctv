@@ -81,9 +81,37 @@ angular.module('starter.services', [])
             })
         }
     })*/
-    .factory('$data', function($rootScope, $http, $window, $ionicLoading, $timeout, $ionicPopup) {
-        var ip = 'http://cctvadmin.ivtime.net'; //测试
-        // var ip = 'http://appadmin.cctvnnn.cn';//正式
+    /*    .factory('myLoader', function($scope,$data) {
+            this.size = 10;
+            this.page = 0;
+            this.noMore = true;
+            this.items = [];
+            this.keyword = '';
+            return {
+                infinite: () => {
+                    this.page++;
+                    $data.userCtrl({
+                        size: $scope.size,
+                        page: $scope.page,
+                        kw: $scope.keyword
+                    }).success(function(data) {
+                        $scope.noMore = $data.isNoMore(data, $scope.size);
+                        Array.prototype.push.apply(this.items, data.data);
+                        $ionicScrollDelegate.resize();
+                    }).finally(function() {
+                        $timeout(function() {
+                            $scope.$broadcast('scroll.infiniteScrollComplete');
+                        }, 100)
+                    });
+                },
+                refresher: () => {
+
+                }
+            }
+        })*/
+    .factory('$data', function($http, $window, $ionicLoading, $timeout) {
+        // var ip = 'http://cctvadmin.ivtime.net'; //测试
+        var ip = 'http://appadmin.cctvnnn.cn'; //正式
         return {
             //登录请求
             login: function(data) {
@@ -255,7 +283,7 @@ angular.module('starter.services', [])
             members: function(data) {
                 return $http({
                     method: 'GET',
-                    url: ip + '/ManageApp /User/members',
+                    url: ip + '/ManageApp/User/members',
                     params: data
                 })
             },

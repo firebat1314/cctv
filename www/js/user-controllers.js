@@ -1,53 +1,71 @@
 angular.module('user-controllers', [])
-    .controller('AccountCtrl', function($ionicHistory, $scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover) {
-        $scope.getDetails = function() {
-            $data.userInfo().success(function(data) {
-                $scope.img = data.data.avatar + Math.random();
-            });
-            $data.vipInfoStatistics().success(function(data) {
-                $scope.data = data;
-            });
-        };
-        $scope.$on('$ionicView.beforeEnter', function() {
-            //进入之前
-        });
-        $scope.getDetails();
-        $rootScope.$on('img', function(event, data) {
-            $scope.img = data;
-        });
-        $scope.jumpTo = function() {
-            $state.go('tab.management')
-        };
-        $scope.goSetting = function() {
-            $state.go('setting');
-        };
-        //更新我的首页
-        $scope.doRefresh = function() {
-            $data.vipInfoStatistics()
-                .success(function(data) {
-                    $scope.data = data;
-                }).error(function() {
-                    $data.loadingShow('更新失败');
-                }).finally(function() {
-                    $scope.$broadcast('scroll.refreshComplete');
-                });
-        }
-    })
 
-.controller('ManagementCtrl', function($scope, $data, $ionicScrollDelegate, $rootScope, $state, $timeout, $ionicPopup) {
-    $scope.size = 10;
+.controller('AccountCtrl', function($ionicHistory, $scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover) {
+    $scope.getDetails = function() {
+        $data.userInfo().success(function(data) {
+            $scope.img = data.data.avatar + Math.random();
+        });
+        $data.vipInfoStatistics().success(function(data) {
+            $scope.data = data;
+        });
+    };
+    $scope.$on('$ionicView.beforeEnter', function() {
+        //进入之前
+    });
+    $scope.getDetails();
+    $rootScope.$on('img', function(event, data) {
+        $scope.img = data;
+    });
+    $scope.jumpTo = function() {
+        $state.go('tab.management')
+    };
+    $scope.goSetting = function() {
+        $state.go('setting');
+    };
+    //更新我的首页
+    $scope.doRefresh = function() {
+        $data.vipInfoStatistics()
+            .success(function(data) {
+                $scope.data = data;
+            }).error(function() {
+                $data.loadingShow('更新失败');
+            }).finally(function() {
+                $scope.$broadcast('scroll.refreshComplete');
+            });
+    }
+})
+
+.controller('ManagementCtrl', function($scope, $data, $ionicScrollDelegate, $rootScope, $state, $timeout, $ionicPopup, $ionicModal) {
     $scope.page = 0;
     $scope.noMore = true;
-    $scope.items = [];
+    $scope.items = new Array;
+    $scope.$on('$ionicView.enter', function() {});
+    //用户管理列表
+    $rootScope.$on('check', function(event, data) {
+        console.log($scope.items[data.index])
+        $timeout(function() {
+            $scope.items[data.index].check = data.status;
+        }, 300)
+    });
+    $scope.filterParams = {
+        province: null,
+        city: null,
+        check: null,
+        groupid: null,
+        kw: null,
+        page: $scope.page,
+        size: 10
+    };
     $scope.loadMore = function() {
-        $scope.page++;
-        $data.userCtrl({
-            size: $scope.size,
-            page: $scope.page
-        }).success(function(data) {
-            $scope.noMore = $data.isNoMore(data, $scope.size);
-            Array.prototype.push.apply($scope.items, data.data);
-            $ionicScrollDelegate.resize();
+        $data.userCtrl(Object.assign($scope.filterParams, {
+            page: ++$scope.page,
+        })).success(function(data) {
+            if (data.page <= data.pages) {
+                Array.prototype.push.apply($scope.items, data.data);
+                $ionicScrollDelegate.resize();
+            } else {
+                $scope.noMore = false;
+            }
         }).finally(function() {
             $timeout(function() {
                 $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -55,30 +73,138 @@ angular.module('user-controllers', [])
         });
     };
     $scope.checkMember = function(uid, $index) {
-        $ionicPopup.confirm({
-            title: '提示信息',
-            template: '是否审核通过？',
-            scope: $scope,
-            buttons: [{
-                text: '<b>确定</b>',
-                type: 'button-positive',
-                onTap: function(res) {
-                    $data.checkMember({
-                        uid: uid,
-                        status: 1
-                    }).success(function(data) {
-                        $data.loadingShow(data.info);
-                        $scope.items[$index].check = '1';
-                    });
-                }
-            }, {
-                text: '取消'
-            }]
+        if ($scope.items[$index].check == 1) {
+            $ionicPopup.confirm({
+                title: '提示信息',
+                template: '取消已审核？',
+                scope: $scope,
+                buttons: [{
+                    text: '<b>确定</b>',
+                    type: 'button-positive',
+                    onTap: function(res) {
+                        $data.checkMember({
+                            uid: uid,
+                            status: 0
+                        }).success(function(data) {
+                            $data.loadingShow(data.info);
+                            $scope.items[$index].check = '0';
+                        });
+                    }
+                }, {
+                    text: '取消'
+                }]
+            })
+        } else if ($scope.items[$index].check == 0) {
+            $ionicPopup.confirm({
+                title: '提示信息',
+                template: '是否审核通过？',
+                scope: $scope,
+                buttons: [{
+                    text: '<b>确定</b>',
+                    type: 'button-positive',
+                    onTap: function(res) {
+                        $data.checkMember({
+                            uid: uid,
+                            status: 1
+                        }).success(function(data) {
+                            $data.loadingShow(data.info);
+                            $scope.items[$index].check = '1';
+                        });
+                    }
+                }, {
+                    text: '取消'
+                }]
+            })
+        }
+    }
+    var getList = function() {
+        $scope.noMore = true;
+        $scope.page = 1;
+        $data.userCtrl(Object.assign($scope.filterParams, { page: $scope.page })).success((res) => {
+            if (res.status == 1) {
+                $scope.items = res.data;
+            }
         })
     }
-    $scope.toPersonalPage = function(uid) {
+    $scope.onSearch = (search) => {
+        $scope.page = 1;
+        $scope.noMore = true;
+        getList();
+    }
+    $ionicModal.fromTemplateUrl('my-modal-search.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.powerSearchModal = modal;
+    });
+    $ionicModal.fromTemplateUrl('my-modal-resetPassword.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.resetPasswordModal = modal;
+    });
+    //Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function() {
+        $scope.powerSearchModal.remove();
+        $scope.resetPasswordModal.remove();
+    });
+    // Execute action on hide modal
+    $scope.$on('modal.hidden', function() {
+        $scope.user.password = null;
+        $scope.user.cpassword = null;
+        $scope.user.userid = null;
+        // Execute action
+    });
+    $data.getCityList(0, 1).success((res) => {
+        if (res.status == 1) {
+            $scope.provinces = res.data;
+        }
+    })
+    $data.userGroup().success((res) => {
+        if (res.status == 1) {
+            $scope.users = res.data;
+        }
+    })
+    $scope.provinceChange = (parentid) => {
+        $scope.filterParams.city = null;
+        $data.getCityList(parentid, 2).success((res) => {
+            if (res.status == 1) {
+                $scope.citys = res.data;
+            }
+        })
+    }
+    $scope.modalSearch = function() {
+        $scope.powerSearchModal.hide();
+        getList();
+    }
+    $scope.clearParams = function() {
+        $scope.filterParams.province = null;
+        $scope.filterParams.city = null;
+        $scope.filterParams.check = null;
+        $scope.filterParams.groupid = null;
+        $scope.filterParams.kw = null;
+        $scope.modalSearch();
+    }
+
+    $scope.user = {
+        password: null,
+        cpassword: null,
+        userid: null
+    };
+    $scope.submit = function() {
+        $scope.btnStatus = true; //按钮提交状态
+        $data.revisePassword(Object.assign({ ignore_oldpw: '1' }, $scope.user)).success(function(data) {
+            $scope.btnStatus = false; //按钮提交状态
+            $data.loadingShow(data.info);
+            if (data.status == 1) {
+                $scope.resetPasswordModal.hide();
+            }
+        })
+    };
+    $scope.toPersonalPage = function(uid, index) {
         $state.go('tab.personal-page', {
-            uid: uid
+            uid: uid,
+            index: index
         })
     }
 })
@@ -86,9 +212,12 @@ angular.module('user-controllers', [])
 .controller('PersonalPageCtrl', function($ionicPopup, $ionicHistory, $scope, $data, $rootScope, $state, $stateParams, ionicDatePicker, $filter) {
     $scope.uid = $stateParams.uid;
     $scope.cardid = $stateParams.cardid;
+    $scope.index = $stateParams.index;
     $scope.status = false;
-    $scope.details;
+    $scope.details = null;
+
     if ($scope.cardid) {
+        console.log('名片ID', $scope.cardid);
         $data.viewMPH({
             id: $scope.cardid
         }).success(function(data) {
@@ -131,7 +260,8 @@ angular.module('user-controllers', [])
                 position: $scope.details.position || '',
                 province: $scope.details.province || '',
                 city: $scope.details.city || '',
-                district: $scope.details.area || ''
+                district: $scope.details.area || '',
+                status: $scope.details.check || '',
             };
             $scope.getAddress();
             $scope.provinceChange($scope.details.province);
@@ -204,7 +334,13 @@ angular.module('user-controllers', [])
                 $data.loadingShow(data.info)
                 if (data.status == 1) {
                     $data.personalDetails($scope.uid).success(function(data) {
-                        $scope.details = data.data;
+                        if (data.status == 1) {
+                            $scope.details = data.data;
+                            $rootScope.$broadcast('check', { //发送已阅事件
+                                index: $scope.index,
+                                status: $scope.user.status
+                            });
+                        }
                     })
                 }
             })
@@ -630,21 +766,89 @@ angular.module('user-controllers', [])
     };
 })
 
-.controller('AllNewsCtrl', function($scope, $data, $state, $rootScope, $timeout) {
+.controller('AllNewsCtrl', function($scope, $data, $state, $rootScope, $timeout, $ionicModal, ionicDatePicker, $filter) {
     $scope.details = [];
-
-    $scope.newValue; //搜索关键字
-    var deregister;
-    $scope.getDetails = function(searchs) {
-        $scope.noMore = true;
-        $scope.newValue = searchs;
-        $data.allNews({
-            kw: $scope.newValue
-        }).success(function(data) {
-            $scope.details = data.data;
-        })
+    $scope.filterParams = {
+        page: $scope.page, //当前页
+        size: 10, //每页显示条数
+        kw: null, //关键词搜索
+        sdate: null, //开始时间日期格式
+        edate: null, //结束时间日期格式
+        status: null, //报题状态：（1:已报题，2:未通过，3:未阅）
+        areas: null, //片区：（东,中,西）
+        tvtype: null, //电视台性质：(1:非电视台,2:电视台,3:记者站)
+        source: null, //来源：（pc，app）
     };
-    $scope.getDetails('');
+    $ionicModal.fromTemplateUrl('my-modal-allnews-search.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.allnewsSearch = modal;
+    });
+    //Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function() {
+        $scope.allnewsSearch.remove();
+    });
+    var ipObj1 = {
+        disabledDates: [
+            // new Date(2015, 5, 16),
+            // new Date('Wednesday, August 12, 2015'),
+            // new Date("08-16-2016"),
+            // new Date(1439676000000)
+        ],
+        from: new Date(),
+        to: new Date(2018, 1, 1),
+        inputDate: new Date(),
+        mondayFirst: false,
+        disableWeekdays: [], // [0,6]
+        closeOnSelect: false,
+        templateType: 'popup'
+    };
+    $scope.datapicker1 = function() {
+        ionicDatePicker.openDatePicker(Object.assign(ipObj1, {
+            callback: function(val) { //Mandatory
+                $scope.filterParams.sdate = $filter('date')(val, 'yyyy-MM-dd');
+            }
+        }));
+    };
+    $scope.datapicker2 = function() {
+        ionicDatePicker.openDatePicker(Object.assign(ipObj1, {
+            callback: function(val) { //Mandatory
+                console.log(val)
+                $scope.filterParams.edate = $filter('date')(val, 'yyyy-MM-dd');
+            }
+        }));
+    };
+    $scope.getList = function() {
+        $scope.noMore = true;
+        $scope.page = 1;
+        $data.allNews(Object.assign($scope.filterParams, { page: $scope.page })).success((res) => {
+            if (res.status == 1) {
+                $scope.details = res.data;
+            }
+        })
+    }
+    $scope.modalSearch = function() {
+        $scope.allnewsSearch.hide();
+        $scope.getList();
+    }
+    $scope.clearParams = function() {
+        $scope.filterParams = {
+            page: 1, //当前页
+            size: 10, //每页显示条数
+            kw: null, //关键词搜索
+            sdate: null, //开始时间日期格式
+            edate: null, //结束时间日期格式
+            status: null, //报题状态：（1:已报题，2:未通过，3:未阅）
+            areas: null, //片区：（东,中,西）
+            tvtype: null, //电视台性质：(1:非电视台,2:电视台,3:记者站)
+            source: null, //来源：（pc，app）
+        };
+        $scope.getList();
+        $scope.allnewsSearch.hide();
+    }
+    var deregister;
+    $scope.getList();
     //根据报题提交 更新已阅视图
     $scope.$on('$ionicView.enter', function() {
         deregister = $rootScope.$on('is_read', function(event, data) {
@@ -659,12 +863,7 @@ angular.module('user-controllers', [])
     $scope.size = 10;
     $scope.page = 1;
     $scope.loadMore = function() {
-        $scope.page++;
-        $data.allNews({
-            size: $scope.size,
-            page: $scope.page,
-            kw: $scope.newValue
-        }).success(function(data) {
+        $data.allNews(Object.assign($scope.filterParams, { page: ++$scope.page })).success(function(data) {
             $scope.noMore = $data.isNoMore(data, $scope.size);
             Array.prototype.push.apply($scope.details, data.data);
         }).finally(function() {
@@ -684,6 +883,7 @@ angular.module('user-controllers', [])
             index: $index
         })
     };
+
 })
 
 .controller('BaotiCtrl', function($scope, $data, $state, $stateParams, $rootScope) {
@@ -765,6 +965,7 @@ angular.module('user-controllers', [])
     $scope.newValue; //搜索关键字
     $scope.getDetails = function(searchs) {
         $scope.noMore = true;
+        $scope.page = 1;
         $scope.newValue = searchs;
         $data.allChuanld({
             kw: $scope.newValue
@@ -1162,6 +1363,7 @@ angular.module('user-controllers', [])
 .controller('OverPlayCtrl', function($scope, $rootScope, $data, $state, $stateParams, $timeout) {
     $scope.newValue;
     $scope.getDetails = function(searchs) {
+        $scope.page = 1;
         $scope.noMore = true;
         $scope.newValue = searchs;
         $data.BochuList({
@@ -1192,16 +1394,118 @@ angular.module('user-controllers', [])
     };
 })
 
-.controller('CardCaseCtrl', function($scope, $data, $state, $stateParams, $ionicSlideBoxDelegate, $timeout) {
+.controller('CardCaseCtrl', function($scope, $data, $state, $stateParams, $ionicSlideBoxDelegate, $timeout, $ionicModal) {
     $scope.toPersonalPage = function(uid, cardid) {
         $state.go('tab.personal-page', {
             uid: uid,
             cardid: cardid
         });
     };
-    $scope.$on('$ionicView.beforeEnter', function() {
-        $ionicSlideBoxDelegate.enableSlide(false);
+    $scope.$on('$ionicView.enter', function() {
+        $ionicSlideBoxDelegate.$getByHandle('mySlideScroll').enableSlide(false);
+        console.log($ionicSlideBoxDelegate)
     });
+    $scope.filterParams = {
+        type: null, //名片盒组，0全部，3：临时名片盒 1：未整理名片盒，2：地方资源组，4：地方部。默认0全部
+        province: null,
+        city: null,
+        kw: null,
+        page: 1,
+        size: 10
+    }
+    $ionicModal.fromTemplateUrl('my-modal-cardcase-search.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.cardcaseSearchModal = modal;
+    });
+    $scope.openModal = function() {
+        $scope.cardcaseSearchModal.show();
+        switch ($ionicSlideBoxDelegate.$getByHandle('mySlideScroll').currentIndex()) {
+            case 0:
+                $scope.filterParams.type = '0';
+                break;
+            case 1:
+                $scope.filterParams.type = '3';
+                break;
+            case 2:
+                $scope.filterParams.type = '1';
+                break;
+            case 3:
+                $scope.filterParams.type = '2';
+                break;
+            case 4:
+                $scope.filterParams.type = '4';
+                break;
+        }
+    };
+    //Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function() {
+        $scope.cardcaseSearchModal.remove();
+    });
+    $data.getCityList(0, 1).success((res) => {
+        if (res.status == 1) {
+            $scope.provinces = res.data;
+        }
+    })
+    $scope.slideHasChanged = function($index) {
+        console.log($index)
+    }
+    $data.userGroup().success((res) => {
+        if (res.status == 1) {
+            $scope.users = res.data;
+        }
+    })
+    $scope.provinceChange = (parentid) => {
+        $scope.filterParams.city = null;
+        $data.getCityList(parentid, 2).success((res) => {
+            if (res.status == 1) {
+                $scope.citys = res.data;
+            }
+        })
+    }
+    $scope.modalSearch = function() {
+        $scope.cardcaseSearchModal.hide();
+        switch ($scope.filterParams.type) {
+            case '0':
+                $ionicSlideBoxDelegate.$getByHandle('mySlideScroll').slide(0);
+                $data.mingPH($scope.filterParams).success(function(data) {
+                    $scope.details_a = data.data;
+                })
+                break;
+            case '3':
+                $ionicSlideBoxDelegate.$getByHandle('mySlideScroll').slide(1);
+                $data.mingPH($scope.filterParams).success(function(data) {
+                    $scope.details_b = data.data;
+                })
+                break;
+            case '1':
+                $ionicSlideBoxDelegate.$getByHandle('mySlideScroll').slide(2);
+                $data.mingPH($scope.filterParams).success(function(data) {
+                    $scope.details_c = data.data;
+                })
+                break;
+            case '2':
+                $ionicSlideBoxDelegate.$getByHandle('mySlideScroll').slide(3);
+                $data.mingPH($scope.filterParams).success(function(data) {
+                    $scope.details_d = data.data;
+                })
+                break;
+            case '4':
+                $ionicSlideBoxDelegate.$getByHandle('mySlideScroll').slide(4);
+                $data.mingPH($scope.filterParams).success(function(data) {
+                    $scope.details_e = data.data;
+                })
+                break;
+        }
+
+    }
+    $scope.clearParams = function() {
+        $scope.filterParams.province = null;
+        $scope.filterParams.city = null;
+        $scope.filterParams.kw = null;
+        $scope.modalSearch();
+    };
     //待改
     // $data.mingPH({
     // 	type: 3
@@ -1218,7 +1522,6 @@ angular.module('user-controllers', [])
     // }).success(function(data) {
     // 	$scope.details_d = data.data;
     // });
-
     $scope.details_a = [];
     $scope.details_b = [];
     $scope.details_c = [];
@@ -1351,11 +1654,11 @@ angular.module('user-controllers', [])
 .controller('InboxCtrl', function($scope, $data, $state, $stateParams, $ionicPopup, $timeout, $ionicSlideBoxDelegate, $ionicLoading) {
     $scope.msgIndexInit = $stateParams.index;
     $timeout(function() {
-            $ionicSlideBoxDelegate.$getByHandle('importance').slide($scope.msgIndexInit);
-        }, 400)
-        /*
-         **禁止选项卡滑动
-         */
+        $ionicSlideBoxDelegate.$getByHandle('importance').slide($scope.msgIndexInit);
+    }, 400);
+    /*
+     **禁止选项卡滑动
+     */
     $scope.$on('$ionicView.beforeEnter', function() {
         $ionicSlideBoxDelegate.enableSlide(false);
     });
@@ -1416,41 +1719,89 @@ angular.module('user-controllers', [])
     };
 })
 
-.controller('InboxPactCtrl', function($scope, $data, $state, $rootScope, $stateParams, $ionicPopup, $timeout, $ionicSlideBoxDelegate, $ionicLoading) {
-        $scope.size = 10;
-        $scope.page = 1;
-        $scope.noMore = true;
-        $scope.loadMore = function() {
-            $scope.page++;
-            $data.getMessage({
-                size: $scope.size,
-                page: $scope.page,
-                type: 3
-            }).success(function(data) {
-                $scope.noMore = $data.isNoMore(data, $scope.size);
-                Array.prototype.push.apply($scope.pactMesg, data.data);
-            }).finally(function() {
-                $timeout(function() {
-                    $scope.$broadcast('scroll.infiniteScrollComplete');
-                }, 200)
-            });
-        };
-        //消息删除确认框
-        $scope.deleteMsg = function($index, id, items) {
+.controller('InboxSysCtrl', function($scope, $rootScope, $data, $state, $stateParams, $ionicPopup, $timeout, $ionicSlideBoxDelegate, $ionicLoading) {
+    $scope.size = 10;
+    $scope.page = 1;
+    $scope.noMore = true;
+    $scope.loadMore = function() {
+        $scope.page++;
+        $data.getMessage({
+            size: $scope.size,
+            page: $scope.page,
+        }).success(function(data) {
+            $scope.noMore = $data.isNoMore(data, $scope.size);
+            Array.prototype.push.apply($scope.sysMesg, data.data);
+        }).finally(function() {
+            $timeout(function() {
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            }, 200)
+        });
+    };
+    //消息删除确认框
+    $scope.deleteMsg = function($index, id, items) {
+        $ionicPopup.confirm({
+            title: '提示信息',
+            template: '确认删除',
+            scope: $scope,
+            buttons: [{
+                text: '<b>确定</b>',
+                type: 'button-positive',
+                onTap: function(res) {
+                    $data.delMessage({
+                        id: id
+                    }).success(function(data) {
+                        $data.loadingShow(data.info);
+                        if (data.status == '1') {
+                            items.splice($index, 1);
+                        }
+                    })
+                }
+            }, {
+                text: '取消'
+            }]
+        })
+    };
+    $scope.updateSelection = function($event, id, $index) {
+        var checkbox = $event.target;
+        var status = checkbox.checked;
+        updateSelected(status, checkbox.value, $index);
+    };
+    /*单选*/
+    var updateSelected = function(status, id, index) {
+        if (status && $scope.selectedId.indexOf(id) == -1) {
+            $scope.selectedId.push(id);
+            $scope.selectedIndex.push(index);
+        }
+        if (!status && $scope.selectedId.indexOf(id) != -1) {
+            var idx = $scope.selectedId.indexOf(id);
+            $scope.selectedId.splice(idx, 1);
+            $scope.selectedIndex.splice(idx, 1);
+        }
+        /*是否全部选中了*/
+        if ($scope.selectedId.length == $scope.sysMesg.length) {
+            $rootScope.selectAll = true;
+        } else {
+            $rootScope.selectAll = false;
+        }
+    };
+
+    //批量删除 更新视图以及数据
+    $scope.delMessages = function() {
+        if ($scope.selectedId.length != 0) {
             $ionicPopup.confirm({
                 title: '提示信息',
-                template: '确认删除',
+                template: '确认删除？',
                 scope: $scope,
                 buttons: [{
                     text: '<b>确定</b>',
                     type: 'button-positive',
                     onTap: function(res) {
-                        $data.delMessage({
-                            id: id
+                        $data.delMessages({
+                            ids: $scope.selectedId
                         }).success(function(data) {
                             $data.loadingShow(data.info);
                             if (data.status == '1') {
-                                items.splice($index, 1);
+                                render();
                             }
                         })
                     }
@@ -1458,169 +1809,16 @@ angular.module('user-controllers', [])
                     text: '取消'
                 }]
             })
-        };
-
-
-
-        $scope.updateSelection = function($event, id, $index) {
-            var checkbox = $event.target;
-            var status = checkbox.checked;
-            updateSelected(status, checkbox.value, $index);
-        };
-        /*单选*/
-        var updateSelected = function(status, id, index) {
-            if (status && $scope.selectedId.indexOf(id) == -1) {
-                $scope.selectedId.push(id);
-                $scope.selectedIndex.push(index);
-            }
-            if (!status && $scope.selectedId.indexOf(id) != -1) {
-                var idx = $scope.selectedId.indexOf(id);
-                $scope.selectedId.splice(idx, 1);
-                $scope.selectedIndex.splice(idx, 1);
-            }
-            /*是否全部选中了*/
-            if ($scope.selectedId.length == $scope.pactMesg.length) {
-                $rootScope.selectAll = true;
-            } else {
-                $rootScope.selectAll = false;
-            }
-        };
-
-
-        //批量删除 更新视图以及数据
-        $scope.delMessages = function() {
-            if ($scope.selectedId.length != 0) {
-                $ionicPopup.confirm({
-                    title: '提示信息',
-                    template: '确认删除？',
-                    scope: $scope,
-                    buttons: [{
-                        text: '<b>确定</b>',
-                        type: 'button-positive',
-                        onTap: function(res) {
-                            $data.delMessages({
-                                ids: $scope.selectedId
-                            }).success(function(data) {
-                                $data.loadingShow(data.info);
-                                if (data.status == '1') {
-                                    render();
-                                }
-                            })
-                        }
-                    }, {
-                        text: '取消'
-                    }]
-                })
-            } else {
-                $data.loadingShow('请选择消息');
-            }
-        };
-        var render = function() { //批量删除 更新页面视图，但不更新数据
-            angular.forEach($scope.selectedIndex, function(data, index, array) {
-                $scope.pactMesg.splice(data, 1);
-            })
-        };
-    })
-    .controller('InboxSysCtrl', function($scope, $rootScope, $data, $state, $stateParams, $ionicPopup, $timeout, $ionicSlideBoxDelegate, $ionicLoading) {
-        $scope.size = 10;
-        $scope.page = 1;
-        $scope.noMore = true;
-        $scope.loadMore = function() {
-            $scope.page++;
-            $data.getMessage({
-                size: $scope.size,
-                page: $scope.page,
-            }).success(function(data) {
-                $scope.noMore = $data.isNoMore(data, $scope.size);
-                Array.prototype.push.apply($scope.sysMesg, data.data);
-            }).finally(function() {
-                $timeout(function() {
-                    $scope.$broadcast('scroll.infiniteScrollComplete');
-                }, 200)
-            });
-        };
-        //消息删除确认框
-        $scope.deleteMsg = function($index, id, items) {
-            $ionicPopup.confirm({
-                title: '提示信息',
-                template: '确认删除',
-                scope: $scope,
-                buttons: [{
-                    text: '<b>确定</b>',
-                    type: 'button-positive',
-                    onTap: function(res) {
-                        $data.delMessage({
-                            id: id
-                        }).success(function(data) {
-                            $data.loadingShow(data.info);
-                            if (data.status == '1') {
-                                items.splice($index, 1);
-                            }
-                        })
-                    }
-                }, {
-                    text: '取消'
-                }]
-            })
-        };
-        $scope.updateSelection = function($event, id, $index) {
-            var checkbox = $event.target;
-            var status = checkbox.checked;
-            updateSelected(status, checkbox.value, $index);
-        };
-        /*单选*/
-        var updateSelected = function(status, id, index) {
-            if (status && $scope.selectedId.indexOf(id) == -1) {
-                $scope.selectedId.push(id);
-                $scope.selectedIndex.push(index);
-            }
-            if (!status && $scope.selectedId.indexOf(id) != -1) {
-                var idx = $scope.selectedId.indexOf(id);
-                $scope.selectedId.splice(idx, 1);
-                $scope.selectedIndex.splice(idx, 1);
-            }
-            /*是否全部选中了*/
-            if ($scope.selectedId.length == $scope.sysMesg.length) {
-                $rootScope.selectAll = true;
-            } else {
-                $rootScope.selectAll = false;
-            }
-        };
-
-        //批量删除 更新视图以及数据
-        $scope.delMessages = function() {
-            if ($scope.selectedId.length != 0) {
-                $ionicPopup.confirm({
-                    title: '提示信息',
-                    template: '确认删除？',
-                    scope: $scope,
-                    buttons: [{
-                        text: '<b>确定</b>',
-                        type: 'button-positive',
-                        onTap: function(res) {
-                            $data.delMessages({
-                                ids: $scope.selectedId
-                            }).success(function(data) {
-                                $data.loadingShow(data.info);
-                                if (data.status == '1') {
-                                    render();
-                                }
-                            })
-                        }
-                    }, {
-                        text: '取消'
-                    }]
-                })
-            } else {
-                $data.loadingShow('请选择消息');
-            }
-        };
-        var render = function() { //批量删除 更新页面视图，但不更新数据
-            angular.forEach($scope.selectedIndex, function(data, index, array) {
-                $scope.sysMesg.splice(data, 1);
-            })
-        };
-    })
+        } else {
+            $data.loadingShow('请选择消息');
+        }
+    };
+    var render = function() { //批量删除 更新页面视图，但不更新数据
+        angular.forEach($scope.selectedIndex, function(data, index, array) {
+            $scope.sysMesg.splice(data, 1);
+        })
+    };
+})
 
 .controller('InboxContentCtrl', function($scope, $data, $state, $stateParams, $ionicPopup, $timeout, $ionicSlideBoxDelegate) {
     $scope.id = $stateParams.id;
@@ -1642,4 +1840,105 @@ angular.module('user-controllers', [])
     $scope.slideHasChanged = function($index) {
         $('.inbox-head').children().eq($index).addClass('selected').siblings().removeClass('selected');
     }
+})
+
+.controller('InboxPactCtrl', function($scope, $data, $state, $rootScope, $stateParams, $ionicPopup, $timeout, $ionicSlideBoxDelegate, $ionicLoading) {
+    $scope.size = 10;
+    $scope.page = 1;
+    $scope.noMore = true;
+    $scope.loadMore = function() {
+        $scope.page++;
+        $data.getMessage({
+            size: $scope.size,
+            page: $scope.page,
+            type: 3
+        }).success(function(data) {
+            $scope.noMore = $data.isNoMore(data, $scope.size);
+            Array.prototype.push.apply($scope.pactMesg, data.data);
+        }).finally(function() {
+            $timeout(function() {
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            }, 200)
+        });
+    };
+    //消息删除确认框
+    $scope.deleteMsg = function($index, id, items) {
+        $ionicPopup.confirm({
+            title: '提示信息',
+            template: '确认删除',
+            scope: $scope,
+            buttons: [{
+                text: '<b>确定</b>',
+                type: 'button-positive',
+                onTap: function(res) {
+                    $data.delMessage({
+                        id: id
+                    }).success(function(data) {
+                        $data.loadingShow(data.info);
+                        if (data.status == '1') {
+                            items.splice($index, 1);
+                        }
+                    })
+                }
+            }, {
+                text: '取消'
+            }]
+        })
+    };
+    $scope.updateSelection = function($event, id, $index) {
+        var checkbox = $event.target;
+        var status = checkbox.checked;
+        updateSelected(status, checkbox.value, $index);
+    };
+    /*单选*/
+    var updateSelected = function(status, id, index) {
+        if (status && $scope.selectedId.indexOf(id) == -1) {
+            $scope.selectedId.push(id);
+            $scope.selectedIndex.push(index);
+        }
+        if (!status && $scope.selectedId.indexOf(id) != -1) {
+            var idx = $scope.selectedId.indexOf(id);
+            $scope.selectedId.splice(idx, 1);
+            $scope.selectedIndex.splice(idx, 1);
+        }
+        /*是否全部选中了*/
+        if ($scope.selectedId.length == $scope.pactMesg.length) {
+            $rootScope.selectAll = true;
+        } else {
+            $rootScope.selectAll = false;
+        }
+    };
+    //批量删除 更新视图以及数据
+    $scope.delMessages = function() {
+        if ($scope.selectedId.length != 0) {
+            $ionicPopup.confirm({
+                title: '提示信息',
+                template: '确认删除？',
+                scope: $scope,
+                buttons: [{
+                    text: '<b>确定</b>',
+                    type: 'button-positive',
+                    onTap: function(res) {
+                        $data.delMessages({
+                            ids: $scope.selectedId
+                        }).success(function(data) {
+                            $data.loadingShow(data.info);
+                            if (data.status == '1') {
+                                render();
+                            }
+                        })
+                    }
+                }, {
+                    text: '取消'
+                }]
+            })
+        } else {
+            $data.loadingShow('请选择消息');
+        }
+    };
+    var render = function() { //批量删除 更新页面视图，但不更新数据
+        angular.forEach($scope.selectedIndex, function(data, index, array) {
+            $scope.pactMesg.splice(data, 1);
+        })
+    };
 })

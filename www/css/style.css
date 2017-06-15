@@ -1,314 +1,410 @@
 /* Empty. Add your own CSS if you like */
-.bar{
-	background: none;
-	border:none;
-	/*position: static;*/
+
+.bar {
+    background: none;
+    border: none;
+    /*position: static;*/
 }
-.bar .button-clear i{
-	color: #fff;
+
+.bar .button-clear i {
+    color: #fff;
 }
-.bar .button .icon:before{
+
+.bar .button .icon:before {}
+
+.bar .title {
+    color: #fff;
 }
-.bar .title{
-	color: #fff;
-}
+
+
 /* 按钮状态 */
+
 .btn-loadding .spinner svg {
-	stroke: #fff;
-	fill: #fff;
-	vertical-align: middle;
-}
-.card{
-	position: relative;
+    stroke: #fff;
+    fill: #fff;
+    vertical-align: middle;
 }
 
-.bar.bar-header{
-	background: url(../img/myself_01.jpg) left top no-repeat;
-	background-size: 100%;
+.card {
+    position: relative;
 }
-.bar.bar-header .title{
-	color: #fff;
 
+.bar.bar-header {
+    background: url(../img/myself_01.jpg) left top no-repeat;
+    background-size: 100%;
 }
-.bar.bar-header .button i{
-	color: #fff;
-	font-size: 27px;
+
+.bar.bar-header .title {
+    color: #fff;
 }
-.popup-container .popup{
-	/*border-radius: 5px;*/
+
+.bar.bar-header .button i {
+    color: #fff;
+    font-size: 27px;
 }
+
+.popup-container .popup {
+    /*border-radius: 5px;*/
+}
+
+
 /* 确认框 */
-.popup-title{
-	font-weight: bold;
+
+.popup-title {
+    font-weight: bold;
 }
-.popup-body{
-	position: relative;
-	padding-bottom: 13px;
+
+.popup-body {
+    position: relative;
+    padding-bottom: 13px;
 }
+
 .popup-body input {
-	background: url(../img/input.png) left bottom no-repeat;
-	-webkit-background-size: 100% auto;
-	background-size: 100% auto;
-}
-.popup-body .ion{
-	color: #b6b6b6;
-	position: absolute;
-	right: 20px;
-	top: 20px;
-}
-.popup-buttons{
-	padding: 0;
-	min-height: 35px;
+    background: url(../img/input.png) left bottom no-repeat;
+    -webkit-background-size: 100% auto;
+    background-size: 100% auto;
 }
 
-.popup-buttons .button{
-	min-height: 40px;
-	border-radius: 0
-}
-.popup-buttons .button-positive{
-	margin: 0;
-	background-color: #fe4342;
+.popup-body .ion {
+    color: #b6b6b6;
+    position: absolute;
+    right: 20px;
+    top: 20px;
 }
 
-.popup-buttons .button.button-positive.activated{
-	background: red;
+.popup-buttons {
+    padding: 0;
+    min-height: 35px;
 }
+
+.popup-buttons .button {
+    min-height: 40px;
+    border-radius: 0
+}
+
+.popup-buttons .button-positive {
+    margin: 0;
+    background-color: #fe4342;
+}
+
+.popup-buttons .button.button-positive.activated {
+    background: red;
+}
+
+
 /*.bar-light .button.button-clear{
 	font-size: 30px;
 }*/
-.platform-ios .popover-arrow{
-	display: none;
+
+.platform-ios .popover-arrow {
+    display: none;
 }
-.popover{
-	opacity: 1;
-	height: auto;
+
+.popover {
+    opacity: 1;
+    height: auto;
 }
+
+
 /* 下拉刷新 */
+
 .spinner svg {
-  width: 28px;
-  height: 28px;
+    width: 28px;
+    height: 28px;
 }
-.pane{
-	background-color: #fafafa;
+
+.pane {
+    background-color: #fafafa;
 }
+
 
 /* actived */
+
 .item.active,
-
 .item.activated,
-
 .item-complex.active .item-content,
-
 .item-complex.activated .item-content,
-
 .item .item-content.active,
-
 .item .item-content.activated {
-
-/*border-color: #666;	*/
-
-/*background-color: #F7F7F7;*/
-
+    /*border-color: #666;	*/
+    /*background-color: #F7F7F7;*/
 }
+
+
 /*radio icon*/
-.ion-ios-circle-filled{
-	color: #fe4342;
+
+.ion-ios-circle-filled {
+    color: #fe4342;
 }
-.ion-ios-circle-outline{
-	color: #fe4342;
+
+.ion-ios-circle-outline {
+    color: #fe4342;
 }
+
 
 /* popup css */
-.ionic_datepicker_popup .popup-body .selected_date_full{
-	background-color: #fe4342 !important;
+
+.ionic_datepicker_popup .popup-body .selected_date_full {
+    background-color: #fe4342 !important;
 }
-.ionic_datepicker_popup .popup-body .button-clear{
-	color: #fe4342 !important;
+
+.ionic_datepicker_popup .popup-body .button-clear {
+    color: #fe4342 !important;
 }
-.ionic_datepicker_popup .popup-buttons button{
-	background-color: #fe4342 !important;
+
+.ionic_datepicker_popup .popup-buttons button {
+    background-color: #fe4342 !important;
 }
-.month_select,.year_select{
-	border-bottom-color: #fe4342 !important;
+
+.month_select,
+.year_select {
+    border-bottom-color: #fe4342 !important;
 }
-.ionic_datepicker_popup .popup-body .month_select:after, .ionic_datepicker_popup .popup-body .year_select:after{
-	color: #fe4342 !important;
+
+.ionic_datepicker_popup .popup-body .month_select:after,
+.ionic_datepicker_popup .popup-body .year_select:after {
+    color: #fe4342 !important;
 }
-.today{
-	border-color: #fe4342 !important;
+
+.today {
+    border-color: #fe4342 !important;
 }
-.selected_date{
-	background-color: #fe4342 !important;
+
+.selected_date {
+    background-color: #fe4342 !important;
 }
-.ionic_datepicker_popup .calendar_grid{
-	height: 180px !important ;
+
+.ionic_datepicker_popup .calendar_grid {
+    height: 180px !important;
 }
-.indicator{
-	background-color: #ff8651;
-	color: #fff;
-	text-align: center;
-	height: 100%;
-	width: 15px;
-	position: absolute;
-	right: 0;top: 0;
-	font-size: 18px;
-	border-radius: 5px 0 0 5px;
+
+.indicator {
+    background-color: #ff8651;
+    color: #fff;
+    text-align: center;
+    height: 100%;
+    width: 15px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 18px;
+    border-radius: 5px 0 0 5px;
 }
-.indicator .ion-ios-arrow-left{
-	vertical-align: middle;
-	display: inline-block;
+
+.indicator .ion-ios-arrow-left {
+    vertical-align: middle;
+    display: inline-block;
 }
-.indicator span{
-	display: inline-block;
-	height: 100%;
-	vertical-align: middle;
+
+.indicator span {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
 }
+
+
 /* 滑动卡片 */
-.report .report-title{
-	text-indent: 23px;
+
+.report .report-title {
+    text-indent: 23px;
     background: url(../img/icon/ico_70.png) left top no-repeat;
     -webkit-background-size: auto 17px;
     background-size: auto 17px;
     line-height: 26px;
     margin: 0;
 }
-.report .origin_text{
-	margin: 1px 0 11px 0;
-	width: 97%;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
+
+.report .origin_text {
+    margin: 1px 0 11px 0;
+    width: 97%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-.report .mask{
-	position: absolute;
-	width: 100%;
-	z-index: 100;
-	height: 100%;
+.report .mask {
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+    height: 100%;
 }
-.deletecard{
-	width: 20px;
-	height: 20px;
-	background-color: #b6b6b6;
-	position: absolute;
-	z-index: 101;
-	right: 0;
-	top: 0;
-	color: #ffffff;
-	text-align: center;font-size: 28px;
-	border-bottom-left-radius: 3px;
-	cursor: pointer;
+
+.deletecard {
+    width: 20px;
+    height: 20px;
+    background-color: #b6b6b6;
+    position: absolute;
+    z-index: 101;
+    right: 0;
+    top: 0;
+    color: #ffffff;
+    text-align: center;
+    font-size: 28px;
+    border-bottom-left-radius: 3px;
+    cursor: pointer;
 }
-.report .mask.active{
-	-webkit-transition: background-color .1s;
-	transition: background-color .5s;
-	/*background-color: #000;
+
+.report .mask.active {
+    -webkit-transition: background-color .1s;
+    transition: background-color .5s;
+    /*background-color: #000;
 	opacity: 0.2;*/
 }
-.report .mask.active .deletecard{
-	-webkit-transition: background-color .1s;
-	transition: background-color .5s;
-	background-color: #e14330;
-}
-.report .item-content{
-	padding: 5px 0;
-}
-.button{
-	background-color: #fffbfa;
-}
-.report .btnbox,.my-idcard .btnbox,.btnbox{
-	width: 100%;
-	height: 100%;
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-orient: vertical;
-	-webkit-box-direction: normal;
-	-ms-flex-direction: column;
-	        flex-direction: column;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	        align-items: center;
-	-ms-flex-pack:distribute;
-	    justify-content:center;
-}
-.report .btnbox img,.my-idcard .btnbox img,.btnbox img{
-	height: 22px;
-}
-.report .btnbox .btn-txt,.my-idcard .btnbox .btn-txt,.btnbox .btn-txt{
-	line-height: normal;margin-top:4px;color: #ff8651;
-}
-/* 名片盒 */
-.my-idcard .item-avatar > img:first-child{
-	max-width: 47px;
-    max-height: 47px;
-}
-.my-idcard .item-name{
-	margin: 0;
-	padding-bottom: 5px;
-	border-bottom:1px solid #e6e6e6;
-}
-.my-idcard .card-main-content{
-	margin: 10px 0;
-	display: -ms-flexbox;
-	display: flex;
-	-ms-flex-line-pack:distribute;
-	    align-content:space-around;
-	-ms-flex-flow: column;
-	    flex-flow: column;
-}
-.my-idcard .item.item-avatar{
-	padding-right: 0;
-	padding-bottom: 0px;
-}
-.my-idcard .card-main-content-ul{
-	height: 60px;
-	position: relative;
-	display: -ms-flexbox;
-	display: flex;
-	justify-content: space-around;
-	-ms-flex-flow: column;
-	    flex-flow: column;
-}
-.my-idcard .card-main-content-ul li {
-	padding-left: 18px;
-	background: url(../img/icon/ico_3.png) 0 center no-repeat;
-	-webkit-background-size: 12px auto;
-	background-size: 12px auto;
-}
-.my-idcard .card-main-content .button{
-	min-height: initial;
-}
-.my-idcard .card-main-content .btnbox img{
-	max-height: 20px;
+
+.report .mask.active .deletecard {
+    -webkit-transition: background-color .1s;
+    transition: background-color .5s;
+    background-color: #e14330;
 }
 
+.report .item-content {
+    padding: 5px 0;
+}
+
+.my-idcard .button {
+    background-color: #fffbfa;
+    padding: 0;
+}
+
+.report .btnbox,
+.my-idcard .btnbox,
+.btnbox {
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: distribute;
+    justify-content: center;
+}
+
+.my-idcard .ion-lock-combination {
+    color: #ff8651;
+    max-height: 20px;
+}
+
+.my-idcard .ion-lock-combination::before {
+    line-height: initial;
+}
+
+.report .btnbox img,
+.my-idcard .btnbox img,
+.btnbox img {
+    height: 22px;
+}
+
+.report .btnbox .btn-txt,
+.my-idcard .btnbox .btn-txt,
+.btnbox .btn-txt {
+    line-height: normal;
+    margin-top: 4px;
+    color: #ff8651;
+}
+
+
+/* 名片盒 */
+
+.my-idcard .item-avatar>img:first-child {
+    max-width: 47px;
+    max-height: 47px;
+}
+
+.my-idcard .item-name {
+    margin: 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.my-idcard .card-main-content {
+    margin: 10px 0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-line-pack: distribute;
+    align-content: space-around;
+    -ms-flex-flow: column;
+    flex-flow: column;
+}
+
+.my-idcard .item.item-avatar {
+    padding-right: 0;
+    padding-bottom: 0px;
+}
+
+.my-idcard .card-main-content-ul {
+    height: 60px;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-around;
+    -ms-flex-flow: column;
+    flex-flow: column;
+}
+
+.my-idcard .card-main-content-ul li {
+    /*padding-left: 18px;*/
+    /*background: url(../img/icon/ico_3.png) 0 center no-repeat;*/
+    -webkit-background-size: 12px auto;
+    background-size: 12px auto;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+}
+
+.my-idcard .card-main-content-ul li i,
+.my-idcard .card-main-content-ul li img {
+    color: #ff8651;
+    font-size: 17px;
+    margin-right: 4px;
+    display: inline-block;
+    width: 15px;
+}
+
+.my-idcard .card-main-content-ul li img {
+    width: 13px;
+}
+
+.my-idcard .card-main-content .button {
+    min-height: initial;
+}
+
+.my-idcard .card-main-content .btnbox img {
+    max-height: 20px;
+}
+
+
 /* 视屏播放器 */
+
 .videogular-container {
-	width: 100%;
-	height: 200px;
-	margin: auto;
-	overflow: hidden;
+    width: 100%;
+    height: 200px;
+    margin: auto;
+    overflow: hidden;
 }
 
 @media (min-width: 1200px) {
-	.videogular-container {
-		width: 1170px;
-		height: 658.125px;
-	}
+    .videogular-container {
+        width: 1170px;
+        height: 658.125px;
+    }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
-	.videogular-container {
-		width: 940px;
-		height: 528.75px;
-	}
+    .videogular-container {
+        width: 940px;
+        height: 528.75px;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-	.videogular-container {
-		width: 728px;
-		height: 409.5px;
-	}
+    .videogular-container {
+        width: 728px;
+        height: 409.5px;
+    }
 }
-

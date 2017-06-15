@@ -1,303 +1,342 @@
 <ion-view>
     <style>
-
-      .pp-container{
-        background: url(img/myself_01.jpg) 0 0 no-repeat;
-        background-size:100%  100%;
-        height: 250px;
-        min-height: 250px;
-        position: relative;
-        margin-bottom: 1px;
-      }
-      .pp-content{
-        width: 100%;
-        position: absolute;
-      }
-      .pp-head{
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
+        .pp-container {
+            background: url(img/myself_01.jpg) 0 0 no-repeat;
+            background-size: 100% 100%;
+            height: 250px;
+            min-height: 250px;
+            position: relative;
+            margin-bottom: 1px;
+        }
+        
+        .pp-content {
+            width: 100%;
+            position: absolute;
+        }
+        
+        .pp-head {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
             -ms-flex-align: center;
-                align-items: center;
-        -ms-flex-pack:distribute;
-            justify-content:space-around;
-        padding: 20px 0 5px;
-      }
-      .pp-profession,.pp-sex{
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        overflow: hidden;
-      }
-      .pp-profession .pp-head-icon,.pp-sex .pp-head-icon{
-        background: #e24531 url(img/icon/ico_50.png) center center no-repeat;
-        background-size: 16px;
-      }
-      .pp-sex .pp-head-icon{
-        background-image: url(img/icon/ico_51.png);
-      }
-      .pp-pic{
-        width: 130px;
-        height: 130px;
-        background-color: #f46c44;
-        border-radius: 50%;
-        position: relative;
-      }
-      .pp-pic .pp-pic-child,.pp-pic .pp-pic-child .pp-pic-child2{
-        width:90%;
-        height: 90%;
-        background-color: #fff;
-        border-radius: 50%;
-        overflow: hidden;
-        position: absolute;
-        left: 0;right: 0;
-        top: 0;bottom: 0;
-        margin: auto auto;
-      }
-      .pp-pic .pp-pic-child .pp-pic-child2{
-        width:95%;
-        height: 95%;
-      }
-      .pp-head-icon,.pp-head-text{
-        height: 20px;
-        width: 100%;
-        text-align: center;
-        background-color: #e64e36;
-        color: #ffffff;
-        font-size: 12px;
-      }
-      .pp-username{
-        color: #fff;
-        text-align: center;
-        line-height: 40px;
-        font-size: 18px;
-      }
-      .pp-button-box{
-        width: 100%;
-        height: 50px;
-        position: absolute;
-        bottom: 0;left: 0;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        border-top: 1px solid #fff;
-      }
-      .pp-button-box .pp-button {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-                flex-direction: column;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-                justify-content: center;
-        position: relative;
-        height: 100%;
-        color: #fff;
-        text-align: center;
-        font-size: 12px;
-        -webkit-box-flex: 1;
+            align-items: center;
+            -ms-flex-pack: distribute;
+            justify-content: space-around;
+            padding: 20px 0 5px;
+        }
+        
+        .pp-profession,
+        .pp-sex {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .pp-profession .pp-head-icon,
+        .pp-sex .pp-head-icon {
+            background: #e24531 url(img/icon/ico_50.png) center center no-repeat;
+            background-size: 16px;
+        }
+        
+        .pp-sex .pp-head-icon {
+            background-image: url(img/icon/ico_51.png);
+        }
+        
+        .pp-pic {
+            width: 130px;
+            height: 130px;
+            background-color: #f46c44;
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .pp-pic .pp-pic-child,
+        .pp-pic .pp-pic-child .pp-pic-child2 {
+            width: 90%;
+            height: 90%;
+            background-color: #fff;
+            border-radius: 50%;
+            overflow: hidden;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto auto;
+        }
+        
+        .pp-pic .pp-pic-child .pp-pic-child2 {
+            width: 95%;
+            height: 95%;
+        }
+        
+        .pp-head-icon,
+        .pp-head-text {
+            height: 20px;
+            width: 100%;
+            text-align: center;
+            background-color: #e64e36;
+            color: #ffffff;
+            font-size: 12px;
+        }
+        
+        .pp-username {
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+            font-size: 18px;
+        }
+        
+        .pp-button-box {
+            width: 100%;
+            height: 50px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            border-top: 1px solid #fff;
+        }
+        
+        .pp-button-box .pp-button {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            position: relative;
+            height: 100%;
+            color: #fff;
+            text-align: center;
+            font-size: 12px;
+            -webkit-box-flex: 1;
             -ms-flex: 1;
-                flex: 1;
-        border-right: 1px solid #fff;
-      }
-      .pp-button .my-message{
-        font-size: 18px;
-        line-height: 25px;
-        height: 25px;
-      }
-      .pp-button-active{
-        opacity: 0;
-      }
-      .pp-button-box .pp-button:last-child{
-        border: none;
-      }
-      .pp-backdrop{
-        background-color: #ffffff;
-        opacity: .3;
-        position: absolute;
-        top: 0;
-        width: 100%;
-        height: 100%;
-      }
-      .pp-main .item-note{
-        float: none;
-      }
-      .pp-main .item-title{
-        width: 40px;
-        display: inline-block;
-      }
-      .edit-list>li{
-        width: 100%;
-        height: 38px;
-        border-radius: 5px;
-        border: 1px solid #e6e6e6;
-        margin-bottom: 15px;
-      }
-      .edit-list li:last-child{
-        margin-bottom: 0;
-      }
-      .edit-list li label{
-        height: 100%;
-        padding-left: 20px;
-        color: #444;
-        font-size: 16px;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
+            flex: 1;
+            border-right: 1px solid #fff;
+        }
+        
+        .pp-button .my-message {
+            font-size: 18px;
+            line-height: 25px;
+            height: 25px;
+        }
+        
+        .pp-button-active {
+            opacity: 0;
+        }
+        
+        .pp-button-box .pp-button:last-child {
+            border: none;
+        }
+        
+        .pp-backdrop {
+            background-color: #ffffff;
+            opacity: .3;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .pp-main .item-note {
+            float: none;
+        }
+        
+        .pp-main .item-title {
+            min-width: 50px;
+            display: inline-block;
+        }
+        
+        .edit-list>li {
+            width: 100%;
+            height: 38px;
+            border-radius: 5px;
+            border: 1px solid #e6e6e6;
+            margin-bottom: 15px;
+        }
+        
+        .edit-list li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .edit-list li label {
+            height: 100%;
+            padding-left: 20px;
+            color: #444;
+            font-size: 16px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
             -ms-flex-align: center;
-                align-items: center;
-      }
-      .edit-list li label span{
-        margin-right: 20px;
-      }
-      .edit-list li label input{
-        height: 80%;
-      }
-      .pp-main .radio{
-        margin-right: 10px;
-        padding: 0
-      }
-      .fore .button-clear{
-        min-height: 100%;width: 100%;padding: 0;color: #444;
-      }
+            align-items: center;
+        }
+        
+        .edit-list li label span {
+            margin-right: 20px;
+        }
+        
+        .edit-list li label input {
+            height: 80%;
+        }
+        
+        .pp-main .radio {
+            margin-right: 10px;
+            padding: 0
+        }
+        
+        .fore .button-clear {
+            min-height: 100%;
+            width: 100%;
+            padding: 0;
+            color: #444;
+        }
     </style>
     <ion-header-bar align-title="center">
-      <button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
-      <h1 class="title">用户管理</h1>
-      <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">
-        <span ng-if="status">
-          <span>保存或取消</span>
-                <img src="img/icon/ico_59.png" width="22" style="vertical-align: text-bottom;" alt="">
-        </span>
-        <span ng-if="!status">
+        <button class="button button-clear" ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+        <h1 class="title">用户管理</h1>
+        <a class="button icon-right  button-clear" style="color: #fff" ng-click="edit()">
+            <span ng-if="status">
+          <span>完成</span>
+            <img src="img/icon/ico_59.png" width="22" style="vertical-align: text-bottom;" alt="">
+            </span>
+            <span ng-if="!status">
           <span>编辑</span>
-                <img src="img/icon/ico_53.png" width="22" style="vertical-align: text-bottom;" alt="">
-        </span>
-      </a>
+            <img src="img/icon/ico_53.png" width="22" style="vertical-align: text-bottom;" alt="">
+            </span>
+        </a>
     </ion-header-bar>
     <ion-content overflow-scroll="flase" has-bouncing="true">
         <div class="pp-container" style="">
-          <div class="pp-content">
-            <div class="pp-head">
-              <div class="pp-profession">
-                <div class="pp-head-icon"></div>
-                <div class="pp-head-text">{{details.position}}</div>
-              </div>
-              <div class="pp-pic">
-                <div class="pp-pic-child">
-                  <div class="pp-pic-child2">
-                    <img ng-src="{{details.avatar}}" width="100%" height="100%" alt="">
-                  </div>
+            <div class="pp-content">
+                <div class="pp-head">
+                    <div class="pp-profession">
+                        <div class="pp-head-icon"></div>
+                        <div class="pp-head-text">{{details.position}}</div>
+                    </div>
+                    <div class="pp-pic">
+                        <div class="pp-pic-child">
+                            <div class="pp-pic-child2">
+                                <img ng-src="{{details.avatar}}" width="100%" height="100%" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pp-sex">
+                        <div class="pp-head-icon"></div>
+                        <div class="pp-head-text" ng-if="details.sex=='0'">保密</div>
+                        <div class="pp-head-text" ng-if="details.sex=='1'">男</div>
+                        <div class="pp-head-text" ng-if="details.sex=='2'">女</div>
+                    </div>
                 </div>
-              </div>
-              <div class="pp-sex">
-                <div class="pp-head-icon"></div>
-                <div class="pp-head-text" ng-if="details.sex=='0'">保密</div>
-                <div class="pp-head-text" ng-if="details.sex=='1'">男</div>
-                <div class="pp-head-text" ng-if="details.sex=='2'">女</div>
-              </div>
+                <div class="pp-username">{{details.username}}</div>
             </div>
-            <div class="pp-username">{{details.username}}</div>
-          </div>
-          <div class="pp-button-box">
-            <div class="pp-button">
-              <div class="pp-backdrop"></div>
-              <span class="my-message">{{details.xinw_count}}</span>
-              <span>我的新闻</span>
+            <div class="pp-button-box">
+                <div class="pp-button">
+                    <div class="pp-backdrop"></div>
+                    <span class="my-message">{{details.xinw_count}}</span>
+                    <span>我的新闻</span>
+                </div>
+                <div class="pp-button">
+                    <div class="pp-backdrop"></div>
+                    <span class="my-message">{{details.yueg_count}}</span>
+                    <span>约稿信息</span>
+                </div>
+                <div class="pp-button">
+                    <div class="pp-backdrop"></div>
+                    <span class="my-message">{{details.xit_count}}</span>
+                    <span>系统信息</span>
+                </div>
             </div>
-            <div class="pp-button">
-              <div class="pp-backdrop"></div>
-              <span class="my-message">{{details.yueg_count}}</span>
-              <span>约稿信息</span>
-            </div>
-            <div class="pp-button">
-              <div class="pp-backdrop"></div>
-              <span class="my-message">{{details.xit_count}}</span>
-              <span>系统信息</span>
-            </div>
-          </div>
         </div>
         <div class="pp-main">
-              <div class="pp-wrapper">
+            <div class="pp-wrapper">
                 <div class="card padding">
-                  <div class="item" style="background: url(img/icon/ico_52.png) 3px center no-repeat;">
-                    基本信息
-                  </div>
+                    <div class="item" style="background: url(img/icon/ico_52.png) 3px center no-repeat;">
+                        基本信息
+                    </div>
                     <ul class="list padding" ng-if="status==false">
-                      <li class="item">
-                        <span class="item-title">姓名</span>
-                        <span class="item-note">{{details.name}}</span>
-                      </li>
-                      <!-- <li class="item">
+                        <li class="item">
+                            <span class="item-title">姓名</span>
+                            <span class="item-note">{{details.name}}</span>
+                        </li>
+                        <!-- <li class="item">
                         <span class="item-title">昵称</span>
                         <span class="item-note">{{details.nick_name}}</span>
                       </li> -->
-                      <li class="item">
-                        <span class="item-title">性别</span>
-                        <span class="item-note" ng-if="details.sex==0">保密</span>
-                        <span class="item-note" ng-if="details.sex==1">男</span>
-                        <span class="item-note" ng-if="details.sex==2">女</span>
-                      </li>
-                      <li class="item">
-                        <span class="item-title">手机</span>
-                        <span class="item-note">{{details.mobile}}</span>
-                      </li>
-                      <li class="item">
-                        <span class="item-title">生日</span>
-                        <span class="item-note">{{details.birthday}}</span>
-                      </li>
-                  </ul>
-                  <ul class="list padding edit-list" ng-if="status==true">
-                      <li class="fore">
-                        <label>
+                        <li class="item">
+                            <span class="item-title">性别</span>
+                            <span class="item-note" ng-if="details.sex==0">保密</span>
+                            <span class="item-note" ng-if="details.sex==1">男</span>
+                            <span class="item-note" ng-if="details.sex==2">女</span>
+                        </li>
+                        <li class="item">
+                            <span class="item-title">手机</span>
+                            <span class="item-note">{{details.mobile}}</span>
+                        </li>
+                        <li class="item">
+                            <span class="item-title">生日</span>
+                            <span class="item-note">{{details.birthday}}</span>
+                        </li>
+                        <li class="item">
+                            <span class="item-title">审核</span>
+                            <span class="item-note" ng-if="details.check==0">未审核</span>
+                            <span class="item-note" ng-if="details.check==1">已审核</span>
+                        </li>
+                    </ul>
+                    <ul class="list padding edit-list" ng-if="status==true">
+                        <li class="fore">
+                            <label>
                           <span>姓名</span>
                           <input type="text" get-focus autofocus="autofocus" ng-model="user.realname" placeholder="{{details.name}}">
                         </label>
-                      </li>
-                      <li class="fore">
-                        <label>
+                        </li>
+                        <li class="fore">
+                            <label>
                           <span>昵称</span>
                           <input type="text" get-focus autofocus="autofocus" ng-model="user.nickname" placeholder="{{details.nick_name}}">
                         </label>
-                      </li>
-                      <li class="fore">
-                        <label>
-                          <span>性别</span>
-                          <label class="radio">
-                            <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==0]" ></i>
-                            <input type="radio" name="sex" value="0" ng-model="user.sex" ng-init="sex=0" style="display: none">保密
-                          </label>
-                          <label class="radio">
-                            <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==1]" ></i>
-                            <input type="radio" name="sex" value="1" ng-model="user.sex" ng-init="sex=0" style="display: none">男
-                          </label>
-                          <label class="radio">
-                            <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==2]"  ></i>
-                            <input type="radio" name="sex" value="2" ng-model="user.sex" ng-init="sex=0"  style="display: none">女
-                          </label>
-                        </label>
-                      </li>
-                      <li class="fore">
-                        <label>
+                        </li>
+                        <li class="fore">
+                            <label>
+                              <span>性别</span>
+                              <label class="radio">
+                                <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==0]" ></i>
+                                <input type="radio" name="sex" value="0" ng-model="user.sex" ng-init="sex=0" style="display: none">保密
+                              </label>
+                            <label class="radio">
+                                <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==1]" ></i>
+                                <input type="radio" name="sex" value="1" ng-model="user.sex" ng-init="sex=0" style="display: none">男
+                              </label>
+                            <label class="radio">
+                                <i ng-class="{true:'ion-ios-circle-filled',false:'ion-ios-circle-outline'}[user.sex==2]"  ></i>
+                                <input type="radio" name="sex" value="2" ng-model="user.sex" ng-init="sex=0"  style="display: none">女
+                              </label>
+                            </label>
+                        </li>
+                        <li class="fore">
+                            <label>
                           <span>手机</span>
                           <input type="text" get-focus ng-model="user.mobile" placeholder="{{details.mobile}}">
                         </label>
-                      </li>
-                      <li class="fore" style="background: url(img/icon/ico_61.png) 95% center no-repeat;">
-                        <button class="button button-clear" ng-click="datapicker()">
+                        </li>
+                        <li class="fore" style="background: url(img/icon/ico_61.png) 95% center no-repeat;">
+                            <button class="button button-clear" ng-click="datapicker()">
                           <label>
                             <span>生日</span>
-                            <span class="item-note" >{{user.birthday}}</span>
+                            <span class="" >{{user.birthday}}</span>
                           </label>
                         </button>
-                      </li>
-                      <li class="fore"  style="background: url(img/icon/ico_62.png) 95% center no-repeat;" style="overflow: hidden;"  >
-                          <label class="item-select" ng-if="!cardid">
+                        </li>
+                        <li class="fore" style="overflow: hidden;">
+                            <label class="item-select" ng-if="!cardid">
                               <div class="input-label ">
                                   所属组
                               </div>
@@ -307,7 +346,7 @@
                                   </option>
                               </select>
                           </label>
-                          <label class="item-select" ng-if="cardid">
+                            <label class="item-select" ng-if="cardid">
                               <div class="input-label ">
                                   所属组
                               </div>
@@ -317,61 +356,72 @@
                                   </option>
                               </select>
                           </label>
-                      </li>
-                  </ul>
+                        </li>
+                        <li class="fore" style="overflow: hidden;">
+                            <label class="item-select">
+                              <div class="input-label ">
+                                  审核状态
+                              </div>
+                              <select ng-model="user.status">
+                                  <option value="1">已审核</option>
+                                  <option value="0">未审核</option>
+                              </select>
+                          </label>
+                        </li>
+                    </ul>
                 </div>
                 <div class="card padding">
-                  <div class="item" style="background: url(img/icon/ico_52.png) 3px center no-repeat;">
-                    单位工作信息
-                  </div>
-                  <ul class="list padding" ng-if="status==false">
-                    <li class="item">
-                      <span class="item-title">名称</span>
-                      <span class="item-note">{{details.company}}</span>
-                    </li>
-                    <li class="item">
-                      <span class="item-title">部门</span>
-                      <span class="item-note">{{details.department}}</span>
-                    </li>
-                    <li class="item">
-                      <span class="item-title">职务</span>
-                      <span class="item-note">{{details.position}}</span>
-                    </li>
-                  </ul>
-                  <ul class="list padding edit-list" ng-if="status==true">
-                      <li class="fore">
-                        <label>
+                    <div class="item" style="background: url(img/icon/ico_52.png) 3px center no-repeat;">
+                        单位工作信息
+                    </div>
+                    <ul class="list padding" ng-if="status==false">
+                        <li class="item">
+                            <span class="item-title">名称</span>
+                            <span class="item-note">{{details.company}}</span>
+                        </li>
+                        <li class="item">
+                            <span class="item-title">部门</span>
+                            <span class="item-note">{{details.department}}</span>
+                        </li>
+                        <li class="item">
+                            <span class="item-title">职务</span>
+                            <span class="item-note">{{details.position}}</span>
+                        </li>
+                    </ul>
+                    <ul class="list padding edit-list" ng-if="status==true">
+                        <li class="fore">
+                            <label>
                           <span>名称</span>
                           <input type="text" get-focus ng-model="user.company" placeholder="{{details.company}}" ng-focus="focuss()" >
                         </label>
-                      </li>
-                      <li class="fore">
-                        <label>
+                        </li>
+                        <li class="fore">
+                            <label>
                           <span>部门</span>
                           <input type="text" get-focus ng-model="user.department" placeholder="{{details.department}}">
                         </label>
-                      </li>
-                      <li class="fore">
-                        <label>
+                        </li>
+                        <li class="fore">
+                            <label>
                           <span>职务</span>
                           <input type="text" get-focus ng-model="user.position" placeholder="{{details.position}}">
                         </label>
-                      </li>
-                  </ul>
+                        </li>
+                    </ul>
                 </div>
                 <div class="card padding">
-                  <div class="item" style="background: url(img/icon/ico_52.png) 3px center no-repeat;">
-                    自定义字段
-                  </div>
-                  <ul class="list padding" ng-if="status==false">
-                    <li class="item">
-                      <span class="item-title">省市</span>
-                      <span class="item-note">{{details.region}}</span>
-                    </li>
-                  </ul>
-                  <ul class="list padding edit-list" ng-if="status==true">
-                      <li class="fore">
-                         <label class="item-select">
+                    <div class="item" style="background: url(img/icon/ico_52.png) 3px center no-repeat;">
+                        自定义字段
+                    </div>
+                    <ul class="list padding" ng-if="status==false">
+                        <li class="item">
+                            <span class="item-title">省市</span>
+                            <span class="item-note">{{details.region}}</span>
+                        </li>
+                    </ul>
+                    <ul class="list padding edit-list" ng-if="status==true">
+                        <li class="fore">
+                            <label class="item-select">
                               <div class="input-label ">省</div>
                               <select ng-model="user.province" style="width: 70%" ng-change="provinceChange(user.province)">
                                   <option ng-repeat="item in provinceList" ng-selected="item.id==details.province" value="{{item.id}}">
@@ -379,9 +429,9 @@
                                   </option>
                               </select>
                           </label>
-                      </li>
-                      <li class="fore">
-                        <label class="item-select">
+                        </li>
+                        <li class="fore">
+                            <label class="item-select">
                               <div class="input-label ">市</div>
                               <select ng-model="user.city" style="width: 70%" ng-change="cityChange(user.city)">
                                   <option ng-repeat="item in cityList" value="{{item.id}}">
@@ -389,9 +439,9 @@
                                   </option>
                               </select>
                           </label>
-                      </li>
-                      <li class="fore" ng-if="districtList">
-                        <label class="item-select">
+                        </li>
+                        <li class="fore" ng-if="districtList">
+                            <label class="item-select">
                               <div class="input-label ">区</div>
                               <select ng-model="user.district" style="width: 70%">
                                   <option ng-repeat="item in districtList" value="{{item.id}}">
@@ -399,13 +449,13 @@
                                   </option>
                               </select>
                           </label>
-                      </li>
-                  </ul>
+                        </li>
+                    </ul>
                 </div>
-              </div>
-        </div>  
+            </div>
+        </div>
     </ion-content>
     <script id="dataspicker.html" type="text/ng-template">
-      <input type="text">
+        <input type="text">
     </script>
 </ion-view>

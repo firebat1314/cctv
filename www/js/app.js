@@ -265,7 +265,7 @@ angular.module('starter', ['ionic',
     })
 
     .state('tab.personal-page', {
-        url: '/account/management/:uid/:cardid',
+        url: '/account/management/:uid/:cardid/:index',
         views: {
             'tab-account': {
                 templateUrl: 'templates/personal-page.html',

@@ -1,25 +1,36 @@
-<ion-view  view-title="北京电视台" style="background-color: #fafafa;">
-<style>
-    .audit{
-        position: absolute;
-        left: 22px;
-        top: 70px;
-    }
-    .audit span{
-        font-size: 12px;
-        color: #e6e6e6;
-    }
-</style>
-  	<ion-header-bar align-title="center">
-  		<button class="button button-clear"  ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
-  	  	<h1 class="title">用户管理</h1>
-  	</ion-header-bar>
-  	<ion-content overflow-scroll="false" has-bouncing="false" >
+<ion-view view-title="北京电视台" style="background-color: #fafafa;">
+    <style>
+        .audit {
+            position: absolute;
+            left: 22px;
+            top: 70px;
+        }
+        
+        .audit span {
+            font-size: 12px;
+            color: #e6e6e6;
+        }
+    </style>
+    <ion-header-bar align-title="center">
+        <button class="button button-clear" ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
+        <h1 class="title">用户管理</h1>
+        <button class="button button-clear" style="color:#fff;" ng-click="powerSearchModal.show();">高级搜索</button>
+    </ion-header-bar>
+    <ion-content overflow-scroll="false" has-bouncing="false">
         <ion-list>
-			<div class="card my-idcard" ng-repeat="item in items">
-			  	<div class="item item-avatar">
-    			    <img ng-src="{{item.avatar}}">
-    			    <h2 class="item-name">
+            <div class="card" style="margin: 10px;">
+                <label class="item item-input" style="padding: 0 0 0 16px">
+			      <i class="icon ion-ios-search placeholder-icon" style="font-size: 22px;"></i>
+        	      <input type="text" ng-model="filterParams.kw" ng-change="onSearch(filterParams.kw)" placeholder="标题关键字">
+			    </label>
+            </div>
+            <div style="color:#aaa;float: none;text-align: center;" ng-if="items.length==0">
+                抱歉，没有找到与“{{filterParams.kw}}”相关的用户
+            </div>
+            <div class="card my-idcard" ng-repeat="item in items">
+                <div class="item item-avatar">
+                    <img ng-src="{{item.avatar}}">
+                    <h2 class="item-name">
                         <span style="float:left;">
                             {{item.name}}
                         </span>
@@ -29,33 +40,128 @@
                         </div>
                         <span style="float:right;color: #ed6d00;padding-right: 10px;" ng-bind="item.position">记者</span>
                     </h2>
-    			    <div class="card-main-content">
-    					<ion-item>
-    					  	<div class="card-main-content-ul">
-    					  		<ul class="card-main-content-ul">
-    					  			<li>{{item.region}}</li>
-    					  			<li style="background-image: url(img/icon/ico_7.png)">{{item.group_name}}</li>
-    					  			<li style="background-image: url(img/icon/ico_11.png)">{{item.mobile}}</li>
-    					  		</ul>
-    					  		<div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
-    					  	</div>
-    					    <ion-option-button ng-click="toPersonalPage(item.uid)">
-    					    	<div class="btnbox">
-    					    		<img src="img/icon/ico_17.png" alt="">
-    					    		<div class="btn-txt">查看</div>
-    					    	</div>
-    					    </ion-option-button>
-    					    <ion-option-button ng-click="checkMember(item.uid,$index)" ng-disabled="item.check=='1'">
-    					    	<div class="btnbox">
-    					    		<img src="img/icon/ico_15.png" alt="">
-    					    		<div class="btn-txt">审核</div>
-    					    	</div>
-    					    </ion-option-button>
-    					</ion-item>
-    			    </div>
-			  	</div>
-			</div>
+                    <div class="card-main-content">
+                        <ion-item>
+                            <div class="card-main-content-ul">
+                                <ul class="card-main-content-ul">
+                                    <li><i class="icon ion-person"></i>{{item.username}}</li>
+                                    <li><i class="ion-card icon"></i>{{item.company}}</li>
+                                    <li><i class="ion-ios-telephone icon"></i>{{item.mobile}}</li>
+                                </ul>
+                                <div class="indicator"><i class="icon ion-ios-arrow-left"></i><span></span></div>
+                            </div>
+                            <ion-option-button ng-click="resetPasswordModal.show();user.userid=item.uid">
+                                <div class="btnbox">
+                                    <i class="icon ion-lock-combination"></i>
+                                    <div class="btn-txt">重置密码</div>
+                                </div>
+                            </ion-option-button>
+                            <ion-option-button ng-click="toPersonalPage(item.uid,$index)">
+                                <div class="btnbox">
+                                    <img src="img/icon/ico_17.png" alt="">
+                                    <div class="btn-txt">查看</div>
+                                </div>
+                            </ion-option-button>
+                            <ion-option-button ng-click="checkMember(item,$index)">
+                                <div class="btnbox">
+                                    <img src="img/icon/ico_15.png" alt="">
+                                    <div class="btn-txt">{{item.check=='1'?'已审核':'审核'}}</div>
+                                </div>
+                            </ion-option-button>
+                        </ion-item>
+                    </div>
+                </div>
+            </div>
         </ion-list>
-		<ion-infinite-scroll immediate-check="true" ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
-	</ion-content>
+        <ion-infinite-scroll immediate-check="true" ng-if="noMore" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+    </ion-content>
+
+    <script id="my-modal-search.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar>
+                <button class="button button-clear" ng-click="powerSearchModal.hide()"><i class="icon ion-android-close"></i></button>
+                <h1 class="title">搜索条件</h1>
+            </ion-header-bar>
+            <ion-content>
+                <div class="list">
+                    <label class="item item-input item-select">
+                    <div class="input-label">省份</div>
+                    <select ng-change="provinceChange(filterParams.province)" ng-model="filterParams.province">
+                        <option ng-repeat="item in provinces" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                </label>
+                    <label class="item item-input item-select">
+                    <div class="input-label">城市</div>
+                    <select ng-model="filterParams.city" ng-disabled="!filterParams.province">
+                        <option ng-repeat="item in citys" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                </label>
+                    <label class="item item-input item-select">
+                    <div class="input-label">会员组</div>
+                    <select ng-model="filterParams.groupid">
+                        <option ng-repeat="item in users" value="{{item.groupid}}">{{item.grouptitle}}</option>
+                    </select>
+                </label>
+                    <label class="item item-input item-select">
+                    <div class="input-label">审核状态</div>
+                    <select ng-model="filterParams.check">
+                        <option value="1">已审核</option>
+                        <option value="0">未审核</option>
+                    </select>
+                </label>
+                    <label class="item item-input">
+                    <div class="input-label">关键词</div>
+                    <input type="text" ng-model="filterParams.kw" placeholder="请输入关键词">
+                </label>
+                </div>
+                <div class="padding-horizontal">
+                    <button class="button button-block button-assertive" ng-click="modalSearch()">搜索</button>
+                    <button class="button button-block button-assertive" ng-click="clearParams()">清空表单</button>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+    <script id="my-modal-resetPassword.html" type="text/ng-template">
+        <ion-modal-view>
+            <style>
+                .revisepassword .reminder {
+                    box-sizing: border-box;
+                    padding: 4% 4%;
+                    font-size: 14px;
+                    color: #5f5f5f;
+                }
+                
+                .revisepassword .item-input {
+                    height: 50px;
+                }
+                
+                .revisepassword .input-label {
+                    max-width: 50px;
+                    width: 20%;
+                }
+            </style>
+            <ion-header-bar>
+                <button class="button button-clear" ng-click="resetPasswordModal.hide();"><i class="icon ion-android-close"></i></button>
+                <h1 class="title">重置密码</h1>
+            </ion-header-bar>
+            <ion-content overflow-scroll="false" has-bouncing="false" class="revisepassword">
+                <div class="list">
+                    <label class="item item-input">
+                    <span class="input-label"><img class="word-img" src="./img/images/icon_03.png" width="25" height="25" alt=""></span>
+                    <input type="password" placeholder="新密码" ng-model="user.password" >
+                </label>
+                    <label class="item item-input">
+                    <span class="input-label"><img class="word-img" src="./img/images/icon_02.png" width="25" height="25" alt=""></span>
+                    <input type="password"  placeholder="确认新密码" ng-model="user.cpassword" >
+                </label>
+                </div>
+                <div class="padding">
+                    <button class="button button-block button-assertive  btn-loadding" ng-disabled="btnStatus" ng-click="submit()">
+                    <span ng-if="!btnStatus">修改密码</span>
+                    <ion-spinner icon="bubbles" ng-if="btnStatus"></ion-spinner>
+                </button>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
 </ion-view>
