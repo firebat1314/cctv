@@ -1401,7 +1401,7 @@ angular.module('user-controllers', [])
             cardid: cardid
         });
     };
-    $scope.$on('$ionicView.enter', function() {
+    $scope.$on('$ionicView.beforeEnter', function() {
         $ionicSlideBoxDelegate.$getByHandle('mySlideScroll').enableSlide(false);
         console.log($ionicSlideBoxDelegate)
     });
@@ -1421,23 +1421,7 @@ angular.module('user-controllers', [])
     });
     $scope.openModal = function() {
         $scope.cardcaseSearchModal.show();
-        switch ($ionicSlideBoxDelegate.$getByHandle('mySlideScroll').currentIndex()) {
-            case 0:
-                $scope.filterParams.type = '0';
-                break;
-            case 1:
-                $scope.filterParams.type = '3';
-                break;
-            case 2:
-                $scope.filterParams.type = '1';
-                break;
-            case 3:
-                $scope.filterParams.type = '2';
-                break;
-            case 4:
-                $scope.filterParams.type = '4';
-                break;
-        }
+        $scope.filterParams.type = String($ionicSlideBoxDelegate.$getByHandle('mySlideScroll').currentIndex());
     };
     //Cleanup the modal when we're done with it!
     $scope.$on('$destroy', function() {
@@ -1465,34 +1449,36 @@ angular.module('user-controllers', [])
         })
     }
     $scope.modalSearch = function() {
+        $scope.filterParams.page = 1;
         $scope.cardcaseSearchModal.hide();
+        $ionicSlideBoxDelegate.$getByHandle('mySlideScroll').slide($scope.filterParams.type);
         switch ($scope.filterParams.type) {
             case '0':
-                $ionicSlideBoxDelegate.$getByHandle('mySlideScroll').slide(0);
+                $scope.page_a = 1;
                 $data.mingPH($scope.filterParams).success(function(data) {
                     $scope.details_a = data.data;
                 })
                 break;
-            case '3':
-                $ionicSlideBoxDelegate.$getByHandle('mySlideScroll').slide(1);
+            case '1':
+                $scope.page_b = 1;
                 $data.mingPH($scope.filterParams).success(function(data) {
                     $scope.details_b = data.data;
                 })
                 break;
-            case '1':
-                $ionicSlideBoxDelegate.$getByHandle('mySlideScroll').slide(2);
+            case '2':
+                $scope.page_c = 1;
                 $data.mingPH($scope.filterParams).success(function(data) {
                     $scope.details_c = data.data;
                 })
                 break;
-            case '2':
-                $ionicSlideBoxDelegate.$getByHandle('mySlideScroll').slide(3);
+            case '3':
+                $scope.page_d = 1;
                 $data.mingPH($scope.filterParams).success(function(data) {
                     $scope.details_d = data.data;
                 })
                 break;
             case '4':
-                $ionicSlideBoxDelegate.$getByHandle('mySlideScroll').slide(4);
+                $scope.page_e = 1;
                 $data.mingPH($scope.filterParams).success(function(data) {
                     $scope.details_e = data.data;
                 })
@@ -1532,15 +1518,13 @@ angular.module('user-controllers', [])
     $scope.noMore_c = true;
     $scope.noMore_d = true;
     $scope.noMore_e = true;
-    $scope.size_a = 10;
     $scope.page_a = 0;
     $scope.loadMore_a = function() {
         $scope.page_a++;
-        $data.mingPH({
-            size: $scope.size_a,
+        $data.mingPH(Object.assign($scope.filterParams, {
             page: $scope.page_a,
             type: 0
-        }).success(function(data) {
+        })).success(function(data) {
             $scope.noMore_a = $scope.isNoMore(data);
             Array.prototype.push.apply($scope.details_a, data.data);
         }).finally(function() {
@@ -1551,22 +1535,19 @@ angular.module('user-controllers', [])
     };
     //是否还有数据加载（上拉）
     $scope.isNoMore = function(d) {
-        if (d.data.length < 6) {
+        if (d.data.length < 10) {
             return false;
         } else {
             return true;
         }
-
     };
-    $scope.size_b = 10;
     $scope.page_b = 0;
     $scope.loadMore_b = function() {
         $scope.page_b++;
-        $data.mingPH({
-            size: $scope.size_b,
+        $data.mingPH(Object.assign($scope.filterParams, {
             page: $scope.page_b,
-            type: 3
-        }).success(function(data) {
+            type: 1
+        })).success(function(data) {
             $scope.noMore_b = $scope.isNoMore(data);
             Array.prototype.push.apply($scope.details_b, data.data);
         }).finally(function() {
@@ -1575,15 +1556,13 @@ angular.module('user-controllers', [])
             }, 300)
         });
     };
-    $scope.size_c = 10;
     $scope.page_c = 0;
     $scope.loadMore_c = function() {
         $scope.page_c++;
-        $data.mingPH({
-            size: $scope.size_c,
+        $data.mingPH(Object.assign($scope.filterParams, {
             page: $scope.page_c,
-            type: 1
-        }).success(function(data) {
+            type: 2
+        })).success(function(data) {
             $scope.noMore_c = $scope.isNoMore(data);
             Array.prototype.push.apply($scope.details_c, data.data);
         }).finally(function() {
@@ -1592,15 +1571,13 @@ angular.module('user-controllers', [])
             }, 300)
         });
     };
-    $scope.size_d = 10;
     $scope.page_d = 0;
     $scope.loadMore_d = function() {
         $scope.page_d++;
-        $data.mingPH({
-            size: $scope.size_d,
+        $data.mingPH(Object.assign($scope.filterParams, {
             page: $scope.page_d,
-            type: 2
-        }).success(function(data) {
+            type: 3
+        })).success(function(data) {
             $scope.noMore_d = $scope.isNoMore(data);
             Array.prototype.push.apply($scope.details_d, data.data);
         }).finally(function() {
@@ -1609,15 +1586,13 @@ angular.module('user-controllers', [])
             }, 300)
         });
     };
-    $scope.size_e = 10;
     $scope.page_e = 0;
     $scope.loadMore_e = function() {
         $scope.page_e++;
-        $data.mingPH({
-            size: $scope.size_e,
+        $data.mingPH(Object.assign($scope.filterParams, {
             page: $scope.page_e,
             type: 4
-        }).success(function(data) {
+        })).success(function(data) {
             $scope.noMore_e = $scope.isNoMore(data);
             Array.prototype.push.apply($scope.details_e, data.data);
         }).finally(function() {

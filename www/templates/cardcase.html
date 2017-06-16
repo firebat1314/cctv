@@ -1,13 +1,19 @@
-<style>
-    .scroll {
-        height: 100%;
-    }
-    
-    .tabbed-slidebox .tsb-icons:after {
-        display: none;
-    }
-</style>
 <ion-view>
+    <style>
+        .scroll {
+            height: 100%;
+        }
+        
+        .tabbed-slidebox .tsb-icons:after {
+            display: none;
+        }
+        
+        .no-data {
+            padding: 10px;
+            color: #aaa;
+            text-align: center;
+        }
+    </style>
     <ion-header-bar align-title="center">
         <button class="button button-clear" ng-click="goBack()"><i class="icon ion-ios-arrow-back"></i></button>
         <h1 class="title">名片盒</h1>
@@ -19,15 +25,16 @@
                 <div class="tsb-ic-wrp">
                     <ion-scroll direction="x" class="tsb-hscroll" has-bouncing="true">
                         <a href="javascript:;">全部名片盒</a>
-                        <a href="javascript:;">临时名片盒</a>
                         <a href="javascript:;">未整理名片盒</a>
                         <a href="javascript:;">地方资源组</a>
+                        <a href="javascript:;">临时名片盒</a>
                         <a href="javascript:;">地方部</a>
                     </ion-scroll>
                 </div>
             </div>
             <ion-slide-box show-pager="false" delegate-handle="mySlideScroll" on-slide-changed="slideHasChanged($index)">
                 <ion-slide>
+                    <div class="no-data" ng-if="details_a.length==0">抱歉，没有查询到相关内容</div>
                     <ion-scroll style="height:100%" has-bouncing="true">
                         <ion-list>
                             <div class="card my-idcard" ng-repeat="item in details_a">
@@ -59,6 +66,7 @@
                     </ion-scroll>
                 </ion-slide>
                 <ion-slide>
+                    <div class="no-data" ng-if="details_b.length==0">抱歉，没有查询到相关内容</div>
                     <ion-scroll style="height:100%" has-bouncing="true">
                         <ion-list>
                             <div class="card my-idcard" ng-repeat="item in details_b">
@@ -90,6 +98,7 @@
                     </ion-scroll>
                 </ion-slide>
                 <ion-slide>
+                    <div class="no-data" ng-if="details_c.length==0">抱歉，没有查询到相关内容</div>
                     <ion-scroll style="height:100%" has-bouncing="true">
                         <ion-list>
                             <div class="card my-idcard" ng-repeat="item in details_c">
@@ -121,6 +130,7 @@
                     </ion-scroll>
                 </ion-slide>
                 <ion-slide>
+                    <div class="no-data" ng-if="details_d.length==0">抱歉，没有查询到相关内容</div>
                     <ion-scroll style="height:100%" has-bouncing="true">
                         <ion-list>
                             <div class="card my-idcard" ng-repeat="item in details_d">
@@ -152,6 +162,7 @@
                     </ion-scroll>
                 </ion-slide>
                 <ion-slide>
+                    <div class="no-data" ng-if="details_e.length==0">抱歉，没有查询到相关内容</div>
                     <ion-scroll style="height:100%" has-bouncing="true">
                         <ion-list>
                             <div class="card my-idcard" ng-repeat="item in details_e">
@@ -186,54 +197,54 @@
         </tab-slide-box>
 
     </ion-content>
-</ion-view>
 
-<script id="my-modal-cardcase-search.html" type="text/ng-template">
-    <style>
-        .item .item-note {
-            position: absolute;
-            right: 36px;
-            color: #333;
-        }
-    </style>
-    <ion-modal-view>
-        <ion-header-bar>
-            <button class="button button-clear" ng-click="cardcaseSearchModal.hide()"><i class="icon ion-android-close"></i></button>
-            <h1 class="title">搜索条件</h1>
-        </ion-header-bar>
-        <ion-content>
-            <div class="list">
-                <label class="item item-input item-select">
+    <script id="my-modal-cardcase-search.html" type="text/ng-template">
+        <style>
+            .item .item-note {
+                position: absolute;
+                right: 36px;
+                color: #333;
+            }
+        </style>
+        <ion-modal-view>
+            <ion-header-bar>
+                <button class="button button-clear" ng-click="cardcaseSearchModal.hide()"><i class="icon ion-android-close"></i></button>
+                <h1 class="title">搜索条件</h1>
+            </ion-header-bar>
+            <ion-content>
+                <div class="list">
+                    <label class="item item-input item-select">
                     <div class="input-label">名片盒组</div>
                     <select ng-model="filterParams.type">
                         <option value="0">全部</option>
-                        <option value="3">临时名片盒</option>
                         <option value="1">未整理名片盒</option>
                         <option value="2">地方资源组</option>
+                        <option value="3">临时名片盒</option>
                         <option value="4">地方部</option>
                     </select>
                 </label>
-                <label class="item item-input item-select">
+                    <label class="item item-input item-select">
                     <div class="input-label">省份</div>
                     <select ng-model="filterParams.province"  ng-change="provinceChange(filterParams.province)" >
                          <option ng-repeat="item in provinces" value="{{item.id}}">{{item.name}}</option>
                     </select>
                 </label>
-                <label class="item item-input item-select">
+                    <label class="item item-input item-select">
                     <div class="input-label">城市</div>
                     <select ng-model="filterParams.city"  ng-disabled="!filterParams.province"> 
                         <option ng-repeat="item in citys" value="{{item.id}}">{{item.name}}</option>
                     </select>
                 </label>
-                <label class="item item-input">
+                    <label class="item item-input">
                     <div class="input-label">关键词</div>
                     <input type="text" ng-model="filterParams.kw" placeholder="请输入关键词">
                 </label>
-            </div>
-            <div class="padding-horizontal">
-                <button class="button button-block button-assertive" ng-click="modalSearch()">搜索</button>
-                <button class="button button-block button-assertive" ng-click="clearParams()">清空表单</button>
-            </div>
-        </ion-content>
-    </ion-modal-view>
-</script>
+                </div>
+                <div class="padding-horizontal">
+                    <button class="button button-block button-assertive" ng-click="modalSearch()">搜索</button>
+                    <button class="button button-block button-assertive" ng-click="clearParams()">清空表单</button>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+</ion-view>
