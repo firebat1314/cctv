@@ -51,8 +51,8 @@
             </div>
             <div class="no-data" ng-if="details.length==0">抱歉，没有查询到相关内容</div>
             <div class="card" ng-repeat="item in details" ng-click="toParticulars(item.id)">
-                <ion-item class="item item-thumbnail-left">
-                    <img ng-src="{{item.img}}">
+                <ion-item class="item">
+                    <!--<img ng-src="{{item.img}}">-->
                     <h2>{{item.title}}</h2>
                     <p>{{item.dateline}}</p>
                     <!-- <p style="background: url(img/icon/ico_56.png) right center no-repeat;-webkit-background-size: auto 80%;background-size: auto 80%;"> -->
@@ -128,7 +128,7 @@
                     </select>
                 </label>
                     <label class="item item-input item-select">
-                    <div class="input-label">片区</div>
+                    <div class="input-label">来源</div>
                     <select ng-model="filterParams.source">
                         <option value="pc">pc</option>
                         <option value="app">app</option>

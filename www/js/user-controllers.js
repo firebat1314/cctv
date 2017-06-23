@@ -796,8 +796,6 @@ angular.module('user-controllers', [])
             // new Date("08-16-2016"),
             // new Date(1439676000000)
         ],
-        from: new Date(),
-        to: new Date(2018, 1, 1),
         inputDate: new Date(),
         mondayFirst: false,
         disableWeekdays: [], // [0,6]
