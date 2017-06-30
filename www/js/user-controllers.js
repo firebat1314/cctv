@@ -531,7 +531,6 @@ angular.module('user-controllers', [])
     $scope.sex = function() {
         var template = '<ion-list><ion-radio ng-model="profile.sex" ng-value="1">男</ion-radio><ion-radio ng-model="profile.sex" ng-value="2">女</ion-radio></ion-list>';
         $scope.tanchu('性别', template, 'popup-sex', function(e) {
-
             $data.profile({
                 sex: $scope.profile.sex
             }).success(function(data) {
@@ -546,6 +545,7 @@ angular.module('user-controllers', [])
         var template = '<input type="text" ng-model="profile.mobile" get-focus><i ng-if="profile.mobile.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
         $scope.tanchu('手机号', template, '', function(e) {
             if ($scope.profile.mobile == '') {
+                $data.loadingShow('请填写手机号');
                 e.preventDefault();
             } else {
                 $data.profile({
@@ -563,6 +563,7 @@ angular.module('user-controllers', [])
         var template = '<input type="email" ng-model="profile.email" get-focus><i ng-if="profile.email.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
         $scope.tanchu('电子邮箱', template, '', function(e) {
             if ($scope.profile.email == '') {
+                $data.loadingShow('请填写电子邮箱');
                 e.preventDefault();
             } else {
                 $data.profile({
@@ -641,6 +642,7 @@ angular.module('user-controllers', [])
         var template = '<input type="text" ng-model="profile.company" get-focus><i ng-if="profile.company.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
         $scope.tanchu('电视台名称', template, '', function(e) {
             if ($scope.profile.company == '') {
+                $data.loadingShow('请填写电视台名称');
                 e.preventDefault();
             } else {
                 $data.profile({
@@ -649,6 +651,7 @@ angular.module('user-controllers', [])
                     $data.loadingShow(data.info);
                     if (data.status == 1) {
                         $scope.getDetails();
+                        $rootScope.$broadcast('personalData:companyChanged');
                     }
                 })
             }
@@ -658,6 +661,7 @@ angular.module('user-controllers', [])
         var template = '<input type="text" ng-model="profile.department" get-focus><i ng-if="profile.department.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
         $scope.tanchu('部门', template, '', function(e) {
             if ($scope.profile.department == '') {
+                $data.loadingShow('请填写部门');
                 e.preventDefault();
             } else {
                 $data.profile({
@@ -675,6 +679,7 @@ angular.module('user-controllers', [])
         var template = '<input type="text" ng-model="profile.position" get-focus><i ng-if="profile.position.length>0" class="ion ion-close-circled Octopus" ng-click="delText($event)"></i>';
         $scope.tanchu('职务', template, '', function(e) {
             if ($scope.profile.position == '') {
+                $data.loadingShow('请填写职务');
                 e.preventDefault();
             } else {
                 $data.profile({

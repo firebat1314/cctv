@@ -2,8 +2,16 @@ angular.module('news-controllers', [])
 
 .controller('NewsCtrl', function($ionicHistory, $scope, $data, $rootScope, $state, $ionicLoading, $timeout, $stateParams, $ionicPopup, $ionicBackdrop, $ionicPopover, $window, $ionicScrollDelegate, $ionicPosition, $ionicSlideBoxDelegate, $ionicModal) {
         $scope.$on('$ionicView.afterEnter', function() {
-
+            getUserInfo();
         })
+        $rootScope.$broadcast('personalData:companyChanged', function() {
+            getUserInfo();
+        })
+        var getUserInfo = () => {
+            $data.userInfo().success(function(data) {
+                $scope.dataInit = data.data;
+            })
+        }
         $data.getBanner().success(function(data) {
             // console.log(data);
             $scope.bannerList = data.data;
