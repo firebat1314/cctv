@@ -1,102 +1,115 @@
-<ion-view>
-	<style>
-		#landinghead{
-			margin: 0 auto;
-			padding-top: 120px;
-		}
-		#landinghead h2{
-			text-align: center;
-			font-size: 25px;
-			font-weight: 700;
-		}
-		#landinghead p{
-			font-size: 15px;
-			color: #a6a6a6;
-		}
-		#myform{
-			margin: 0 auto;
-			margin-top: 100px;
-			width:80%;
-		}
-		#login-username,#login-password{
-			border: none;
-			background: none;
-			box-sizing: border-box;
-			font-size: 14px;
-			width: 85%;
-			border-bottom: 1px solid red;
-			display: inline-block;
-			vertical-align: middle;
-			float: right;
-			font-family: 'microsoft yahei'
-			
-		}
-		.triangle{
-			position: absolute;
-			right: 0;
-			bottom: -10px;
-			border: 5px solid red;
-			border-top-color: transparent;
-			border-left-color: transparent;
-		}
-		.user-img,.word-img{
-			display: inline-block;
-			vertical-align: middle;
-			margin-top: 8px;
-			margin-left: 8px;
-		}
-		#Contents,#Passwords{
-			color: #b6b6b6;
-			position: absolute;
-			right: 10px;
-			top: 10px;
-		}
-		#login-enter{
-			margin-top: 20%;
-			color: #fff;
-		}
-		.forget-password{
-			text-align: center;
-			color:#333;
-		}
-		.btn-register-box{
-			text-align: center;
-			margin-top: 30%;
-		}
-		.btn-register{
-		}
-	</style>
-	<ion-content overflow-scroll="false" has-bouncing="true" class="padding inbox">
+<ion-view view-title="登录">
+    <style>
+        #landinghead {
+            margin: 0 auto;
+            padding-top: 120px;
+        }
+        
+        #landinghead h2 {
+            text-align: center;
+            font-size: 25px;
+            font-weight: 700;
+        }
+        
+        #landinghead p {
+            font-size: 15px;
+            color: #a6a6a6;
+        }
+        
+        #myform {
+            margin: 0 auto;
+            margin-top: 100px;
+            width: 80%;
+        }
+        
+        #login-username,
+        #login-password {
+            border: none;
+            background: none;
+            box-sizing: border-box;
+            font-size: 14px;
+            width: 85%;
+            border-bottom: 1px solid red;
+            display: inline-block;
+            vertical-align: middle;
+            float: right;
+            font-family: 'microsoft yahei'
+        }
+        
+        .triangle {
+            position: absolute;
+            right: 0;
+            bottom: -10px;
+            border: 5px solid red;
+            border-top-color: transparent;
+            border-left-color: transparent;
+        }
+        
+        .user-img,
+        .word-img {
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: 8px;
+            margin-left: 8px;
+        }
+        
+        #Contents,
+        #Passwords {
+            color: #b6b6b6;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        
+        #login-enter {
+            margin-top: 20%;
+            color: #fff;
+        }
+        
+        .forget-password {
+            text-align: center;
+            color: #333;
+        }
+        
+        .btn-register-box {
+            text-align: center;
+            margin-top: 30%;
+        }
+        
+        .btn-register {}
+    </style>
+    <ion-content overflow-scroll="false" has-bouncing="true" class="padding inbox">
 
-		<div id="landinghead">
-			<h2>中国电视协作网<p>National News Network</p></h2>
-		</div>
-		<form id="myform">
-			<div class="" style="margin-bottom: 20px;overflow: hidden;position: relative;">
-				<img class="user-img" src="./img/images/icon_03.png" width="25" height="25" alt="">
-				<input type="text" get-focus autofocus ng-model="user.username" ng-blur="LoseFocus()" ng-focus="ObtainFocus()" id="login-username" placeholder="用户名">
-				<i ng-if="user.username.length>0" id="Contents" class="ion ion-close-circled Octopus" ng-click="deletesContents()"></i>
-				<p class="triangle"></p>
-			</div>
-			<div class="" style="overflow: hidden;position: relative;">
-				<img class="word-img" src="./img/images/icon_02.png" width="25" height="25" alt="">
-				<input type="password" ng-model="user.password" ng-blur="PasswordLoseFocus()" ng-focus="PasswordFocus()" id="login-password" placeholder="密　码">
-				<i ng-if="user.password.length>0" id="Passwords" class="ion ion-close-circled Octopus" ng-click="deletePasswords()"></i>
-				<p class="triangle"></p>
-			</div>
-			<button class="button button-block button-assertive btn-loadding" id="login-enter" ng-disabled="status" ng-click="verification()">
+        <div id="landinghead">
+            <h2>中国电视协作网
+                <p>National News Network</p>
+            </h2>
+        </div>
+        <form id="myform">
+            <div class="" style="margin-bottom: 20px;overflow: hidden;position: relative;">
+                <img class="user-img" src="./img/images/icon_03.png" width="25" height="25" alt="">
+                <input type="text" get-focus autofocus ng-model="user.username" ng-blur="LoseFocus()" ng-focus="ObtainFocus()" id="login-username" placeholder="用户名">
+                <i ng-if="user.username.length>0" id="Contents" class="ion ion-close-circled Octopus" ng-click="deletesContents()"></i>
+                <p class="triangle"></p>
+            </div>
+            <div class="" style="overflow: hidden;position: relative;">
+                <img class="word-img" src="./img/images/icon_02.png" width="25" height="25" alt="">
+                <input type="password" ng-model="user.password" ng-blur="PasswordLoseFocus()" ng-focus="PasswordFocus()" id="login-password" placeholder="密　码">
+                <i ng-if="user.password.length>0" id="Passwords" class="ion ion-close-circled Octopus" ng-click="deletePasswords()"></i>
+                <p class="triangle"></p>
+            </div>
+            <button class="button button-block button-assertive btn-loadding" id="login-enter" ng-disabled="status" ng-click="verification()">
 				<span ng-if="!status">登　录</span>
 				<ion-spinner icon="bubbles" ng-if="status"></ion-spinner>
 			</button>
-			<p class="forget-password" ng-click="findPassword()">
-				忘记密码 <i class="ion-ios-help-outline" data-pack="ios" data-tags="question, information, ?"></i>
-			</p>
-			<!-- <p class="btn-register-box">
-				<button class="button button-clear button-assertive btn-register" ng-click="goRegister()">注册
+            <p class="forget-password" ng-click="findPassword()">
+                忘记密码 <i class="ion-ios-help-outline" data-pack="ios" data-tags="question, information, ?"></i>
+            </p>
+            <p class="btn-register-box">
+                <button class="button button-clear button-assertive btn-register" ng-click="goRegister()">注册
 					<i class="ion-ios-arrow-right" data-pack="ios" data-tags="chevron"></i>
 				</button>
-			</p> -->
-		</form>
-	</ion-content>
+            </p>
+        </form>
+    </ion-content>
 </ion-view>
-
